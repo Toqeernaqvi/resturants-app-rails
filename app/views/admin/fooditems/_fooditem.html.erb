@@ -1,0 +1,35 @@
+<ol>
+  <li>
+    <div class="fooditem">
+      <span class="label">
+        <%= fooditem.name %>
+      </span>
+      <span class="fooditem_description"><%= fooditem.description %></span>
+      <% unless fooditem.menu.buffet? %>
+        <span class="fooditem_space"><%= fooditem.price %></span>
+      <% end %>
+      <span class="fooditem_space"><%= fooditem.nutritions.where("name='Calories'").first&.value %></span>
+      <% if fooditem.active? %>
+        <span class="fooditem_space"> Active </span>
+      <% else %>
+        <span class="fooditem_space"> Deleted </span>
+      <% end %>
+      <% if fooditem.spicy? | fooditem.best_seller? %>
+        <span class="checks_available">
+          <% if fooditem.spicy? %>
+            <span class="checks">Spicy</span>
+          <% end %>
+          <% if fooditem.best_seller? %>
+            <span class="checks">Best Seller</span>
+          <% end %>
+        </span>
+      <% end %>
+
+      <% if fooditem.image.present? %>
+        <span class="img"><img src="<%= fooditem.image.url(:thumb) %>" /></span>
+      <% end %>
+    </div>
+  </li>
+  <%= render partial: 'admin/dietaries/dietary', locals: {dietaries: fooditem.dietaries} if fooditem.dietaries.present? %>
+  <%= render partial: 'admin/ingredients/ingredient', locals: {ingredients: fooditem.ingredients} if fooditem.ingredients.present?%>
+</ol>

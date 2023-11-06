@@ -1,0 +1,56 @@
+<%= render 'layouts/header' %>
+  <% unless @contact %>
+    <div  style="box-sizing: border-box; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid rgb(245, 198, 203); border-radius: 0.25rem; color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); margin-top: 1rem; font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, helvetica, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16px;">
+      <strong>
+        Dear Chowmill Staff,
+      </strong><br><br>
+      Please forward this email to <strong><%= @address.addressable.name %></strong> <% if @address.contacts.present? %> at <%= @address.contacts.map{|c| c.email}.join(', ')%> <% end %>.<br><br>
+    </div>
+  <% end %>
+  <div class="" style="box-sizing:border-box;color:rgb(33,37,41);font-size:16px">
+    <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem">
+      <div class="m" style="box-sizing:border-box;width:285px;min-height:1px;padding-right:15px;padding-left:15px;max-width:25%;margin:auto">
+        <div class="" style="box-sizing:border-box;margin:auto"><br></div>
+      </div>
+    </h3>
+    <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem;display: flex;">
+      <span style="width:60%;display: block;"><%= @runningmenu.runningmenu_type.capitalize%> · <%=@orders.sum{|q| q.quantity}%> Orders </span>
+      <span style="width:40%;display: block;text-align: right;color:rgb(192,192,192);">Order #<%= @runningmenu.id %></span>
+    </h3>
+    <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem">
+      <div class="" style="box-sizing:border-box;width:100%;min-height:1px;">
+        <div class="" style="box-sizing:border-box;font-size:16px;float:right">
+        </div>
+        <div style="box-sizing:border-box;border-bottom:1px solid rgba(115,115,115,0.1);font-size:16px;margin:auto">
+          <div style="box-sizing:border-box">
+            <p style="box-sizing:border-box;margin-top:0px;margin-bottom:1rem">
+              <span style="box-sizing:border-box;font-weight:bolder;color:rgb(76,76,76);font-size:0.9rem">
+                <%= @address.addressable.name %> <%=@address.address_line%>
+              </span>
+              <br style="box-sizing:border-box">
+              <% if @runningmenu.pickup? %>
+                <strong style="color: #dc3545!important;">Pickup Time: <%=@runningmenu.pickup_at_timezone.strftime('%b %d, %Y')%> at <%= @runningmenu.pickup_at_timezone.strftime("%I:%M %p")%>: <%=@runningmenu.runningmenu_type.capitalize%> (<%=@runningmenu.menu_type.capitalize%> Style)</strong>
+              <% else %>
+                <strong style="color: green !important;">Delivery Time: <%=@runningmenu.delivery_at_timezone.strftime('%b %d, %Y')%> at <%= @runningmenu.delivery_at_timezone.strftime("%I:%M %p")%>: <%=@runningmenu.runningmenu_type.capitalize%> (<%=@runningmenu.menu_type.capitalize%> Style)</strong>
+              <% end %>
+              </strong>
+            </p>
+          </div>
+          <% address_runningmenu = AddressesRunningmenu.find_by(runningmenu_id: @runningmenu.id, address_id: @address.id) %>
+          <% uniq_token = address_runningmenu.token.nil? ? rand(36**32).to_s(36) : address_runningmenu.token %>
+          <% address_runningmenu.update(token: uniq_token) %>
+          <% if address_runningmenu.orders_acknowledge? || address_runningmenu.changes_acknowledge? %>
+             <% link_btn_txt = "View Orders" %>
+             <% link = "#{ENV['VENDER_FRONTEND_HOST']}/?view_orders=/dashboard/restaurant/#{@address.id}/meeting/#{@runningmenu.id}" %>
+          <% else %>
+            <% link_btn_txt = "Accept Orders" %>
+            <% link = "#{ENV['VENDER_FRONTEND_HOST']}/acknowledge/#{uniq_token}/accept_orders" %>
+          <% end %>
+          <center><%= link_to link_btn_txt, link, :style => 'box-sizing:border-box;color:rgb(255,255,255);text-decoration-line:none;background-color:rgb(189,33,48);display:inline-block;text-align:center;vertical-align:middle;border:1px solid rgb(178,31,45);padding:0.5rem 1rem;font-size:1.25rem;line-height:1.5;border-radius:0.3rem', target: '_blank' %></center><br>
+          <center><span style="color: red;">Please review attached orders and accept asap.</span></center>
+        </div>
+      </div>
+    </h3>
+  </div>
+  <p style="margin: 20px 0;">We will let you know of any last minute changes. <br><br>Please reply to let us know of any concerns: <a href="mailto:orders@chowmill.com" style="color: #dc3545;">orders@chowmill.com</a> with any issues.
+<%= render 'layouts/footer' %>

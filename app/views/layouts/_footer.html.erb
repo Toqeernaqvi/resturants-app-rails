@@ -1,0 +1,79 @@
+      <tr>
+        <table style="width: 100%; margin: 25px 0;">
+            <tr>
+              <td>
+                  <p
+                    style="text-align: center; margin: 0;color: #1F1F1F;opacity: 1; font: normal normal 500 16px/22px helvetica;">
+                    The Chowmill Team
+                  </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 100%;text-align: center; margin-bottom: 30px;">
+                  <% if @resource.present? && @resource.restaurant_admin? %>
+                  <a style="text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1; cursor: pointer; text-decoration: none;" href="<%= ENV['VENDER_FRONTEND_HOST'] %>"><%= ENV['VENDER_FRONTEND_HOST'] %></a>
+                  <% elsif @resource.present? && (@resource.admin? || @resource.operations? || @resource.developer?)%>
+                  <a style="text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1; cursor: pointer; text-decoration: none;" href="<%= ENV['BACKEND_HOST'] %>"><%= ENV['BACKEND_HOST'] %></a>
+                  <% elsif !@resource.present? && Rails.env.production? %>
+                  <a style="text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1; cursor: pointer; text-decoration: none;" href="<%= "https://chowmill.com" %>"><%= "https://chowmill.com" %></a>
+                  <% else %>
+                  <a style="text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1; cursor: pointer; text-decoration: none;" href="<%= ENV['FRONTEND_HOST'] %>"><%= ENV['FRONTEND_HOST'] %></a>
+                  <% end %>
+              </td>
+            </tr>
+        </table>
+      </tr>
+      <tr>
+        <td>
+            <table style="border-top: 1px solid #C0C4CC;width: 80%;margin: auto;">
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <table style="margin: 25px auto 0;  width: 100%;max-width: 700px;border-spacing:0;text-align: center;">
+            <tr>
+                <td>
+                  <p style="text-align: center; margin: 0;color: #212529;opacity: 1; font: normal normal 400 16px/22px helvetica;">
+                      Chowmill - Elevate Your Workforce Food Program
+                  </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <a href="https://chowmill.com" style="text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;text-decoration: none;">www.chowmill.com<span>
+                  <span style="color: black; ">|</span>
+                  <a href="mailto:support@chowmill.com" style="text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;text-decoration: none;">support@chowmill.com</a>
+                  <span>|</span> 
+                  <a href="tel:(408)883-9415"  style="text-align: center; margin: 0;color: #212529;opacity: 1; font: normal normal 400 16px/22px helvetica; text-decoration: none;">(408)883-9415</a>
+                </td>
+            </tr>
+          </table>
+          <!--phone and Contact info section Starts-->
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table
+            style="margin: 25px auto 0;  width: 100%;max-width: 700px;border-spacing:0;text-align: center;">
+            <tr>
+              <td style="margin-top: 25px;">
+                <% unless @unsubscribe_link.present? %>
+                  <a href="https://chowmill.com" style="text-decoration: none; margin-top:25px;text-align: none; text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;">
+                    Manage Notifications<span style= "color: #212529">
+                  </a>
+                <%else %>
+                  <p style="text-decoration: none; margin-top:25px;text-align: none; text-align: center; margin: 0px; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;"> 
+                    Manage Notifications<span style= "color: #212529">
+                  </p>
+                <% end %>
+              </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </center>
+</body>
+
+</html>

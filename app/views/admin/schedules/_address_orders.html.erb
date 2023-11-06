@@ -1,0 +1,9 @@
+<% if runningmenu.present? %>
+  <% runningmenu.addresses.each do |address|%>
+    <div class="rest_orders_count">
+      <span><strong><%= Order.active.where(restaurant_address_id: address.id, runningmenu_id: runningmenu.id).sum(:quantity).to_i %></strong></span>
+      <%= " at " +"#{address.addressable.name}: #{address.street_number} "+ "#{address.street}, "+ "#{address.city}" %>
+    </div>
+    <hr>
+  <% end %>
+<% end %>

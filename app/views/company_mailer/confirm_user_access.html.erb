@@ -1,0 +1,85 @@
+            <%= render 'layouts/header' %>
+            <p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+            </p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <% if @invite_sent %>
+            <div style=" background-color: #fff;box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+              <table style="margin:0 auto; width: 100%;">
+                <tr>
+                  <td>
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                      Access Granted
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              <div style="display: flex;margin-top: 30px;">
+                <p style="margin: 0;text-align: left; font: normal normal 500 14px/22px helvetica; letter-spacing: 0px; color: #646464;">
+                  <%= @user.first_name.capitalize + " " + @user.last_name.capitalize %>( <%= mail_to @user.email,nil, :style=> 'color: #646464' %> ) <span style=" text-align: left; font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464;">has been granted access to <%= @user.company.name %>'s Chowmill account on </span><%= @user.created_at.in_time_zone(@user.company.time_zone).strftime("%a %b %d at %-l:%M%P") %>
+                </p>
+              </div>
+              <div style="display: flex; margin-top:20px ;">
+                <p style=" text-align: left; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                  No further action is needed on your part.
+                </p>
+              </div>
+              <div style="display: flex; margin-top:20px ;">
+                <p style="margin: 0; text-align: left; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+                  If you have any questions, please reach out us at
+                  <span><a href="#" style="text-decoration: none; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC;">support@chowmill.com</a></span>.
+                </p>
+              </div>
+            </div>
+          <% else %>
+            <div style=" background-color: #fff;box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+              <table style="margin:0 auto; width: 100%;">
+                <tr>
+                  <td>
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                      Confirm Access
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:30px 0 0 0; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                Dear <%= @admin.first_name.capitalize %>,
+              </p>
+              <p style="margin:10px 0 0 0;text-align: left; font: normal normal 500 14px/22px helvetica; letter-spacing: 0px; color: #646464;">
+                <%= @user.first_name.capitalize + " " + @user.last_name.capitalize %> ( <%= mail_to @user.email,nil, :style=> 'color: #646464'  %> ) <span
+                  style=" text-align: left; font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464;">has
+                requested a Chowmill account on</span>  <%= @user.created_at.in_time_zone(@user.company.time_zone).strftime("%a %b %d at %-l:%M%P") %>.
+              </p>
+              <table style="width: 100%; text-align: center;margin-top: 30px;">
+                <tr>
+                  <td>
+                    <table cellpadding="0" cellspacing="0" style="border-collapse:separate!important;margin-left:auto; margin-right: auto; border-radius:50px;background-color:darkgreen">
+                      <tbody>
+                        <tr>
+                          <td valign="middle" style="font-family:Arial;font-size:16px;padding:15px;">
+                            <a title="" style="text-decoration: none; color: #fff; font: normal normal 600 16px/22px Source Sans Pro" href="<%=ENV['FRONTEND_HOST']%>/confirm-signup?user_id=<%=@user.id%>&admin_id=<%=@admin.id%>">Confirm Access
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <div style="display: flex;margin-top: 30px;">
+                <p style="margin: 0; text-align: left; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+                  If you have any questions, please reach out us at
+                  <span><a href="#" style="text-decoration: none; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC;">support@chowmill.com</a></span>.
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<%= render 'layouts/footer' %>

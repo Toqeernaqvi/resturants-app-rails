@@ -1,0 +1,22 @@
+ <div class="tbleWrapper">
+  <table>
+    <caption><%= DashboardMetric.metric_types.keys[d["metric_type"]] %></caption>
+    <thead>
+      <% DashboardMetric.data_array(d['data']).first.keys.each do |label| %>
+        <% next if ["address_id", "restaurant_id", "fooditem_id", "rating_count"].include? label %>
+        <th><%= label.split("_").map(&:capitalize).join(" ") %></th>
+      <% end %>
+    </thead>
+    <tbody>
+      <% DashboardMetric.data_array(d['data']).each do |item| %>
+        <tr>
+          <% if DashboardMetric.data_array(d['data']).first.keys.include?("fooditem_name") %>
+            <td><%= item["fooditem_name"] %></td>
+          <% end %>
+          <td><%= link_to item["restaurant_location"], admin_restaurant_address_path(item["restaurant_id"], item["address_id"]), target: "_blank" %></td>
+          <td><%= number_with_precision(item["rating_value"], precision: 2) %> (<%= item["rating_count"] %>)</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

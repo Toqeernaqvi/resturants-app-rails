@@ -1,0 +1,8 @@
+'<%= semantic_form_for [:admin, @driver], builder: ActiveAdmin::FormBuilder do |ff| %>'
+  $('.driverShifts').replaceWith("<%= j render(partial: 'd_shifts', locals: {f: ff}) %>");
+  $('.date-time-picker-input').each(function(){
+    var obj = JSON.parse($(this).attr('data-picker-options'))
+    $(this).datetimepicker({ datepicker: false, format: 'H:i', step: 10, value: obj.value });
+  });
+  $('.driverShifts a.button.has_many_remove').html('<em class="fa fa-minus"></em>');
+'<% end %>'

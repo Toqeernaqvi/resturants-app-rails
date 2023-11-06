@@ -1,0 +1,43 @@
+<ol class="optionset">
+  <li><%= optionset.name %></li>
+  <li>
+    <% if optionset.required? %>
+      <span class="checks">Required</<span>
+    <% end %>
+    <span>&nbsp;</<span>
+  </li>
+  <li class="limits">
+    <span class="label">Limit:</span>
+    <span>
+      <%= optionset.start_limit %>
+    </span> to
+    <span>
+      <%= optionset.end_limit %>
+    </span>
+    <% if optionset.active? %>
+      <span> Active </span>
+    <% else %>
+      <span> Deleted </span>
+    <% end %>
+  </li>
+  <li>
+    <ol class="options">
+      <% options.order(position: :asc).each do |option| %>
+        <li>
+          <ol>
+            <li><%= option.description %></li>
+            <li><%= option.price %></li>
+            <li><%= option.nutritions.where("name='Calories'").first&.value %></li>
+            <% if option.active? %>
+              <span> Active </span>
+            <% else %>
+              <span> Deleted </span>
+            <% end %>
+            <%= render partial: 'admin/dietaries/dietary', locals: {dietaries: option.dietaries} if option.dietaries.present?%>
+            <%= render partial: 'admin/ingredients/ingredient', locals: {ingredients: option.ingredients} if option.ingredients.present? %>
+          </ol>
+        </li>
+      <% end%>
+    </ol>
+  </li>
+</ol>

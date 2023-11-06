@@ -1,0 +1,153 @@
+<div class="rightSideBar">
+  <span class="closeBtn">Close</span>
+  <div class="headPart">
+    <h3><%= resource.runningmenu_name.split(" ").map(&:capitalize).join(" ")%></h3>
+    <div class="companyName">
+      <%= resource.company.name %>
+    </div>
+    <div class="menuType">
+      <%= resource.runningmenu_type %> (<%= resource.menu_type%>) <%= resource.delivery_at.strftime('%a. %b %d %l:%M%P')%>
+      <!-- <a href="#" class="sidebarSeeorderBtn">See Orders</a> -->
+      <%= link_to "Order Summary", admin_order_report_path(s: resource.id, d: resource.delivery_at.to_date, c: resource.company_id, t: resource.runningmenu_type), class: :sidebarSeeorderBtn, target: "_blank" if resource.approved? %>
+    </div>
+  </div>
+  <div class="companyAdmins">
+    <% if resource.company.company_admins.active.present? %>
+      <% resource.company.company_admins.active.each_with_index do |admin, key|%>
+        <div class="adminList">
+          <%= key+1 %>. <%= admin.name+" " %><%= link_to "Login", login_admin_user_path(id: admin.id), target: "_blank", class: :member_link %><br>
+          Ph: <a href="tel:<%= admin.phone_number%>"><%= admin.phone_number%></a><br>
+          Em: <a href="mailto:<%= admin.email%>"><%= admin.email%></a>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if resource.addresses.present? %>
+    <% resource.addresses.each do |address| %>
+      <div class="restaurantDetail">
+        <h3><%= address.addressable.name.split(" ").map(&:capitalize).join(" ")%>
+          <% address_runningmenu = AddressesRunningmenu.find_by(runningmenu_id: resource.id, address_id: address.id) %>
+
+            <% if address_runningmenu.present? && address_runningmenu.changes_acknowledge?%>
+              <span class="confirmed">
+                Confirmed <%= resource.orders.where(restaurant_address_id: address.id).active.present? ? resource.orders.where(restaurant_address_id: address.id).active.sum(:quantity).to_i : ''%>
+              </span>
+            <% elsif address_runningmenu.present? && address_runningmenu.orders_acknowledge?%>
+              <span class="accepted">
+                Accepted Orders for <%=resource.orders_count %>
+              </span>
+            <% elsif address_runningmenu.present? && address_runningmenu.receipt_acknowledge?%>
+              <span class="ack">
+                Ack. Schedule for <%= resource.orders_count%>
+              </span>
+              <% else %>
+              <span class="no_response">
+                No Response for <%= resource.orders_count%>
+              </span>
+            <% end %>
+
+        </h3>
+        <div class="simpleText">
+          <%= address.address_line %>.
+        </div>
+        <div class="simpleText">
+          <% day = resource.delivery_at.strftime("%A") %>
+          <% if RestaurantAddress.find(address.id).hours(day).present? %>
+            Hours for <%= day.capitalize %>: <%= RestaurantAddress.find(address.id).hours(day)%>
+            <br>
+          <% end %>
+        </div>
+        <hr style="border-bottom: unset;" size="1" color="#dadada">
+        <% if address.contacts.present? %>
+          <% address.contacts.each_with_index do |contact, key|%>
+            <div class="contactList">
+              <%= key+1 %>. <%= contact.name %><br>
+              <% if contact.phone_number.present? %>
+                Ph: <a href="tel:<%= contact.phone_number%>"><%= contact.phone_number%></a><br>
+              <% end %>
+              <% if contact.fax.present? %>
+                Fax: <a href="tel:<%= contact.fax%>"><%= contact.fax%></a><br>
+              <% end %>
+              Em: <a href="mailto:<%=contact.email%>"><%= contact.email%></a>
+            </div>
+          <% end %>
+        <% end %>
+        <br><br>
+        <div class="row">
+          <% if resource.orders.where(restaurant_address_id: address.id).active.present? %>
+            <% summary_url = "#{ENV['BACKEND_HOST']}/admin/order_report/fax_summary_pdf?&s=#{resource.id}&restaurant_address_id=#{address.id}&buffet=#{resource.buffet?}"%>
+            <a href="<%= ENV['BACKEND_HOST']%>/admin/order_report/pdf.pdf?s=<%=resource.id%>&restaurant_address_id=<%=address.id%>&buffet=<%=resource.buffet?%>" class="col" target="_blank">
+              <div class="vCenterWrapper">
+                <div class="vCenterCenter">
+                  Summary PDF
+                </div>
+              </div>
+            </a>
+          <% else %>
+            <a href="javascript://" class="col disabled">
+              <div class="vCenterWrapper">
+                <div class="vCenterCenter">
+                  Summary PDF
+                </div>
+              </div>
+            </a>
+          <% end%>
+          <% if resource.orders.where(restaurant_address_id: address.id).active.present? %>
+            <a href="<%= ENV['BACKEND_HOST']%>/admin/order_report/labelspdf.docx?labels_word=true&s=<%=resource.id%>&restaurant_address_id=<%=address.id%>&buffet=<%=resource.buffet?%>" class="col">
+              <div class="vCenterWrapper">
+                <div class="vCenterCenter">
+                  Labels DOCX
+                </div>
+              </div>
+            </a>
+          <% else %>
+            <a href="javascript://" class="col disabled">
+              <div class="vCenterWrapper">
+                <div class="vCenterCenter">
+                  Labels DOCX
+                </div>
+              </div>
+            </a>
+          <% end %>
+          <% if resource.orders.where(restaurant_address_id: address.id).active.present? %>
+            <a href="<%= admin_orders_path(q: { restaurant_id_eq: address.addressable.id, runningmenu_id_eq: resource.id })%>" class="col" target="_blank">
+              <div class="vCenterWrapper">
+                <div class="vCenterCenter">
+                  See orders
+                </div>
+              </div>
+            </a>
+          <% else %>
+            <a href="javascript://" class="col disabled">
+              <div class="vCenterWrapper">
+                <div class="vCenterCenter">
+                  See orders
+                </div>
+              </div>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+  <% if resource.driver.present? %>
+    <div class="driverPart">
+      <h3>Driver: <%= resource.driver.name%> <span></span></h3>
+      <!-- <div class="simpleText">
+      </div> -->
+      <div class="contactList">
+        Ph: <a href="tel:<%=resource.driver.phone_number%>"><%=resource.driver.phone_number%></a><br>
+        Em: <a href="mailto:<%=resource.driver.email%>"><%=resource.driver.email%></a>
+      </div>
+      <!-- <div class="btnSect">
+        <a href="javascript://" class="sendBtn">Send Text</a>
+      </div> -->
+    </div>
+    <h1 style="display: inline-block;">Chat with driver</h1>
+    <a href="javascript://" class="sidebarSeeorderBtn" id="open_chat" data-row-id="<%= resource.driver_id %>" data-row-name="<%= resource.driver.name %>"><em class="fa fa-comment"></em> Start</a>
+  <% end %>
+
+
+
+</div>

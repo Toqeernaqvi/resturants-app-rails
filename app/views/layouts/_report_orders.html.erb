@@ -1,0 +1,51 @@
+<% else %>
+  <table border="0" cellspacing="0" cellpadding="0" id="index_table_cuisines" class="index_table index" paginator="true">
+    <thead>
+      <tr>
+        <th class="admin-devcol col-name">Id</th>
+        <th class="admin-devcol col-name">User</th>
+        <th class="admin-devcol col-name">Company</th>
+        <th class="admin-devcol col-name">Restaurant</th>
+        <th class="admin-devcol col-name">Address</th>
+        <th class="admin-devcol col-name">Fooditem</th>
+        <th class="admin-devcol col-name">Schedule</th>
+        <th class="admin-devcol col-name">Price</th>
+        <th class="admin-devcol col-name">Company Paid</th>
+        <th class="admin-devcol col-name">User Paid</th>
+        <th class="admin-devcol col-name">Markup</th>
+        <th class="admin-devcol col-name">Quantity</th>
+        <th class="admin-devcol col-name">Total Price</th>
+        <th class="admin-devcol col-name">Discount</th>
+        <th class="admin-devcol col-name">Discounted Total Price</th>
+        <th class="admin-devcol col-name">Delivery Date</th>
+        <th class="admin-devcol col-name">Delivery Instructions</th>
+        <th class="admin-devcol col-name">Invoice ID</th>
+        <th class="admin-devcol col-name">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr class="odd">
+          <td class="col col-name"><%= order["id"] %></td>
+          <td class="col col-name"><%= order["user_name"] %></td>
+          <td class="col col-name"><%= order["name"] %></td>
+          <td class="col col-name"><%= order["restaurant_name"] %></td>
+          <td class="col col-name"><%= order["company_location"] %></td>
+          <td class="col col-name"><%= order["fooditem_name"] %></td>
+          <td class="col col-name"> <a href="/admin/schedulers/<%= order["runningmenu_id"] %>" target="_blank">Schedule # <%= order["runningmenu_id"] %></a></td>
+          <td class="col col-name"><%= order["price"] %></td>
+          <td class="col col-name"><%= order["company_price"] %></td>
+          <td class="col col-name"><%= order["user_price"] %></td>
+          <td class="col col-name"><%= order["site_price"] %></td>
+          <td class="col col-name"><%= order["quantity"] %></td>
+          <td class="col col-name"><%= order["total_price"] %></td>
+          <td class="col col-name"><%= order["discount"] %></td>
+          <td class="col col-name"><%= order["discounted_total_price"] %></td>
+          <td class="col col-name"><%= (order["delivery_at"].to_time + Time.current.formatted_offset.to_time.hour.hours).strftime('%B %d, %Y %I:%M%P') %></td>
+          <td class="col col-name"><%= order["delivery_instructions"] %></td>
+          <td class="col col-name"><%= order["invoice_id"] %></td>
+          <td class="col col-name"><%= order["status"] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

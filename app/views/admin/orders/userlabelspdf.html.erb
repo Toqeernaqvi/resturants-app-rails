@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title><%= orders.first.short_code %>-<%= orders.first.restaurant_name if orders.present?%>-<%= delivery_at.to_date %></title>
+
+
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          padding:0;
+          margin:0;
+      }
+
+      .logo {
+          width: 20px;
+          position: absolute;
+          right: 10px;
+          bottom: 2px;
+      }
+      .logo img {
+          width: 100%;
+      }
+
+      .red {
+          color: red
+      }
+      .caps {
+          text-transform: uppercase;
+      }
+      .bold {
+          font-weight: bold;
+      }
+      td {
+        width:240px;
+        height:144px;
+        overflow:hidden;
+        padding: 10px;
+        vertical-align: top;
+        width:33%;
+        position: relative;
+      }
+      .fixed_block__ {
+        width: 240px;
+        height: 144px;
+        overflow: hidden;
+        position: relative;
+        padding:3px;
+      }
+      h1,h2,h3,h4,h5,h6 {margin: 0}
+
+      small {
+          font-size: 70%;
+      }
+    </style>
+</head>
+<body style="padding: 12px;">
+<table style="width:100%">
+  <% if orders.present? %>
+      <tr>
+      <% counter = 1 %>
+      <% basicinfo = 1 %>
+    <% orders.each do |order| %>
+
+      <% (1..order.quantity).each do |val| %>
+          <% if basicinfo == 1 %>
+              <td class="red caps bold">
+                <div class="fixed_block__">
+                  <%= orders.first.restaurant_name %> <br>
+                  DELIVERY DATE: <%= delivery_at %><br>
+                  <%= orders.map{|order| order.quantity}.sum %> of Items<br>
+
+                  <h1 class="logo">
+                    <%= image_tag wicked_pdf_asset_base64("logo.png") %>
+                  </h1>
+                </div>
+              </td>
+              <% counter += 1 %>
+              <% basicinfo += 1 %>
+          <% end %>
+          <td width="33%">
+            <div class="fixed_block__">
+              <% order.fooditem_name.gsub! 'and', '&' %>
+              <% order.fooditem_name.gsub! 'with', 'w/' %>
+              <% order.fooditem_name.gsub! 'Vegetarian', 'V' %>
+              <h4><%= order.user_name.truncate_words(6, omission: '...') %></h4>
+              <small><%= order.fooditem_name.truncate_words(12, omission: '...') %></small>
+              <h6 class="red"><%= order.options %></h6>
+              <h6 class="red"><%= order.remarks if order.remarks.present?%></h6>
+
+              <small><%= order.short_code %></small>
+
+              <h1 class="logo">
+                  <%= image_tag wicked_pdf_asset_base64("logo.png"),alt: "logo" %>
+              </h1>
+            </div>
+          </td>
+          <% if counter == 3 %>
+              <% counter = 1%>
+              </tr>
+              <tr>
+          <% else %>
+              <% counter += 1 %>
+          <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</table>
+
+
+</body>
+</html>

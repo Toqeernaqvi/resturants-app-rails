@@ -1,0 +1,26 @@
+<table class="index_table index" >
+  <thead>
+    <tr>
+      <th class="sortable col col-name">Quantity</th>
+      <th class="sortable col col-name">Item</th>
+      <th class="col col-actions">Unit price</th>
+      <th class="col col-actions">Amount</th>
+      <th class="col col-actions">Schedular Detail</th>
+      <th class="col col-actions">Order Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orders = object.orders.active %>
+    <% orders.each do |order| %>
+      <tr>
+        <td><%= order.quantity %></td>
+        <td><%= order.fooditem.name %></td>
+        <% unit_price = number_with_precision(order.food_price, precision: 2) %>
+        <td><%= unit_price %></td>
+        <td><%= number_with_precision((unit_price.to_f * order.quantity), precision: 2) %></td>
+        <td><a href="<%=ENV['BACKEND_HOST']%>/admin/schedulers/<%=order.runningmenu.id%>">Scheduler</a></td>
+        <td><a href="<%=ENV['BACKEND_HOST']%>/admin/order_report/?s=<%=order.runningmenu.id%>">Summary</a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

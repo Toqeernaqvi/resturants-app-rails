@@ -1,0 +1,32 @@
+<ol>
+  <li>
+    <div class="fooditem">
+      <span class="label">
+        <%= gfooditem.name %>
+      </span>
+      <span class="fooditem_description"><%= gfooditem.description %></span>
+      <span class="fooditem_space"><%= gfooditem.price %></span>
+      <span class="fooditem_space"><%= gfooditem.calories %></span>
+      <% if gfooditem.active? %>
+        <span class="fooditem_space"> Active </span>
+      <% else %>
+        <span class="fooditem_space"> Deleted </span>
+      <% end %>
+      <% if gfooditem.spicy? || gfooditem.best_seller? %>
+        <span class="checks_available">
+          <% if gfooditem.spicy? %>
+            <span class="checks">Spicy</span>
+          <% end %>
+          <% if gfooditem.best_seller? %>
+            <span class="checks">Best Seller</span>
+          <% end %>
+        </span>
+      <% end %>
+      <% if gfooditem.image.present? %>
+        <span class="img"><img src="<%= gfooditem.image.thumb %>" /></span>
+      <% end %>
+    </div>
+  </li>
+  <%= render partial: 'admin/dietaries/dietary', locals: {dietaries: gfooditem.dietaries} if gfooditem.dietaries.present? %>
+  <%= render partial: 'admin/ingredients/ingredient', locals: {ingredients: gfooditem.ingredients} if gfooditem.ingredients.present?%>
+</ol>

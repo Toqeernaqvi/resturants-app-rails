@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title><%= invoice.invoice_number %></title>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .logo {
+            width: 50px;
+        }
+
+        .red {
+            color: red
+        }
+        .caps {
+            text-transform: uppercase;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        td {
+            padding: 10px;
+            vertical-align: top;
+            width:33%;
+            position: relative;
+        }
+        h1,h2,h3,h4,h5,h6 {margin: 0}
+
+        small {
+            font-size: 60%;
+        }
+    </style>
+</head>
+<body>
+
+<table style="width:100%;">
+    <tr>
+        <td style="width: 45%; border: 2px solid black;padding:0">
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Bill To:</h2></div>
+
+            <div style="padding: 20px;">
+                <%= invoice.bill_to.html_safe %>
+            </div>
+
+        </td>
+        <td style="width: 10%"></td>
+        <td style="width: 45%; border: 2px solid black;padding:0">
+
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Ship To:</h2></div>
+
+            <div style="padding: 20px;">
+                <%= invoice.ship_to.html_safe %>
+            </div>
+
+
+        </td>
+    </tr>
+</table>
+<br>
+<table style="width:100%">
+    <tr>
+        <td style="width: 33%; border: 2px solid black;padding:0">
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Ship <%= invoice.from.blank? ? Date : Range %></h2></div>
+            <div style="padding: 20px;"><%= invoice.shipping %></div>
+        </td>
+        <td style="width: 33%; border: 2px solid black;padding:0">
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2><%= invoice.charged_cc ? 'Paid' : 'Due' %> Date</h2></div>
+            <div style="padding: 20px;"><%= invoice.charged_cc ? invoice.paid_date_timezone&.strftime("%m/%d/%Y") : invoice.due_date_timezone&.strftime("%m/%d/%Y") %>
+            </div>
+
+        </td>
+    </tr>
+</table>
+<br>
+<style type="text/css">
+    table { page-break-inside:auto }
+    tr { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group; }
+    tfoot { display:table-footer-group; }
+</style>
+<% user_paid_total = invoice.orders.sum(:user_price) %>
+<table style="width: 100%" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:70px; font-size: 14px;">
+            User
+          </div>
+        </td>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:75px; font-size: 14px;">
+            Restaurant
+          </div>
+        </td>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:40px; font-size: 14px;">
+            Qty.
+          </div>
+        </td>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:125px; font-size: 14px;">
+            Item
+          </div>
+        </td>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:60px; font-size: 14px;">
+            Unit Price
+          </div>
+        </td>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:65px; font-size: 14px;">
+            Company<br>Paid
+          </div>
+        </td>
+        <% if user_paid_total > 0 %>
+          <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+            <div style="width:60px; font-size: 14px;">
+              User<br>Paid
+            </div>
+          </td>
+        <% end %>
+        <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+          <div style="width:55px; font-size: 14px;">
+            Amount
+          </div>
+        </td>
+        <% if invoice.total_discount > 0 %>
+          <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+            Discount
+          </td>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+    <% orders = invoice.orders.active %>
+    <% orders.group_by{|o| o.runningmenu }.sort_by{|key, _| key.delivery_at}.each do |key, value| %>
+      <tr>
+        <td colspan="10" style="background-color:#e2d1e2"><strong><%= key.delivery_at_timezone.strftime("%b %-d, %Y %-l:%M%P") %> | <%= key.runningmenu_name %>: <%= value.first.runningmenu.address.formatted_address %></strong></td>
+      </tr>
+      <% value.sort_by(&:restaurant_address_id).each do |order| %>
+        <tr>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div><%= order.user.name %></div>
+          </td>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div><%= order.restaurant_address.addressable.name %></div>
+          </td>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div style="width: 17.5%; word-break: break-all; text-align: right; white-space: nowrap;"><%= order.quantity %></div>
+          </td>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div style="width:125px; "><%= order.fooditem.name rescue '' %></div>
+          </td>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap;">$<%= number_with_precision(order.price, precision: 2) %></div>
+          </td>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div style="width:65px; word-break: break-all; white-space: nowrap; text-align: right;">$<%= number_with_precision(order.company_paid, precision: 2) %></div>
+          </td>
+          <% if user_paid_total > 0 %>
+            <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+              <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap; ">$<%= number_with_precision(order.user_paid, precision: 2) %></div>
+            </td>
+          <% end %>
+          <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+            <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap;">$<%= number_with_precision((order.total_price - order.user_paid), precision: 2) %></div>
+          </td>
+          <% if invoice.total_discount > 0 %>
+            <td style="border:1px solid white; background: #ffffff; color: #000; border: 1px solid silver;">
+              <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap;">$<%= number_with_precision(order.discount, precision: 2) %></div>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+      <% substract_from_total = value.sum{|a| a.user_paid} + value.pluck(:discount).compact.sum %>
+      <% total_in_grey_line = value.pluck(:total_price).compact.sum - substract_from_total %>
+      <tr colspan="10" style="background-color:#D8D8D8">
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div></div>
+        </td>
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div></div>
+        </td>
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div style="width: 17.5%; white-space: nowrap; text-align: right;"><strong><%= value.pluck(:quantity).sum %></strong></div>
+        </td>
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div style="width:125px; "></div>
+        </td>
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap;"></div>
+        </td>
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div style="width:65px; word-break: break-all; white-space: nowrap; text-align: right;"></div>
+        </td>
+        <% if user_paid_total > 0 %>
+          <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+            <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap; "></div>
+          </td>
+        <% end %>
+        <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+          <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap;"><strong>$<%= number_with_precision(total_in_grey_line, precision: 2) %></strong></div>
+        </td>
+        <% if invoice.total_discount > 0 %>
+          <td style="border:1px solid white; background: #D8D8D8; color: #000; border: 1px solid silver;">
+            <div style="width:60px; word-break: break-all; text-align: right; white-space: nowrap;"></div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+    <% invoice.line_items.each do |li| %>
+        <tr>
+            <td style="width: 10%; border:1px solid silver"></td>
+
+            <td style="width: 10%; border:1px solid silver; text-align: right;"></td>
+            <td style="border:1px solid silver;"><div style="width: 17.5%; white-space: nowrap; text-align: right;"><%= li.quantity %></div></td>
+            <td style="width: 60%;  border:1px solid silver"><%= li.item %></td>
+            <td style="width: 20%;  border:1px solid silver; text-align: right; white-space: nowrap;">$<%= number_with_precision(li.unit_price, precision: 2) %></td>
+            <td style="width: 10%; border:1px solid silver"></td>
+            <% if user_paid_total > 0 %>
+              <td style="width: 10%; border:1px solid silver"></td>
+            <% end %>
+            <td style="width: 10%; border:1px solid silver; text-align: right; white-space: nowrap;">$<%= number_with_precision(li.amount, precision: 2) %></td>
+            <% if invoice.total_discount > 0 %>
+              <td style="width: 10%; border:1px solid silver; text-align: right; white-space: nowrap;">$<%= number_with_precision(li.discount, precision: 2) %></td>
+            <% end %>
+        </tr>
+    <% end %>
+    <% if invoice.adjustments.count > 0 %>
+      <tr><td colspan="8" style="padding: 10px 0px;"><h3>Adjustments</h3></td></tr>
+      <tr>
+        <td colspan="8" style="padding: 0px">
+          <table style="width: 100%" cellpadding="5" cellspacing="0">
+            <thead>
+              <tr>
+                <td style="width: 60%; border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+                  <div style="font-size: 14px;">
+                    Description
+                  </div>
+                </td>
+                <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+                  <div style="font-size: 14px;">
+                    Type
+                  </div>
+                </td>
+                <td style="border:1px solid black; padding:8px; background: #eae8e8; font-weight: bold;">
+                  <div style="font-size: 14px;">
+                    Amount
+                  </div>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <% invoice.adjustments.each do |adjustment| %>
+                <tr>
+                  <td style="border:1px solid silver"><%= adjustment.description %></td>
+                  <td style="border:1px solid silver"><%= adjustment.adjustment_type %></td>
+                  <td style="border:1px solid silver"><%= adjustment.price %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+    <% price_sum = orders.sum{|a| (a.total_price - a.user_paid)} %>
+    <% if invoice.sales_tax > 0 %>
+      <tr>
+          <% colSpan = 6 %>
+          <% if user_paid_total > 0 %>
+            <% colSpan += 1 %>
+          <% end %>
+          <td colspan="<%= colSpan %>" style="text-align: right;border:1px solid silver;">Sales Tax </td>
+          <td style="border:1px solid silver; text-align: right;">$<%= number_with_precision(invoice.sales_tax, precision: 2) %></td>
+          <% discount_sum = 0 %>
+          <% if invoice.total_discount > 0 %>
+            <td style="border:1px solid silver; text-align: right;"></td>
+          <% end %>
+      </tr>
+    <% end %>
+    <tr>
+        <% colSpan = 6 %>
+        <% if user_paid_total > 0 %>
+          <% colSpan += 1 %>
+        <% end %>
+        <td colspan="<%= colSpan %>" style="text-align: right;border:1px solid silver;">Service Fee (<%= invoice.service_fee %> %)</td>
+        <td style="border:1px solid silver; text-align: right;">$<%= number_with_precision((service_fee = price_sum * invoice.service_fee/100), precision: 2) %></td>
+        <% discount_sum = 0 %>
+        <% if invoice.total_discount > 0 %>
+          <td style="border:1px solid silver; text-align: right;"></td>
+        <% end %>
+    </tr>
+    <tr>
+        <% colSpan = 6 %>
+        <% if user_paid_total > 0 %>
+          <% colSpan += 1 %>
+        <% end %>
+        <td colspan="<%= colSpan %>" style="text-align: right;border:1px solid silver;">Total </td>
+        <td style="border:1px solid silver; text-align: right;">$<%= number_with_precision((price_sum = price_sum + invoice.line_items.sum(:amount) + invoice.adjustments.where(adjustment_type: Adjustment.adjustment_types[:addition]).sum(:price) + invoice.sales_tax + service_fee ), precision: 2) %></td>
+        <% discount_sum = 0 %>
+        <% if invoice.total_discount > 0 %>
+          <td style="border:1px solid silver; text-align: right;">$<%= number_with_precision(discount_sum = invoice.total_discount, precision: 2)%></td>
+        <% end %>
+    </tr>
+    <% sales_tax = 0 %>
+    <% if invoice.delivery? %>
+      <tr>
+          <% colSpan = 6 %>
+          <% if user_paid_total > 0 %>
+            <% colSpan += 1 %>
+          <% end %>
+          <td colspan="<%= colSpan %>" style="text-align: right;border:1px solid silver;">Tax (<%= invoice.sale_tax_percentage*100 %>)</td>
+          <td style="border:1px solid silver; text-align: right;">$<%= number_with_precision(sales_tax = invoice.amount_due_without_fee * invoice.sale_tax_percentage, precision: 2) %></td>
+          <% if invoice.total_discount > 0 %>
+            <td style="border:1px solid silver; text-align: right;"></td>
+          <% end %>
+      </tr>
+    <% end %>
+    <tr>
+        <td colspan="<%= colSpan %>" style="text-align: right;border:1px solid silver;"><h2> <%= invoice.charged_cc? ? "Amount Paid" : " Total Amount Due" %></h2></td>
+        <td colspan="2" style="border:1px solid silver; text-align: right; white-space: nowrap;"><h2>$<%= number_with_precision((price_sum - discount_sum + sales_tax), precision: 2) %></h2></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

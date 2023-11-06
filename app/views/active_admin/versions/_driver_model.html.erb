@@ -1,0 +1,83 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>Class</strong></th>
+      <th><strong>Field changed</strong></th>
+      <th><strong>Before</strong></th>
+      <th><strong>After</strong></th>
+      <th><strong>Timestamp</strong></th>
+      <th><strong>User</strong></th>
+    </thead>
+    <tbody>
+      <% versions.each do |version|%>
+        <% if version.item_type == "DriverShift" %>
+          <% attributes = (version.changeset.slice(:id, :start_time, :end_time, :created_at).keys) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= version.item.present? ? (version.item.label + ", " + attribute.titleize) : attribute.titleize %><br>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if ["start_time", "end_time", "created_at"].include? attribute %>
+                    <%= version.changeset[attribute][0].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][0] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if ["start_time", "end_time", "created_at"].include? attribute %>
+                    <%= version.changeset[attribute][1].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][1] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% elsif version.item_type == "Driver"  %>
+          <% attributes = (version.changeset.keys-["updated_at", "worker_id"]) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= attribute.titleize %><br>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][0].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][0] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][1].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][1] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% else %>
+        <% end %>
+
+      <% end %>
+    </tbody>
+  </table>
+</div>

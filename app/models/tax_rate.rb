@@ -1,0 +1,3 @@
+class TaxRate < ApplicationRecord
+
+end

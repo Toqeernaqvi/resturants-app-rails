@@ -1,0 +1,22 @@
+<div class="relate_menu__">
+  <span class="section_label__">Options:</span>
+  <span>Nutritional Facts</span>
+</div>
+<%= simple_form_for(resource, method: :put, url: admin_restaurant_address_menu_path) do |f| %>
+  <%= f.simple_fields_for :optionsets do |optionset| %>
+    <%= optionset.simple_fields_for :options do |option| %>
+      <% if option.object.active? %>      
+        <div class="fooditems_nutritions_wrapper">
+          <div class="fooditem_label__"><%= option.object.description %>:</div>
+          <div class="fields_wrapper">
+            <%= option.simple_fields_for :nutritional_facts, option.object.nutritional_facts do |nutrition| %>
+              <%= nutrition.input :value, label: nutrition.object.nutrition.name, input_html: { min: 0 } %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.submit 'Save', name: nil , :style => "width:100px; margin-top: 20px;" %>
+  <%= link_to "Cancel", :back %>
+<% end %>

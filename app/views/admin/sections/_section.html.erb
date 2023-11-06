@@ -1,0 +1,19 @@
+<div class="sections">
+  Sections
+</div>
+<ol class="sections">
+  <% sections.each do |section| %>
+    <li>
+        <span><%= section.name %></span>
+        <span><%= section.description %></span>
+        <% if section.menu.buffet? && section.section_type.present? %>
+          <span class="checks"><%= section.section_type.capitalize %></span>
+        <% end %>
+        <% if section.active? %>
+          <span> Active </span>
+        <% else %>
+          <span> Deleted </span>
+        <% end %>
+    </li>
+  <% end %>
+</ol>

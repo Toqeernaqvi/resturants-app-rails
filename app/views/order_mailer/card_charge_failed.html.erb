@@ -1,0 +1,16 @@
+<%= render 'layouts/header' %>
+    <h2>You Receipt From Chowmill</h2>
+    <p>
+      Your account has reached the $<%=Setting.min_amount%> limit and your card will be charged.
+      <br><br>
+      <div style="color:red;font-weight:bold">
+        We were unable to charge your card due to: <%= @error %>. Next attempt to charge your card will be on <%= ((Time.current + 1.day).beginning_of_day + 15.hours).strftime('%b %d, %I%P') %>.
+      <BR><BR>
+      <% unless @share_meeting.present? %>
+        Please <a href="<%= ENV['FRONTEND_HOST']%>?redirect_to=billing">click here</a> to update your credit card details.<br><br>
+      <% end %>
+    </div>
+      Below is a list of your items.
+    </p>
+    <%= render partial: 'layouts/card_charged_common', locals: { aborted_email: false } %>
+<%= render 'layouts/footer' %>

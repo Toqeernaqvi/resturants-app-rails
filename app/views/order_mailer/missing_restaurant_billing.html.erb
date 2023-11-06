@@ -1,0 +1,30 @@
+<%= render 'layouts/header' %>
+<table style="box-sizing:border-box;border-collapse:collapse;width:825px;margin-bottom:1rem;background-color:transparent">
+  <thead style="box-sizing:border-box">
+  <tr style="box-sizing:border-box">
+    <th scope="col"
+        style="text-align:left;box-sizing:border-box;white-space:nowrap;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+        Date
+    </th>
+    <th scope="col"
+        style="text-align:left;box-sizing:border-box;white-space:nowrap;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+        Orders
+    </th>
+  </tr>
+  </thead>
+  <tbody style="box-sizing:border-box">
+    <% @orders.each do |date, orders| %>
+      <tr style="box-sizing:border-box;border-bottom: 1px solid lightgrey;">
+        <td style="box-sizing:border-box;white-space:nowrap;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= date.strftime('%B %d, %Y') %>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+        <% orders.each do |order| %>
+          <a href="<%=ENV['BACKEND_HOST']%>/admin/orders/<%=order.id%>" target="_blank" style="display: inline-block;padding: 5px 8px;margin-right: 5px;border: 1px solid lightgray;text-decoration: none;margin-bottom: 5px; border-radius: 4px;"><%= order.id %></a>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= render 'layouts/footer' %>

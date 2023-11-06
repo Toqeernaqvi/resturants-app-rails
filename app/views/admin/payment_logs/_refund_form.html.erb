@@ -1,0 +1,4 @@
+<%= semantic_form_for @payment_log, url: admin_payment_log_path(@payment_log), remote: true do |f| %>
+  <%= f.input :refund_amount, label: false, min: 1, max: (@payment_log.amount - @payment_log.refunded_amount).to_f, input_html: { value: params[:payment_log].present? ? params[:payment_log][:refund_amount].to_f : (@payment_log.amount - @payment_log.refunded_amount).to_f } %>
+  <%= f.action :submit, label: "Refund", :as => :button %>
+<% end %>

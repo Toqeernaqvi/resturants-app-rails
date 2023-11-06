@@ -1,0 +1,262 @@
+                    <%= render 'layouts/header'%>
+                  <p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <!--Start the white Card from Here-->
+            <tr>
+              <td>
+                <div style=" background-color: #fff; box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+                  
+                  <table style="margin:0 auto; width: 100%;"  cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td>
+                        <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                             Updated Meeting Request
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p style=" margin: 0; text-align: center; font: normal normal normal 16px/22px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                            <%=@runningmenu.runningmenu_name%>
+                           <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/#{@runningmenu.runningmenu_type}-btn.png") %>
+                        </p>
+                        </td>
+                    </tr>
+                  </table>
+
+                  <table style="table-layout: fixed; width: 100%;">
+                    <tr>
+                      <% if !@version.keys.include? 'user_id' %>
+                        <td>
+                          <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            Requested By :
+                          </p>
+                          <p style="margin: 0;text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            <%=@user.name%> (<%=@runningmenu.company.name%>)
+                          </p>
+                        </td>
+                      <% end %>
+                      <td>
+                      </td>
+                    </tr>
+
+                    <tr>
+                    <% if !@version.keys.include? 'orders_count'%>
+                      <td>
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Approximate Count :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;"><%= @runningmenu.orders_count%></p>
+                      </td>
+                    <% end %>
+                    <% if !@version.keys.include? 'per_meal_budget'%>
+                      <td>
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Budget :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                           $<%=@runningmenu.per_meal_budget%>
+                        </p>
+                      </td>
+                    <% end %>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Cuisine Preference :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          <span style="text-decoration:line-through; color:red"><%= @runningmenu.deleted_cuisines.present? ? @runningmenu.deleted_cuisines : '' %></span> <%= @runningmenu.cuisines.pluck(:name).join(', ')%>
+                        </p>
+                      </td>
+                      <% if !@version.keys.include? 'special_request'%>
+                      <td>
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Special Request :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          <%=@runningmenu.special_request%>
+                        </p>
+                      </td>
+                      <% end %>
+                    </tr>
+
+                    <tr>
+                    <% if !@version.keys.include? 'delivery_at' %>
+                      <td style="vertical-align: top;">
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Delivery Date :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica;padding-right: 20px; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          <strong><%=@runningmenu.runningmenu_type.capitalize%> <%=@runningmenu.menu_type.capitalize%></strong> on <%= @runningmenu.delivery_at_timezone.to_time.strftime('%B %d, %Y') %> at <%=@runningmenu.delivery_at_timezone.to_time.strftime('%I:%M%p')%>
+                        </p>
+                      </td>
+                      <% end %>
+                       <% if !@version.keys.include? 'address_id'%>
+                      <td >
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Delivery Address :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica;padding-right: 20px; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          <del><%=@runningmenu.address.location_with_name%></del>
+                        </p>
+                      </td>
+                      <% end %>
+                    </tr>
+
+                    <tr>
+                    <% if !@version.keys.include? 'delivery_instructions'%>
+                      <td>
+                        <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Delivery Instructions :
+                        </p>
+                        <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                           <%=@runningmenu.delivery_instructions%>
+                        </p>
+                      </td>
+                      <% end %>
+                    </tr>
+                    <% @version.each do |key, value| %>
+                      <% if key == 'user_id' %>
+                        <tr>
+                          <td>
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                                Requested By :
+                              </p>
+                              <p style="margin: 0;text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                                <%=User.find_by_id(value[0]).name %></span> <%=User.find_by_id(value[1]).name%> (<%=User.find_by_id(value[1]).company%>)
+                              </p>
+                          </td>
+                        </tr>
+                      <% end %>
+                      <% if key == 'delivery_at' %>
+                        <tr>
+                          <td style="vertical-align: top;">
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              Delivery Date :
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica;padding-right: 20px; letter-spacing: 0px; color: #646464; opacity: 1;">
+                              <strong><%=@runningmenu.runningmenu_type.capitalize%> <%=@runningmenu.menu_type.capitalize%></strong> on <span style="text-decoration:line-through; color:red"><%= value[0].to_time.strftime('%B %d, %Y') %> at <%=value[0].to_time.strftime('%I:%M%p')%></span><%= value[1].to_time.strftime('%B %d, %Y') %> at <%=value[1].to_time.strftime('%I:%M%p')%>
+                            </p>
+                          </td>
+                        </tr>
+                      <%end%>
+                      <% if key == 'orders_count'%>
+                        <tr>
+                          <td>
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              Approximate Count :
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;"><%=value[0]%></span> <%=value[1]%></p>
+                          </td>
+                        </tr>
+                      <% end %>
+                      <% if key == 'per_meal_budget'%>
+                        <tr>
+                          <td>
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              Budget :
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                              $<%=value[0]%></span> <%=value[1]%>
+                            </p>
+                          </td>
+                        </tr>
+                      <% end%>
+                      <% if key == 'address_id'%>
+                        <% addresses = Address.where(id: [value[0], value[1]]).sort_by { |u| [value[0], value[1]].index(u.id) }%>
+                        <tr>
+                           <td >
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              Delivery Address :
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica;padding-right: 20px; letter-spacing: 0px; color: #646464; opacity: 1;">
+                              <del><%=@runningmenu.address.location_with_name%></del>
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica;padding-right: 20px; letter-spacing: 0px; color: #646464; opacity: 1;">
+                                <%=addresses.last.location_with_name%>
+                              </p>
+                          </td>
+                        </tr>
+                      <% end %>
+                      <% if key == 'special_request'%>
+                        <tr>
+                          <td>
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              Special Request :
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                              <%=value[0]%></span><%=value[1]%>
+                            </p>
+                          </td>
+                        </tr>
+                      <% end %>
+                      <% if key == 'delivery_instructions'%>
+                        <tr>
+                          <td>
+                            <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              Delivery Instructions :
+                            </p>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                              <%=value[0]%></span><%=value[1]%>
+                            </p>
+                          </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                    <% if @runningmenu.runningmenufields.present? %>
+                    </table>
+                    <table style="width:100% text-align:center;margin:0 auto;">
+                      <tr>
+                        <td>
+                          <p style="margin:20px 0 0 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                            Meeting Specifics
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                    <table style="width: 100%; table-layout: fixed;">
+                    <% end %>
+                    <% @runningmenu.runningmenufields.each do |runningmenufield| %>
+                      <tr>
+                          <td style="vertical-align: top;">
+                              <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                                <%=runningmenufield.field.name %> :
+                              </p>
+                              <p>
+                                <% if runningmenufield.dropdown? %>
+                                  <% @field_changes.each do |change| %>
+                                    <% if change[2] == runningmenufield.field_id %>
+                                    <span style="text-decoration:line-through; color:red">
+                                      <% unless change[0].blank? %>
+                                        <% field = Fieldoption.find (change[0]) %>
+                                        <%= field.name %>
+                                      <% end %></span>
+                                    <% end %>
+                                  <% end %>
+                                  <%= runningmenufield.fieldoption.present? ? runningmenufield.fieldoption.name : '' %>
+                                <% else %>
+                                  <% @field_changes.each do |change| %>
+                                    <% if change[2] == runningmenufield.field_id %>
+                                        <span style="text-decoration:line-through; color:red"><%= change[0] %></span>
+                                    <% end %>
+                                  <% end %>
+                                  <%= runningmenufield.value.present? ? runningmenufield.value : '' %>
+                                <% end %>
+                              </p>
+                          </td>
+                      </tr>
+                    <% end %>
+                  </table>
+              </td>
+            </tr>
+            <!--End the white Card from Here-->
+          </table>
+        </td>
+      </tr>
+      <%= render 'layouts/footer'%>
+      

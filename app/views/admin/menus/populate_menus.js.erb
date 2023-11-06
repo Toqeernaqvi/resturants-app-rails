@@ -1,0 +1,17 @@
+ActiveAdmin.modal_dialog = function(message, inputs, callback){
+  $('<div></div>').dialog({
+    modal: true,
+    width: 700,
+    title: "Import Menu",
+    dialogClass: 'active_admin_dialog',
+    open: function() {
+      var menus = '<%=j render 'import'%>';
+      $(this).html(menus);
+    },
+    buttons: {
+      Ok: function() {
+        $( this ).dialog( "close" );
+      }
+    }   });
+};
+ActiveAdmin.modal_dialog();

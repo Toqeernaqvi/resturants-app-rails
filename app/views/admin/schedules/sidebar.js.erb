@@ -1,0 +1,25 @@
+var checkStatusOfLeftBar;
+checkStatusOfLeftBar = $('#tabs').css('display');
+if (checkStatusOfLeftBar === 'block') {
+  $('#tabs').hide('slow');
+  $('.actToggle').addClass('goLeft');
+  $('#active_admin_content').css({
+    'margin-left': '-250px'
+  });
+  $('#title_bar').css({
+    'margin-left': '-225px'
+  });
+}
+
+var checkRightSideBar = $('#main_content_wrapper > .rightSideBar').length;
+if (checkRightSideBar == 0) {
+  $('#main_content').addClass('mainContent');
+  $('#main_content_wrapper').append('<%=j render partial: 'admin/schedules/sidebar' %>');
+} else if (checkRightSideBar == 1) {
+  $('#main_content_wrapper  > .rightSideBar').remove();
+  $('#main_content_wrapper').append('<%=j render partial: 'admin/schedules/sidebar' %>');
+}
+
+// $(document).on('click', '.closeBtn', function(){
+//   $('.bsModalClose').click();
+// });

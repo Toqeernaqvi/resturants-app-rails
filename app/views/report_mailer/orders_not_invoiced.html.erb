@@ -1,0 +1,8 @@
+<%= render 'layouts/header' %>
+<% if @error.present? %>
+  <p>Report for orders not in any incoice failed due to <%= @error %></p>
+<% else %>
+  <%= render 'layouts/report_orders' %>
+  <a href="<%= ENV['BACKEND_HOST']%>/admin/orders_not_invoiced?start_date=<%= @orders.last["delivery_at"].to_time.strftime('%Y-%m-%d')%>&end_date=<%= @orders.first["delivery_at"].to_time.strftime('%Y-%m-%d')%>" style='text-decoration: underline; color: steelblue;' target="_blank">Report</a>
+<% end %>
+<%= render 'layouts/footer' %>

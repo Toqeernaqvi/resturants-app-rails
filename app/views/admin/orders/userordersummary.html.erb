@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>
+      <% if before_cutoff_orders.present? %>
+        <%= before_cutoff_orders.first.short_code  + "-" if before_cutoff_orders.first.short_code.present? %>-<%= before_cutoff_orders.first.restaurant_name %>-<%= delivery_at.to_date %>
+      <% else %>
+        <%= orders.first.short_code  + "-" if orders.first.short_code.present? %>-<%= orders.first.restaurant_name %>-<%= delivery_at.to_date %>
+      <% end %>
+    </title>
+
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .logo {
+        width: 40px;
+      }
+
+      .red {
+        color: red;
+      }
+      @media print {
+        td, tr {page-break-inside: avoid; }
+        table.full_report_table>tbody>tr>td {page-break-inside: avoid !important; }
+      }
+      ul.numb {margin-top: 0px; margin-bottom: 0px;}
+      ul.numb > li {list-style: decimal; font-size: 0.9em;}
+      ul.optionsList{padding: 0px; margin: 0; font-size: 14px; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;' %>}
+      ul.optionsList > li {display: inline-block; padding: 10px; margin-right: 7px; margin-bottom: 5px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #ccc;' %> border-radius: 5px; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;' %>}
+      ul.optionsList > li:nth-child(1) {font-weight: bold; padding: 0; border: none; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;' %>}
+      .note{margin-top: 2px; padding: 5px; border-radius: 5px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #d00;' %> font-size: 14px; position: relative; padding-left: 60px;}
+      .note > .head{ <%= defined?(fax) && fax ? 'color: #fff; background: #000000;' : 'color: #fff; background: #d00;' %> padding: 5px; display: inline-block; position: absolute; top: 0; left: 0; text-transform: uppercase; }
+      .tbl_ {
+        font-size: 1.1em; font-weight: bold; margin-top: 25px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #999;' %>;
+      }
+      .tbl_ td, .tbl_ th{
+        padding: 5px;
+      }
+      .tbl_ > tbody tr:nth-child(odd){
+        <%= defined?(fax) && fax ? 'border: 1px solid #fff;' : 'background: whitesmoke;' %>
+      }
+      .foodItemsOptions tr:nth-child(odd){
+        background: transparent !important;
+      }
+      .tbl_ > tbody tr:nth-child(odd) td:nth-last-child(1){
+        <%= defined?(fax) && fax ? '' : 'border-right: 1px solid #999' %>
+      }
+      tr, td, th, tbody, thead, tfoot {
+        page-break-inside: avoid !important;
+      }
+      /* Food Item Options */
+      .foodItemsOptions {
+        border: 1px solid transparent;
+        margin-left: -7px;
+      }
+      .foodItemsOptions .optionDes {
+        font-weight: normal;
+        word-wrap: break-word;
+        display: inline-block;
+        font-size: 15px;
+        width: 50%;
+        <%= defined?(fax) && fax ? 'color: #000;' : 'color: red;'%>
+      }
+      .foodItemsOptions .optionPrice {
+        border-right: 1px solid transparent !important;
+        display: inline-block;
+        vertical-valign: top;
+        font-size: 15px;
+        width: calc(20% - 10px);
+        font-weight: normal;
+        <%= defined?(fax) && fax ? 'color: #000;' : 'color: red;'%>
+      }
+      .colLeft {
+        border: 1px solid transparent !important;
+      }
+      .colRight {
+        border: 1px solid transparent !important;
+      }
+    </style>
+</head>
+<body>
+  <table cellpadding="3" cellspacing="0" width="100%">
+    <tr>
+      <td width="20%" valign="top">
+        <%= image_tag wicked_pdf_asset_base64("#{defined?(fax) && fax ? 'logo_black.png' : 'logo.png'}"), :style => "width: 40px;", alt: "logo"%>
+      </td>
+      <td width="60%" align="center" valign="top" style="font-size: 1em;">
+        Chowmill Order Summary
+      </td>
+      <td width="20%" valign="top" style="font-size:0.9em; font-weight: bold; text-align: center;">
+        ORDER<br>QUANTITY
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" style="font-size:1.5em; text-align: center; font-weight: bold; <%= defined?(fax) && fax ? 'color: #000;' : 'color: grey;' %>">
+        <% if order_diff %>
+          Updated
+        <% end %>
+        Order # <strong><span style="font-family: Times New Roman;"><%= runningmenu.id%></span></strong>
+        &nbsp;
+      </td>
+      <td align="center" valign="top">
+        <span style="display: block; text-align: center; font-size: 1.2em; font-weight: bold;"><%= before_cutoff_orders.present? ? before_cutoff_orders.first.restaurant_name : orders.first.restaurant_name %></span>
+        <span style="display: block; text-align: center; font-size: 1.2em; font-weight: bold;"><%= before_cutoff_orders.present? ? before_cutoff_orders.first.restaurant_location.split(':').last : orders.first.restaurant_location.split(':').last %></span>
+        <span style="font-size: 1.3em; font-weight: bold; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;'%>">
+          <%= delivery_at.strftime('%A, %B %d, %Y') %><br>
+          <% if runningmenu.pickup? %>
+            Pickup Time: <%= delivery_time %>
+          <% else %>
+            Delivery Time: <%=runningmenu.delivery_at_timezone.strftime("%I:%M %p") %>
+          <% end %>
+        </span>
+      </td>
+      <td valign="top" style="font-size:1.5em; text-align: center; font-weight: bold;">
+        <% if before_cutoff_orders.present? %>
+          <%= billing_orders.sum{|order| order.order_status == 'active' ? order.quantity : 0 } %> Items
+        <% else %>
+          <%= orders.sum{|order| order.order_status == 'active' ? order.quantity : 0 } %> Items
+        <% end %>
+      </td>
+    </tr>
+  </table>
+  <fieldset style="margin-top: 20px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #ccc;' %> border-radius: 5px;">
+    <legend style="padding: 5px 10px; <%= defined?(fax) && fax ? 'border: 2px solid #000000;' : 'border: 2px solid #ccc;'%> background: #fff; white-space: nowrap; font-size: 1em; font-weight: bold; border-radius: 5px;">SPECIAL INSTRUCTIONS:</legend>
+    <ul class="numb">
+      <li><strong>RESTAURANT:</strong> To provide utensils & napkins</li>
+      <li><strong>DRIVER:</strong> To apply labels, please assist driver</li>
+      <li>Contact support@chowmill.com with any questions.</li>
+    </ul>
+ </fieldset>
+ <table cellpadding="0" cellspacing="0" width="100%" class="tbl_">
+   <thead>
+     <tr>
+       <th width="10%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+         QTY
+       </th>
+       <th width="90%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+         ITEM(s)
+       </th>
+       <th width="90%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+         PRICE
+       </th>
+       <th width="90%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+         TOTAL
+       </th>
+     </tr>
+   </thead>
+    <tbody>
+      <% if orders.present? %>
+        <% orders.each do |order|%>
+          <% removed = added = 0 %>
+            <% if order.order_status == 'cancelled' && !order.version_id.blank? %>
+              <% removed += order.quantity %>
+            <% elsif !order.version_id.blank? %>
+              <% Order.where(id: order.order_ids, status: Order.statuses[:active]).each do |version_order|%>
+                <% if version_order.versions.present? && version_order.versions.first.changeset[:quantity].present? && version_order.versions.first.changeset[:quantity][0].nil?%>
+                  <% added += version_order.quantity %>
+                <% else %>
+                  <% start_limit = end_limit = nil%>
+                  <% if version_order.versions.present? && version_order.versions.first.changeset[:quantity].present? && !version_order.versions.first.changeset[:quantity][0].nil? %>
+                    <% start_limit = version_order.versions.first.changeset[:quantity][0] %>
+                  <% end %>
+
+                  <% if version_order.versions.present? && version_order.versions.last.changeset[:quantity].present? %>
+                    <% end_limit = version_order.versions.last.changeset[:quantity][1] %>
+                  <% end %>
+                  <% if start_limit.present? && end_limit.present? %>
+                    <% if start_limit < end_limit  %>
+                      <% added += (end_limit - start_limit) %>
+                    <% elsif start_limit > end_limit %>
+                      <% removed += (start_limit - end_limit) %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% if order.order_status == "cancelled" %>
+            <!-- cancelled order start -->
+            <tr>
+                <td valign="top" class="colLeft" style="text-decoration: line-through;"><%= order.quantity %>
+                  <% if added > removed %>
+                    <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(40, 167, 69); color: rgb(255, 255, 255);'%>">
+                      Added <%= added - removed %>
+                    </span>
+                  <% elsif added < removed %>
+                    <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);'%>">
+                      <del>Removed <%= removed - added%></del>
+                    </span>
+                  <% end %>
+                </td>
+                <td valign="top" class="colRight"><%= order.fooditem_name %> <span style="font-size: 15px; <%= defined?(fax) && fax ? 'color: #000000 !important;' : 'color: #333 !important;'%> font-weight: normal;">for </span> <span style="font-size: 15px; <%= defined?(fax) && fax ? 'color: #000000 !important;' : 'color: red !important;'%> font-weight: normal;text-decoration: line-through;"><%= order.user_name.present? ? order.user_name : order.email %></span><br>
+                <% if order.fooditem_description.present? %>
+                  <span style='line-height: 1.5em;text-decoration: line-through; height: 3em; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+                <% end %>
+                <% if order.options.present? %>
+                <% alp_array = ("A".."Z").to_a%>
+                  <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                    <% order.options.split(', ').each_with_index do |option, index| %>
+                      <% opt_detail_arr = option.split('$')%>
+                      <tr>
+                        <td width="50%" valign="top" class="optionDes" style="text-decoration: line-through;">
+                          <%= alp_array[index] %>. <%= opt_detail_arr[0] %>
+                        </td>
+                        <td valign="top" class="optionPrice" style="text-decoration: line-through;">
+                          $<%= opt_detail_arr[1]%>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                <% end %>
+                <% if order.remarks.present? %>
+                  <ul class="optionsList">
+                  <li style="text-decoration: line-through;"><span class="head">Remarks:</span><%= order.remarks %> </li>
+                  </ul>
+                <% end %>
+                <% if order.fooditem_notes_to_restaurant.present? %>
+                  <div class="note"><span class="head" style="text-decoration: line-through;">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                <% end %>
+              </td>
+              <td valign="top" style="text-decoration: line-through;">
+                <%= order.options.present? ? (order.fooditem_price - order.options_price) : order.fooditem_price %>
+              </td>
+              <td valign="top" style="text-decoration: line-through;">
+                <%# price_sum =  order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+                <%= order.fooditem_price * order.quantity  %>
+              </td>
+            </tr>
+            <!-- cancelled order end -->
+          <% else %>
+              <!-- changed order start -->
+            <tr>
+                <td valign="top" class="colLeft"><%= order.quantity %>
+                  <% if added > removed %>
+                    <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(40, 167, 69); color: rgb(255, 255, 255);'%>">
+                      Added <%= added - removed %>
+                    </span>
+                  <% elsif added < removed %>
+                    <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);'%>">
+                      Removed <%= removed - added%>
+                    </span>
+                  <% end %>
+                </td>
+                <td valign="top" class="colRight"><%= order.fooditem_name %> <span style="font-size: 15px; <%= defined?(fax) && fax ? 'color: #000000 !important;' : 'color: #333 !important;'%> font-weight: normal;">for </span> <span style="font-size: 15px; <%= defined?(fax) && fax ? 'color: #000000 !important;' : 'color: red !important;'%> font-weight: normal;"><%= order.user_name.present? ? order.user_name : order.email %></span><br>
+                <% if order.fooditem_description.present? %>
+                  <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+                <% end %>
+                <% if order.options.present? %>
+                <% alp_array = ("A".."Z").to_a%>
+                  <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                    <% order.options.split(', ').each_with_index do |option, index| %>
+                      <% opt_detail_arr = option.split('$')%>
+                      <tr>
+                        <td width="50%" valign="top" class="optionDes">
+                          <%= alp_array[index] %>. <%= opt_detail_arr[0] %>
+                        </td>
+                        <td valign="top" class="optionPrice">
+                          $<%= opt_detail_arr[1]%>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                <% end %>
+                <% if order.remarks.present? %>
+                  <ul class="optionsList">
+                  <li><span class="head">Remarks:</span><%= order.remarks %> </li>
+                  </ul>
+                <% end %>
+                <% if order.fooditem_notes_to_restaurant.present? %>
+                  <div class="note"><span class="head">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                <% end %>
+              </td>
+              <td valign="top">
+                <%= order.options.present? ? (order.fooditem_price - order.options_price) : order.fooditem_price %>
+              </td>
+              <td valign="top">
+                <%# price_sum =  order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+                <%= order.fooditem_price * order.quantity  %>
+              </td>
+            </tr>
+          <!-- changed order end -->
+          <% end %>
+        <% end %>
+      <% end %>
+      <% if before_cutoff_orders.present? %>
+        <% before_cutoff_orders.each do |order|%>
+        <tr>
+            <td valign="top" class="colLeft"><%= order.quantity %></td>
+            <td valign="top" class="colRight"><%= order.fooditem_name %> <span style="font-size: 15px; <%= defined?(fax) && fax ? 'color: #000000 !important;' : 'color: #333 !important;'%> font-weight: normal;">for </span> <span style="font-size: 15px; <%= defined?(fax) && fax ? 'color: #000000 !important;' : 'color: red !important;'%> font-weight: normal;"><%= order.user_name.present? ? order.user_name : order.email %></span><br>
+            <% if order.fooditem_description.present? %>
+              <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+            <% end %>
+            <% if order.options.present? %>
+            <% alp_array = ("A".."Z").to_a%>
+              <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                <% order.options.split(', ').each_with_index do |option, index| %>
+                  <% opt_detail_arr = option.split('$')%>
+                  <tr>
+                    <td width="50%" valign="top" class="optionDes">
+                      <%= alp_array[index] %>. <%= opt_detail_arr[0] %>
+                    </td>
+                    <td valign="top" class="optionPrice">
+                      $<%= opt_detail_arr[1]%>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+            <% end %>
+            <% if order.remarks.present? %>
+              <ul class="optionsList">
+              <li><span class="head">Remarks:</span><%= order.remarks %> </li>
+              </ul>
+            <% end %>
+            <% if order.fooditem_notes_to_restaurant.present? %>
+              <div class="note"><span class="head">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+            <% end %>
+          </td>
+          <td valign="top">
+            <%= order.options.present? ? (order.fooditem_price - order.options_price) : order.fooditem_price %>
+          </td>
+          <td valign="top">
+            <%# price_sum =  order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+            <%= order.fooditem_price * order.quantity  %>
+          </td>
+        </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+ </table>
+ <% if address_id.present? %>
+   <% total_orders = billing_orders.present? ? billing_orders : orders %>
+   <% billing = OrderHelper.orders_billing(total_orders)%>
+   <table style="width: 100%; margin-top: 10px;" cellpadding="10">
+     <tr style="page-break-inside: avoid;">
+       <td style="width: 10%; border: 2px solid black; background:#eae8e8; font-size: 16px; font-weight: bold;">
+         Sub Total
+       </td>
+       <td style="width: 10%; border: 2px solid black; background:#eae8e8; font-size: 16px; font-weight: bold;">
+         Tax (<%= billing["sale_tax_percentage"] %>%)
+       </td>
+       <td style="width: 10%; border: 2px solid black; background:#eae8e8; font-size: 16px; font-weight: bold;">
+         <% if billing["enable_self_service"] && billing["delivery_meeting"] %>
+            Delivery Cost
+          <% else %>
+            Commission (<%= billing["discount_percentage"] %>%)
+          <% end %>
+       </td>
+       <td style="width: 10%; border: 2px solid black; background:#eae8e8; font-size: 16px; font-weight: bold;">
+         Total Payout
+       </td>
+     </tr>
+     <tr>
+       <td style="width: 10%; border:1px solid silver; text_align: right;">$<%= billing["sub_total"] %></td>
+       <td style="width: 10%; border:1px solid silver; text_align: right;">$<%= billing["sale_tax"] %></td>
+       <td style="width: 10%; border:1px solid silver; text_align: right;">$<%= billing["enable_self_service"] && billing["delivery_meeting"] ? billing["delivery_cost"] : billing["commission"] %></td>
+       <td style="width: 10%; border:1px solid silver; text_align: right;">$<%= billing["payout_total"] %></td>
+     </tr>
+   </table>
+ <% end %>
+</body>
+</html>

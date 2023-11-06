@@ -1,0 +1,18 @@
+$(".ui-dialog").remove();
+ActiveAdmin.modal_dialog = function(message, inputs, callback){
+  $('<div></div>').dialog({
+    modal: true,
+    width: '100%',
+    title: "",
+    dialogClass: 'active_admin_dialog',
+    open: function() {
+      var form = '<%=j render 'refund_form'%>';
+      $(this).html(form);
+    },
+    buttons: {
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }   });
+};
+ActiveAdmin.modal_dialog();

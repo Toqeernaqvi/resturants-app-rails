@@ -1,0 +1,85 @@
+version: '3.5'
+services:
+  chowmill-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: chowmill-local-app
+    # restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - INSTALL=app
+      - RAILS_SERVE_STATIC_FILES=1
+    env_file:
+      - .env
+    networks:
+      - chowmill
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    volumes:
+      - ./:/application/
+  chowmill-cron:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: chowmill-local-sidekiq-cron
+    # restart: unless-stopped
+    environment:
+      - INSTALL=sidekiq-cron
+    env_file:
+      - .env
+    networks:
+      - chowmill
+    depends_on:
+      - postgres
+      - redis
+      - chowmill-app
+    links:
+      - postgres
+      - redis
+    volumes:
+      - ./:/application/
+  postgres:
+    image: postgres:11
+    container_name: postgres-database
+    restart: always
+    ports: 
+      - 5433:5432
+    environment:
+      # POSTGRES_USER: chowmill
+      POSTGRES_PASSWORD: chowmill123
+      # POSTGRES_DB: chowmill
+      POSTGRES_HOST_AUTH_METHOD: password
+    volumes: 
+      - ./backups/postgres:/var/lib/postgresql/data
+    networks:
+      - chowmill
+  redis:
+    image: redis
+    container_name: redis-database
+    restart: always
+    ports:
+      - 6380:6379
+    volumes: 
+      - ./backups/redis:/data
+    networks:
+      - chowmill
+  pgadmin:
+    container_name: pgadmin
+    image: 'dpage/pgadmin4' # use latest official postgres version
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=tariq.hussain@codility.co
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10
+    ports:
+      - "3005:80"
+    networks:
+      - chowmill
+networks:
+  chowmill:

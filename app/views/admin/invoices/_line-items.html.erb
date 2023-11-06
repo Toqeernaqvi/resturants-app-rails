@@ -1,0 +1,45 @@
+<table class="index_table index" >
+	<thead>
+	<tr>
+	  <th class="sortable sorted-desc col col-id">Quantity</th>
+	  <th class="sortable col col-name">Item</th>
+	  <th class="col col-actions">Unit Price</th>
+	  <th class="col col-actions">Amount</th>
+    <th class="col col-actions">Discount</th>
+	  <th>action</th>
+	</tr>
+	</thead>
+	<tbody>
+    <% orders = resource.orders.active %>
+    <% orders.group_by{|o| o.runningmenu.runningmenu_name }.each do |key, value| %>
+      <tr><td><%= key %>: <%= value.first.runningmenu.address.address_line %></td></tr>
+      <% value.each do |order| %>
+        <tr>
+          <td><%= order.quantity %></td>
+          <td><%= order.fooditem.name %></td>
+          <td><%= number_with_precision(order.price, precision: 2) %></td>
+          <td><%= number_with_precision((order.total_price - order.user_paid), precision: 2) %></td>
+          <td><%= number_with_precision(order.discount, precision: 2) %></td>
+          <td><%= button_to 'Edit', edit_admin_order_path(order.id), params: { a: 'invoice', b: order.invoice_id}, method: :get %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% resource.line_items.each do |li| %>
+      <tr>
+        <td><%= li.quantity %></td>
+        <td><%= li.item %></td>
+        <td><%= number_with_precision(li.unit_price, precision: 2) %></td>
+        <td><%= number_with_precision(li.amount, precision: 2) %></td>
+        <td><%= number_with_precision(li.discount, precision: 2) %></td>
+        <td><%= button_to 'Edit', edit_admin_invoice_path(resource.id), method: :get %></td>
+      </tr>
+    <% end %>
+    <tr style="font-weight: bold">
+      <td></td><td></td>
+      <td>Total </td>
+      <td><%= price_sum = orders.sum{|a| a.total_price - a.user_paid} + resource.line_items.sum{|li| li.amount} %></td>
+      <td><%= discount_sum = orders.sum{|a| a.discount} + resource.line_items.sum{|li| li.discount} %></td>
+    </tr>
+    <tr style="font-weight: bold"><td></td><td></td><td>Discounted Total: </td><td><%= price_sum - discount_sum %></td><td></td></tr>
+	</tbody>
+</table>

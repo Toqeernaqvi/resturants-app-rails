@@ -1,0 +1,37 @@
+var admins = '<%=j render 'admins' %>';
+
+$('body').append( admins )
+
+$(document).on('click', '#popupCancelBtn', function(){
+  var userSelectedID_ = $('#popupGotID').val();
+  $('.rowSelect' + userSelectedID_ + ' option').removeAttr('selected');
+  $('.rowSelect' + userSelectedID_ + ' option[value="Company Admin"]').trigger("change");
+  $('.rowSelect' + userSelectedID_ + ' option[value="Company Admin"]').attr('selected', 'selected');
+  setTimeout(function(){
+    $('.popupDialog').remove();
+  }, 500);
+});
+
+$(document).on('click', '.customModalUsersOverlay .saveDropdownData', function(){
+  var userSelectedID = $('#popupGotID').val();
+  var getSelectedVal = $('.popupAdminDropdown').val();
+  var getSelectedText = $('.popupAdminDropdown option:selected').text();
+  $.post( 'users/user_type', {uid: userSelectedID, aid: getSelectedVal } , function( res ) {
+    if ( res.message == 'Success' ) {
+      $('#user_' + userSelectedID + ' td.col.col-office_admin').html( '<a href="/admin/users/' + getSelectedVal + '">' + getSelectedText + '</a>' );
+      $( '.customModalUsersOverlay' ).remove();
+    } else if ( res.message == 'Fail' ) {
+      alert('Failed');
+    }
+  }, 'json');
+});
+
+$(document).on('click', '.closeModal', function(){
+  var userSelectedID_ = $('#popupGotID').val();
+  $('.rowSelect' + userSelectedID_ + ' option').removeAttr('selected');
+  // $('.rowSelect' + userSelectedID_ + ' option[value="Company Admin"]').trigger("change");
+  $('.rowSelect' + userSelectedID_ + ' option[value="Company Admin"]').attr('selected', 'selected');
+  $('#user_' + userSelectedID_ + ' span.select2-selection__rendered').text('Company Admin');
+  $('#user_' + userSelectedID_ + ' span.select2-selection__rendered').attr('title', 'Company Admin');
+  $('.customModalUsersOverlay').remove();
+})

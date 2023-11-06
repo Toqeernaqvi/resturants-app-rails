@@ -1,0 +1,185 @@
+<% confirmation_link = "#{@resource.restaurant_admin? ? ENV['VENDER_FRONTEND_HOST'] : ENV['FRONTEND_HOST']}/user/invite/invite_code/#{@token}" %>
+<% if @resource.admin? || @resource.developer? || @resource.operations? %>
+<%= render 'layouts/header' %>
+<p
+  style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+</p>
+</div>
+</td>
+</tr>
+<tr>
+  <td>
+    <div
+      style=" background-color: #fff; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+      <table style="margin:0 auto; width: 100%;">
+        <tr>
+          <td>
+            <p
+              style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+              Welcome <%= @email %>!
+            </p>
+          </td>
+        </tr>
+      </table>
+      <p
+        style="margin:30px 0 0 0;  font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+        You have been invited to Chowmill as a manager for <%= @resource.addresses.last.addressable.name %>.
+      </p>
+      <div style="margin:10px 0 0 0; display: flex;">
+        <a href="<%="#{ENV['BACKEND_HOST']}/admin/confirmation?confirmation_token=#{@token}"%>"
+          style="font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #157FFC; opacity: 1; text-decoration: none;">
+        Confirm Account
+        </a>
+      </div>
+      <div style="display: flex;">
+        <p
+          style="margin: 30px 0 0 0;  font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+          If you received this email in error, please let us know by replying to this email or
+          sending a message to
+          <span><a href="#"
+            style="text-decoration: none; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC;">support@chowmill.com</a></span>.
+        </p>
+      </div>
+    </div>
+  </td>
+</tr>
+</table>
+</td>
+</tr>
+<%= render 'layouts/footer' %>
+<% elsif @resource.restaurant_admin? %>
+<%= render 'layouts/header' %>
+<p
+  style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+</p>
+</div>
+</td>
+</tr>
+<tr>
+  <td>
+    <div
+      style=" background-color: #fff; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+      <table style="margin:0 auto; width: 100%;">
+        <tr>
+          <td>
+            <p
+              style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+              Welcome to Chowmill!
+            </p>
+          </td>
+        </tr>
+      </table>
+      <p
+        style="margin:30px 0 0 0;  font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+        You can confirm your account email through the link below:
+      </p>
+      <div style="margin:10px 0 0 0; display: flex;">
+        <%= link_to confirmation_link.to_s, confirmation_link, style:"font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #157FFC; opacity: 1; text-decoration: none;" %>
+      </div>
+      <div style="display: flex;">
+        <p
+          style="margin: 30px 0 0 0;  font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+          If you received this email in error, please let us know by replying to this email or
+          sending a message to
+          <span><a href="#"
+            style="text-decoration: none; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC;">support@chowmill.com</a></span>.
+        </p>
+      </div>
+    </div>
+  </td>
+</tr>
+</table>
+</td>
+</tr>
+<%= render 'layouts/footer' %>
+<% elsif @resource.company_admin? %>
+<%= render 'layouts/header' %>
+<p
+  style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+</p>
+</div>
+</td>
+</tr>
+<tr>
+  <td>
+    <div
+      style=" background-color: #fff; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+      <table style="margin:0 auto; width: 100%;">
+        <tr>
+          <td>
+            <p
+              style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+              Welcome to Chowmill!
+            </p>
+          </td>
+        </tr>
+      </table>
+      <p
+        style="margin:30px 0 0 0;  font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+        You have been invited to use Chowmill as an admin on behalf of <%= @resource.company.name %>
+      </p>
+      <div style="margin:10px 0 0 0; display: flex;">
+        <%= link_to confirmation_link.to_s, confirmation_link, style:"font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #157FFC; opacity: 1; text-decoration: none;" %>
+      </div>
+      <div style="display: flex;">
+        <p
+          style="margin: 30px 0 0 0;  font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+          If you received this email in error, please let us know by replying to this email or
+          sending a message to
+          <span><a href="#"
+            style="text-decoration: none; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC;">support@chowmill.com</a></span>.
+        </p>
+      </div>
+    </div>
+  </td>
+</tr>
+</table>
+</td>
+</tr>
+<%= render 'layouts/footer' %>
+<% else %>
+<%= render 'layouts/header' %>
+<p
+  style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+</p>
+</div>
+</td>
+</tr>
+<tr>
+  <td>
+    <div
+      style=" background-color: #fff; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+      <table style="margin:0 auto; width: 100%;">
+        <tr>
+          <td>
+            <p
+              style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+              Welcome to Chowmill!
+            </p>
+          </td>
+        </tr>
+      </table>
+      <p
+        style="margin:30px 0 0 0;  font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+        You have been invited to use Chowmill by <%= @resource.office_admin.name %> on behalf of <%= @resource.company.name %>. Follow the link below to complete signup.
+      </p>
+      <div style="margin:10px 0 0 0; display: flex;">
+        <%= link_to confirmation_link.to_s, confirmation_link, style:"font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #157FFC; opacity: 1; text-decoration: none;" %>
+      </div>
+      <div style="display: flex;">
+        <p
+          style="margin: 30px 0 0 0;  font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+          If you received this email in error, please let us know by replying to this email or
+          sending a message to
+          <span><a href="#"
+            style="text-decoration: none; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC;">support@chowmill.com</a></span>.
+        </p>
+      </div>
+    </div>
+  </td>
+</tr>
+</table>
+</td>
+</tr>
+<%= render 'layouts/footer' %>
+<% end %>

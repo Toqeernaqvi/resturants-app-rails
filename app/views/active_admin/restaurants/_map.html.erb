@@ -1,0 +1,101 @@
+<div id='restaurants_map'>
+  <div id="outer_map" style='width: 100%; display: block; margin: 10px'>
+    <input type="hidden" id="p_name" value="<%= params[:name_contains]%>">
+    <input type="hidden" id="p_zip" value="<%= params[:addresses_zip_eq]%>">
+    <input type="hidden" id="p_menu_type" value="<%= params[:menu_type_in]%>">
+    <input type="hidden" id="p_status" value="<%= params[:status_eq]%>">
+    <input type="hidden" id="p_cuisines_ids" value="<%= params[:cuisines_restaurants_cuisine_id_in]&.join(',') %>">
+    <!-- <input id="address_autocomplete" placeholder="Search for restaurant name" class="map-autocomplete-input"> -->
+    <input placeholder="Enter Your Address" maxlength="510" id="autocomplete_1" onfocus="geolocate(this);" autocomplete="off" type="text" class="map-autocomplete-input" >
+    <input type="hidden" id="street_number_1" >
+    <input type="hidden" id="route_1" >
+    <input type="hidden" id="locality_1" >
+    <input type="hidden" id="administrative_area_level_1_1" >
+    <input type="hidden" id="postal_code_1" >
+    <input type="hidden" id="latitude_1" >
+    <input type="hidden" id="longitude_1" >
+    <div id="map" style='width: 100%; height: 600px;'></div>
+  </div>
+</div>
+<script type="text/javascript">
+
+  var map;
+  var _id = 5;
+  var gmarkers = [];
+  var markers = [];
+  var infoWindowContent = [];
+  var bounds = new google.maps.LatLngBounds();
+  var mapOptions = {
+      mapTypeId: 'roadmap'
+  };
+
+  // Display a map on the page
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  map.setTilt(45);
+  
+  var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+      // map.setZoom(15);
+      // map.setCenter(gmarkers[_id].getPosition());
+      // google.maps.event.removeListener(boundsListener);
+  });
+  
+  var p_name = $('#p_name').val();
+  var p_zip = $('#p_zip').val();
+  var p_menu_type = $('#p_menu_type').val();
+  var p_status = $('#p_status').val();
+  var p_cuisines_ids = $('#p_cuisines_ids').val();
+
+  $.ajax({
+    async: false,
+    type: "GET",
+    url: "/admin/addresses/map_markers?name=" + p_name + "&zip=" + p_zip + "&menu_type=" + p_menu_type + "&status=" + p_status + "&cuisines_ids=" + p_cuisines_ids,
+    success: function(result) {
+      markers = result.markers;
+      infoWindowContent = result.infowindows;
+    }
+  });
+
+  // Display multiple markers on a map
+  var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+  // Loop through our array of markers & place each one on the map
+  for( i = 0; i < markers.length; i++ ) {
+    extendWithMarkers(markers, i);
+  }
+
+  function extendWithMarkers(markers,i) {    
+    var icon = '';
+    var infowindowlink = infoWindowContent[i][0];
+    if (markers[i][3] != ''){
+      var icon = {
+        url: markers[i][3],
+        scaledSize: new google.maps.Size(44, 44)
+      };
+    }
+    if (markers[i][4] != ''){
+      var infowindowlink = markers[i][4];
+    }
+
+    var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+    bounds.extend(position);
+    var iconBase = 'images/';
+    marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: markers[i][0],
+        icon: icon
+    });
+    gmarkers.push(marker);
+    // Allow each marker to have an info window    
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+            // infoWindow.setContent(infoWindowContent[i][0]);
+            infoWindow.setContent(infowindowlink);
+            infoWindow.open(map, marker);
+        }
+    })(marker, i));
+    // Automatically center the map fitting all markers on the screen
+    map.fitBounds(bounds);
+  }
+
+</script>

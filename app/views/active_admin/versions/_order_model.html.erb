@@ -1,0 +1,39 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>Class</strong></th>
+      <th><strong>Field changed</strong></th>
+      <th><strong>Before</strong></th>
+      <th><strong>After</strong></th>
+      <th><strong>Timestamp</strong></th>
+      <th><strong>User</strong></th>
+    </thead>
+    <tbody>
+      <% versions.each do |version|%> 
+        <% attributes = (version.changeset.slice(:price, :company_price, :user_price, :site_price, :quantity, :total_price, :discount, :status).keys) %>
+        <% unless attributes.blank? %>
+          <tr>
+            <td><%= version.item_type %></td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <%= attribute.titleize %><br>
+              <% end %>            
+            </td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <%= version.changeset[attribute][0] %><br>
+              <% end %>
+            </td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <%= version.changeset[attribute][1] %><br>
+              <% end %>
+            </td>
+            <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+            <td><%= version.whodunnit%></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

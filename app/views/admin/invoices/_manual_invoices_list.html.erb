@@ -1,0 +1,32 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>Invoice Number</strong></th>
+      <th><strong>Company</strong></th>
+      <th><strong>Bill To</strong></th>
+      <th><strong>Ship To</strong></th>
+      <th><strong>Total</strong></th>
+      <th><strong>Delivery Fee</strong></th>
+      <th><strong>Ship Range</strong></th>
+      <th><strong>Due Date</strong></th>
+      <th><strong>Current Date</strong></th>
+      <th><strong>Actions</strong></th>
+    </thead>
+    <tbody>
+      <% invoices.each do |invoice|%>
+        <tr>
+          <td><%= invoice.invoice_number %></td>
+          <td><%= invoice.company.name %></td>
+          <td><%= invoice.bill_to.html_safe%></td>
+          <td><%= invoice.ship_to.html_safe%></td>
+          <td><%= invoice.total_amount_due%></td>
+          <td><%= invoice.line_items.sum(:amount)%></td>
+          <td><%= invoice.shipping %></td>
+          <td><%= invoice.due_date_timezone.strftime("%d/%m/%Y")%></td>
+          <td><%= invoice.created_at_timezone.strftime("%d/%m/%Y %H:%M")%></td>
+          <td><div class="table_actions"><%= link_to "PDF", generate_PDF_admin_invoice_path(id: invoice.id, format: :pdf), class: :member_link%></div></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

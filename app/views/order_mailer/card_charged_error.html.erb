@@ -1,0 +1,8 @@
+<%= render 'layouts/header' %>
+  <p>
+      Transaction is cancelled due to <%= @error %>.
+      <br><br>
+      Below is a list of your items.
+  </p>
+  <%= render partial: 'layouts/card_charged_common', locals: { aborted_email: true } %>
+<%= render 'layouts/footer' %>

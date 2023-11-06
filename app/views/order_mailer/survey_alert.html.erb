@@ -1,0 +1,79 @@
+<%= render 'layouts/header' %>
+<p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+</p>
+</div>
+</td>
+</tr>
+<tr>
+  <td>
+    <div style=" background-color: #fff;box-shadow: 0px 3px 26px #0000000A; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+        <table style="margin:0 auto; width: 100%;">
+          <tr>
+            <td>
+              <p style="margin: 0;text-align: center; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                Dear <%= @order.user.first_name.present? ? @order.user.first_name.capitalize : @order.user.name.capitalize %>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style=" margin: 0; text-align: center; font: normal normal normal 16px/22px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                  How was your food today?</p>
+            </td>
+          </tr>
+        </table>
+        <!-- 1st Row of card Starts here-->
+        <table>
+          <tr>
+            <% if @order.fooditem.image.present? %>
+              <td>
+                <img src="<%= @order.fooditem.image_url%>" alt="food-image" width="100" style="border-radius: 5px; max-width:100px; max-height:100px; ">
+              </td>
+            <% else %>
+              <td>
+                <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/item-placeholder.png", alt: 'food-image', :style => "height:100px; width:100px; object-fit:cover; border-radius:5px;") %>
+              </td>
+            <% end %>
+            <td>
+              <table style="margin-left: 10px; color: #646464;">
+                <tr>
+                  <td>
+                    <%= @order.fooditem.name.capitalize %>
+                  </td>
+                </tr>
+                <tr style="line-height: 35px;">
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/store-solid.png" , :style=>"width:20px; height:20px;") %>
+                    <%= @order.restaurant.name.capitalize %>                    
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <!--End of the 3rd row-->
+        <table style="margin: 40px 0; width: 100%; text-align: center;">
+          <tr>
+            <td>
+              <table cellpadding="0" cellspacing="0" style="border-collapse:separate!important;margin-left:auto; margin-right: auto; border-radius:50px;background-color:red">
+                <tbody>
+                  <tr>
+                    <td valign="middle" style="font-family:Arial;font-size:16px;padding:18px;">
+                      <a title="" style="text-decoration: none; color: #fff; font: normal normal 600 16px/22px Source Sans Pro" href="<%= ENV['FRONTEND_HOST'] %>/?order_id=<%= @order.id %>">Rate Food Items<%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/white-link.png", style: 'margin-left: 10px') %>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </table>
+    </div>
+  </td>
+</tr>
+
+</table>
+</td>
+</tr>
+<% @unsubscribe = true %>
+<%= render 'layouts/footer' %>

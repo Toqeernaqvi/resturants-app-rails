@@ -1,0 +1,36 @@
+<div>
+  <table class="table">
+    <thead>
+      <!-- <th><%#= link_to "Field changed", "JavaScript:Void(0);" %></th> -->
+      <th><strong>Field changed</strong></th>
+      <th><strong>Before</strong></th>
+      <th><strong>After</strong></th>
+      <th><strong>Timestamp</strong></th>
+      <th><strong>User</strong></th>
+    </thead>
+    <tbody>
+      <% versions.each do |version|%> 
+        <% attributes = (version.changeset.keys-["updated_at"]) %> 
+        <tr>
+          <td>
+            <% attributes.each do |attribute| %>
+              <%= attribute.titleize %><br>
+            <% end %>            
+          </td>
+          <td>
+            <% attributes.each do |attribute| %>
+              <%= version.changeset[attribute][0] %><br>
+            <% end %>
+          </td>
+          <td>
+            <% attributes.each do |attribute| %>
+              <%= version.changeset[attribute][1] %><br>
+            <% end %>
+          </td>
+          <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+          <td><%= version.whodunnit%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

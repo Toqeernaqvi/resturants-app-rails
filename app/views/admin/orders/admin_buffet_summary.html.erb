@@ -1,0 +1,143 @@
+<style>
+  .newContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .newContainer .newHeader {
+    text-align: center;
+  }
+  .newContainer .newHeader .logo{
+    width: 50px;margin: 0 auto; display: block; margin-bottom: 30px;
+  }
+  .newContainer .newHeader .badge {
+    position: relative;
+    margin-left: 10px;
+    background: #6f6f6f;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 8px;
+    border-radius: 15px;
+    color: #ffffff;
+  }
+  .newContainer .newHeader .address {
+    color: #6f6f6f;
+    font-weight: normal;
+    font-size: 12px;
+    margin-top: -10;
+  }
+  .newContainer .newHeader table {
+    margin: 0 auto;
+    font-size: 13px;
+  }
+  .applyBold {
+    font-weight: bold;
+  }
+  .applyDarkGrayColor {
+    color: #6f6f6f;
+  }
+  .newContainer .block_ {
+    border: 1px solid rgb(192, 192, 192);
+    border-radius: 5px;
+    overflow: hidden;
+    display: table;
+    margin-bottom: 10px;
+  }
+  .newContainer .block_ .col_4 {
+    /* max-width: 33.333%; */
+    width: 100%;
+    display: table-cell;
+    vertical-align: top;
+  }
+  .newContainer .block_ .col_8 {
+    /* max-width: 95%; */
+    width: 95%;
+    padding: 15px;
+    display: table-cell;
+    vertical-align: top;
+  }
+  .newContainer .block_ .col_8 h3 {
+    font-size: 1.25em;
+    margin: 7px auto;
+  }
+  .newContainer .block_ .col_8 p {
+    margin-top: 10px;
+    color: #848484;
+    font-size: .8em;
+    margin-bottom: 0;
+  }
+  p strong, p b {
+    font-size: .8em;
+    color: #848484;
+  }
+  .newContainer .block_ .col_8 .options_ {
+    margin-top: 5px;
+  }
+  .newContainer .block_ .col_8 .options_ span {
+    background: rgb(226, 226, 226);
+    padding: 5px 7px;
+    margin-right: 7px;
+    margin-bottom: 5px;
+    display: inline-block;
+    font-size: .8em;
+    border-radius: 15px;
+  }
+  .img_size{
+    object-fit: contain;
+  }
+
+  .float{
+    float: left;
+    overflow: hidden;
+  }
+  div.block_ { page-break-inside:avoid }
+</style>
+<div class="newContainer">
+  <div class="newHeader">
+    <!-- <img src="https://app.chowmill.com/imgs/chowmill-logo.png" class="logo"> -->
+    <%= image_tag wicked_pdf_asset_base64("logo.png"), :style => "width: 40px;", alt: 'logo' %>
+    <h3><%= runningmenu.runningmenu_name.capitalize %><span class="badge"><%= runningmenu.runningmenu_type.capitalize + " " + runningmenu.menu_type.capitalize %></span></h3>
+    <h6 class="address"><%= runningmenu.address.address_line %></h6>
+    <table cellpadding="5" cellspacing="0">
+      <tr>
+        <td align="right" class="applyBold"><%= runningmenu.delivery_at_timezone.strftime("%a %b %d at %-l:%M %P") %></td>
+        <td>&nbsp;</td>
+        <td align="right" class="applyBold">Buffet</td>
+      </tr>
+      <tr>
+        <td align="right" class="applyDarkGrayColor applyBold">Delivery Time</td>
+        <td>&nbsp;</td>
+        <td align="left" class="applyDarkGrayColor applyBold">Style</td>
+      </tr>
+    </table>
+  </div>
+  <br>
+
+  <% orders.each do |order| %>
+    <div class="block_">
+      <div class="col_4 float">
+          <%#= wicked_pdf_image_tag(order.fooditem.image.present? ? order.fooditem.image.medium.url.gsub("https:", "") : "fooditem.png", height: '150', width: '280', class: 'img_size', alt: '') %>
+          <% if order.fooditem.image.present? %>
+            <%= wicked_pdf_image_tag(order.fooditem.image.medium.url.gsub("https:", ""), height: '150', width: '280', class: 'img_size', alt: 'food-image') %>
+          <% else %>
+            <%= image_tag wicked_pdf_asset_base64("fooditem.png"), :style => "width: 280px;height: 150px;", class: 'img_size', alt: 'food-image' %>
+          <% end %>
+      </div>
+      <div class="col_8">
+        <h3><%= order.fooditem.sections.last.section_type.gsub("_", " ").capitalize %>: <%= order.fooditem.name.capitalize %> </h3>
+        <p><%= truncate(order.fooditem.description.capitalize, length: 165) %><br>
+          <% options = order.optionsets_orders.joins(:options_orders => :option).where("options.description IS NOT NULL").pluck("options.description").to_sentence %>
+          <% if options.present? %>
+            <strong>Option: <%= options %></strong>
+          <% end %>
+        </p>
+        <div class="options_">
+          <% (order.fooditem.dietaries.pluck(:name) + order.fooditem.ingredients.pluck(:name)).each do |diet_ing|%>
+            <span><%= diet_ing %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>

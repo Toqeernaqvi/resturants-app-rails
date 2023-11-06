@@ -1,0 +1,33 @@
+:queues:
+  # - mailer_deliver
+  - cron_updater
+  - restaurant_address_reindex
+  - elasticsearch_reindex
+  - restaurant_payout_order_calculation
+  - invoices_queue
+  - meetings_queue
+  - orders_detail_at_cutoff
+  # - onfleet_task
+  - orders_detail_to_restaurant_at_cutoff
+  - orders_detail_to_restaurant_at_admin_cutoff
+  # - s3_upload
+  - cutoff_reached_queue
+  - admin_cutoff_reached_queue
+  - buffet_delivery_reminder
+  - deliver_email
+  - cutoff_day_before_reminder
+  - admin_cutoff_day_before_reminder
+  - cutoff_hour_before_reminder
+  - admin_cutoff_hour_before_reminder
+  - restaurant_billing
+  - order_survey
+  - fleet_create_task
+  - fleet_update_task
+  # - fax
+  - set_final_restaurant_billing
+  - set_due_restaurant_billing
+  - twilio_sms
+  - before_pickup
+  - upload_to_quickbook
+  - upload_sales_receipt_to_quickbook
+  - upload_to_s3

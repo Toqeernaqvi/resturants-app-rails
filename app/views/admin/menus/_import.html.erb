@@ -1,0 +1,13 @@
+<% if @restaurant.present? %>
+  <% @restaurant.addresses.active.each do |address| %>
+    <% if address.id == params[:address_id].to_i %>
+      <% address.menus.active.where.not("menu_type = #{Menu.menu_types[params[:type]]}").each do |menu|%>
+        <%= address.address_line %>(<%= menu.menu_type %>) <span class="wrapper_link"><%= link_to 'Import', import_admin_restaurant_address_menus_path(params[:restaurant_id], address.id, type: menu.menu_type, import_type: params[:type], import_address_id: address.id), { data: {method: :post} }%></span><br>
+      <% end %>
+    <% elsif address.menus.active.present? && address.id != params[:address_id] %>
+      <% address.menus.active.each do |menu|%>
+        <%= address.address_line %>(<%= menu.menu_type %>) <span class="wrapper_link"><%= link_to 'Import', import_admin_restaurant_address_menus_path(params[:restaurant_id], params[:address_id], type: menu.menu_type, import_type: params[:type], import_address_id: address.id), { data: {method: :post} }%></span><br>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

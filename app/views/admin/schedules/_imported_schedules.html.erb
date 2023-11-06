@@ -1,0 +1,280 @@
+
+<div class="table-responsive">
+  <table border="0" cellspacing="0" cellpadding="0" id="index_table_schedulers" class="index_table index" paginator="true">
+    <thead>
+      <tr>
+        <th class="col col-dd_t">DD&amp;T</th>
+        <th class="col col-meal">Meal</th>
+        <th class="col col-company">Company</th>
+        <th class="col col-meeting">Meeting</th>
+        <th class="col col-count">Count</th>
+        <th class="col col-budget">Budget</th>
+        <th class="col col-rest_rest_response">Recommended Restaurants</th>
+        <th class="col col-driver">Driver</th>
+        <th class="col col-driver">Notify Admin</th>
+        <th class="col col-actions"></th>
+      </tr>
+    </thead>
+    <tbody class="importedScheduleBody">
+      <% runningmenus.each do |runningmenu|%>
+        <tr class="odd" id="runningMenuID_<%= runningmenu.id %>">
+          <td class="col col-dd_t editable_dt">
+            <input type="hidden" name="runningmenu_id_uniq" value="<%= runningmenu.id %>">
+            <input type="text" name="delivery_at" class="date-time-picker-input" placeholder="Deliver At" data-picker-options="{&quot;format&quot;:&quot;Y-m-d H:i&quot;,&quot;step&quot;:30}" value="<%= runningmenu.delivery_at_timezone.strftime('%Y-%m-%d %H:%M')%>">
+            <span class="deliverAt">
+              <%= runningmenu.delivery_at_timezone.strftime('%a. %b %d %l:%M%P')%>
+            </span><br>
+            <input type="text" name="cutoff_at" class="date-time-picker-input"  placeholder="Cutoff At"  data-picker-options="{&quot;format&quot;:&quot;Y-m-d H:i&quot;,&quot;step&quot;:30}" value="<%= runningmenu.cutoff_at_timezone.strftime('%Y-%m-%d %H:%M')%>">
+            <span class="cutoffAt">
+              <%= runningmenu.cutoff_at_timezone.strftime('%a. %b %d %l:%M%P')%>
+            </span><br>
+            <input type="text" name="admin_cutoff_at" class="date-time-picker-input"  placeholder="Admin Cutoff At" data-picker-options="{&quot;format&quot;:&quot;Y-m-d H:i&quot;,&quot;step&quot;:30}" value="<%= runningmenu.admin_cutoff_at_timezone.strftime('%Y-%m-%d %H:%M')%>">
+            <span class="adminCutoffAt">
+              <%= runningmenu.admin_cutoff_at_timezone.strftime('%a. %b %d %l:%M%P')%>
+            </span>
+          </td>
+          <td class="col col-meal editable_dt">
+            <select name="runningmenu_type" class="runningmenu_runningmenu_type" class="select2-hidden-accessible" aria-hidden="true">
+              <option value=""></option>
+              <option <%= runningmenu.lunch? ? "selected='selected'" : '' %> value="1">lunch</option>
+              <option <%= runningmenu.dinner? ? "selected='selected'" : '' %> value="2">dinner</option>
+              <option <%= runningmenu.breakfast? ? "selected='selected'" : '' %> value="3">breakfast</option>
+            </select>
+            <span class="runningmenuRunningmenuType">
+              <%= runningmenu.runningmenu_type%> <%= runningmenu.menu_type%>
+            </span>
+            <br>
+            <span class="runningmenuRunningmenuTypeToggle" data-customToggle="<%= runningmenu.buffet? ? 'on' : 'off'%>">
+              <span class="<%= runningmenu.buffet? ? 'active' : ''%>">&nbsp</span>
+            </span>
+            <span class="buffetContent">Buffet</span>
+            <input type="hidden" name="menu_type" class="runningmenuRunningmenuTypeToggleHiddenInput" value="<%= runningmenu.buffet? ? 'on' : 'off'%>">
+          </td>
+          <td class="col col-company editable_dt">
+            <select name="runningmenu_address_id" class="companyAddress" class="select2-hidden-accessible" aria-hidden="true">
+              <option value=""></option>
+              <% CompanyAddress.active.each do |address|%>
+                <% if address.id == runningmenu.address_id %>
+                  <option value="<%=address.id%>" selected><%= address.name%></option>
+                <% else %>
+                  <option value="<%=address.id%>"><%= address.name%></option>
+                <% end %>
+              <% end %>
+            </select>
+            <% address = runningmenu.address %>
+            <span class="line-break address_wrap companyAddressSpan">
+              <%= "#{runningmenu.company.name}" %>: <%= "#{address.street_number} "+ "#{address.street}" %><br>
+              <%= "#{address.city}" %>
+            </span>
+          </td>
+          <td class="col col-meeting editable_dt">
+            <input type="text" name="runningmenu_name" class="mettingName" value="<%= runningmenu.runningmenu_name%>">
+            <span class="runningmenuName">
+              <%= runningmenu.runningmenu_name%>
+            </span>
+          </td>
+          <td class="col col-count editable_dt">
+            <input type="number" min="0" name="orders_count" class="ordersCount" value="<%= runningmenu.orders_count%>">
+            <span class="orderCountText">
+              <%= runningmenu.orders_count%>
+            </span>
+          </td>
+          <td class="col col-budget editable_dt">
+            <input type="text" min="0" name="per_meal_budget" class="perMealBudget" value="<%= runningmenu.per_meal_budget %>">
+            <span class="perMealBudgetText">
+              <%= runningmenu.per_meal_budget %>
+            </span>
+          </td>
+          <td class="col col-rest_rest_response editable_dt">
+            <% currentAddress = [] %>
+            <% currentAddressids = runningmenu.addresses_runningmenus.pluck(:address_id) %>
+            <% currentAddressRunningmenu = RestaurantAddress.where(id: currentAddressids).map{|a| [a.name, a.id, 'selected']} %>
+            <% if runningmenu.buffet? %>
+              <% menuAddresses = RestaurantAddress.active.distinct.joins(:menu_buffet, ' INNER JOIN restaurants ON addresses.addressable_id = restaurants.id').where.not(id: currentAddressids).pluck("CONCAT(restaurants.name ,': ', address_line)", :id)%>
+            <% else %>
+              <% menuAddresses = RestaurantAddress.active.distinct.joins(:menus, ' INNER JOIN restaurants ON addresses.addressable_id = restaurants.id').where.not(id: currentAddressids).pluck("CONCAT(restaurants.name ,': ', address_line)", :id)%>
+            <% end %>
+            <% currentAddressRunningmenu.each do |a| %>
+            <% menuAddresses.push(a) %>
+            <% end %>
+            <% allAddresses = menuAddresses%>
+            <span class="runningmenuAddresses">
+              <%= (runningmenu.addresses.present? ? runningmenu.addresses.map{|a| a.name}.join(', <br>') : "").html_safe  %>
+            </span>
+            <select multiple="multiple" id="my-select" name="my-select[]">
+              <% allAddresses.each do |a| %>
+                <% if a[2].present? && a[2] == "selected"%>
+                  <option value='<%= a[1]%>' selected><%= a[0]%></option>
+                <% else %>
+                  <option value='<%= a[1]%>'><%= a[0]%></option>
+                <% end %>
+              <% end %>
+            </select>
+          </td>
+          <td class="col col-driver editable_dt">
+            <select name="runningmenu_driver" id="runningmenu_driver_selection" class="runningmenu_runningmenu_type select2-hidden-accessible" data-selected-driver-id= "<%= runningmenu.driver_id %>" aria-hidden="true">
+            </select>
+            <span class="runningmenuDriver">
+              <% if runningmenu.driver.present? %>
+                <%= Driver.available_on(runningmenu.delivery_at_timezone, runningmenu.pickup_at_timezone, 'pickup', runningmenu.address_id, nil)&.pluck(:id).include?(runningmenu.driver_id)?  (Driver.find_by_id(runningmenu.driver_id)&.name) : ''%>
+              <% end %>
+            </span>
+          </td>
+          <td>
+            <span class="runningmenuRunningmenuTypeToggle" data-customToggle="<%= runningmenu.notify_admin ? 'on' : 'off'%>">
+              <span class="<%= runningmenu.notify_admin ? 'active' : ''%>"">&nbsp</span>
+            </span>
+            <span class="notifyAdminYes"><%= runningmenu.notify_admin ? 'Yes' : 'No'%></span>
+            <input type="hidden" name="notify_admin" class="runningmenuRunningmenuTypeToggleHiddenInput" value="<%= runningmenu.notify_admin ? 'on' : 'off'%>">
+          </td>
+          <td class="col col-actions" align="center">
+            <div class="table_actions">
+              <a class="member_link edit editable_dt_btn" data-menuID="runningMenuID_<%= runningmenu.id %>" data-title="Edit" href="javascript://" data-editable="off" data-tooltip="true" data-remote="true"><em class="fa fa-pencil"></em></a>
+              <button type="submit" name="button" data-menu-id="runningMenuID_<%= runningmenu.id %>" class="saveData">
+                <em class="fa fa-save"></em>
+              </button>
+              <button type="button" data-menu-id="runningMenuID_<%= runningmenu.id %>" class="close">
+                <em class="fa fa-times"></em>
+              </button>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+
+      <% if failed_schedules.present? %>
+        <% TempSchedule.where(id: failed_schedules).each_with_index do |runningmenu, index|%>
+          <tr class="errors" id="errors_failed_<%= index + 1 %>"><td colspan="11"><%= runningmenu.validation_errors %></td></tr>
+          <tr class="odd scheduleUpdateFailed" id="failed_<%= index + 1 %>">
+            <td class="col col-dd_t editable_dt ">
+              <input type="hidden" name="runningmenu_id_uniq" value="">
+              <input type="hidden" name="schedulerCuisines" value="<%= runningmenu.cuisines.present? ? runningmenu.cuisines : "" %>">
+              <input type="text" name="delivery_at" class="date-time-picker-input" placeholder="Deliver At" data-picker-options="{&quot;format&quot;:&quot;Y-m-d H:i&quot;,&quot;step&quot;:30}" value="<%= runningmenu.delivery_at&.strftime('%Y-%m-%d %H:%M')%>">
+              <span class="deliverAt">
+                <%= runningmenu.delivery_at&.strftime('%a. %b %d %l:%M%P')%>
+              </span><br>
+              <%# if runningmenu.delivery_at.present? && runningmenu.delivery_at.to_date.monday? %>
+                <%#  cutoff_at = runningmenu.delivery_at.to_time.midnight - 3.days + 14.hours %>
+                <%#  admin_cutoff_at = runningmenu.delivery_at.to_time.midnight - 3.days + 14.hours %>
+              <%# elsif runningmenu.delivery_at.present? %>
+                <%#  cutoff_at = runningmenu.delivery_at.to_time.midnight - 1.days + 14.hours%>
+                <%#  admin_cutoff_at = runningmenu.delivery_at.to_time.midnight - 1.days + 14.hours%>
+              <%# else %>
+                <%# cutoff_at = nil %>
+                <%# admin_cutoff_at = nil %>
+              <%# end%>
+              <% cutoff_at = runningmenu.cutoff_at %>
+              <% admin_cutoff_at = runningmenu.admin_cutoff_at %>
+              <input type="text" name="cutoff_at" class="date-time-picker-input"  placeholder="Cutoff At"  data-picker-options="{&quot;format&quot;:&quot;Y-m-d H:i&quot;,&quot;step&quot;:30}" value="<%= cutoff_at&.strftime('%Y-%m-%d %H:%M')%>">
+              <span class="cutoffAt">
+                <%= cutoff_at&.strftime('%a. %b %d %l:%M%P')%>
+              </span><br>
+              <input type="text" name="admin_cutoff_at" class="date-time-picker-input"  placeholder="Admin Cutoff At" data-picker-options="{&quot;format&quot;:&quot;Y-m-d H:i&quot;,&quot;step&quot;:30}" value="<%= admin_cutoff_at&.strftime('%Y-%m-%d %H:%M')%>">
+              <span class="adminCutoffAt">
+                <%= admin_cutoff_at&.strftime('%a. %b %d %l:%M%P')%>
+              </span>
+            </td>
+            <td class="col col-meal editable_dt">
+              <select name="runningmenu_type" class="runningmenu_runningmenu_type" class="select2-hidden-accessible" aria-hidden="true">
+                <option value=""></option>
+                <option <%= Runningmenu.runningmenu_types.key(runningmenu.runningmenu_type) == "lunch" ? "selected='selected'" : '' %> value="1">lunch</option>
+                <option <%= Runningmenu.runningmenu_types.key(runningmenu.runningmenu_type) == "dinner" ? "selected='selected'" : '' %> value="2">dinner</option>
+                <option <%= Runningmenu.runningmenu_types.key(runningmenu.runningmenu_type) == "breakfast" ? "selected='selected'" : '' %> value="3">breakfast</option>
+              </select>
+              <span class="runningmenuRunningmenuType">
+                <%= Runningmenu.runningmenu_types.key(runningmenu.runningmenu_type) %> <%= Runningmenu.menu_types.key(runningmenu.menu_type)%>
+              </span>
+              <br>
+              <span class="runningmenuRunningmenuTypeToggle" data-customToggle="<%= runningmenu.menu_type == Runningmenu.menu_types[:buffet] ? 'on' : 'off'%>">
+                <span class="<%= runningmenu.menu_type == Runningmenu.menu_types[:buffet] ? 'active' : ''%>">&nbsp</span>
+              </span>
+              <span class="buffetContent">Buffet</span>
+              <input type="hidden" name="menu_type" class="runningmenuRunningmenuTypeToggleHiddenInput" value="<%= runningmenu.menu_type == Runningmenu.menu_types[:buffet] ? 'on' : 'off'%>">
+            </td>
+            <td class="col col-company editable_dt">
+              <select name="runningmenu_address_id" class="companyAddress" class="select2-hidden-accessible" aria-hidden="true">
+                <option value=""></option>
+                <% CompanyAddress.active.each do |address|%>
+                  <% if address.id == runningmenu.address_id %>
+                    <option value="<%=address.id%>" selected><%= address.name%></option>
+                  <% else %>
+                    <option value="<%=address.id%>"><%= address.name%></option>
+                  <% end %>
+                <% end %>
+              </select>
+              <span class="line-break address_wrap companyAddressSpan">
+                <%= CompanyAddress.find_by_id(runningmenu.address_id)&.name %>
+              </span>
+            </td>
+            <td class="col col-meeting editable_dt">
+              <input type="text" name="runningmenu_name" class="mettingName" value="<%= runningmenu.runningmenu_name%>">
+              <span class="runningmenuName">
+                <%= runningmenu.runningmenu_name%>
+              </span>
+            </td>
+            <td class="col col-count editable_dt">
+              <input type="number" min="0" name="orders_count" class="ordersCount" value="<%= runningmenu.orders_count%>">
+              <span class="orderCountText">
+                <%= runningmenu.orders_count%>
+              </span>
+            </td>
+            <td class="col col-budget editable_dt">
+              <input type="text" min="0" name="per_meal_budget" class="perMealBudget" value="<%= runningmenu.per_meal_budget %>">
+              <span class="perMealBudgetText">
+                <%= runningmenu.per_meal_budget %>
+              </span>
+            </td>
+            <td class="col col-rest_rest_response editable_dt">
+              <% currentAddress = [] %>
+              <% currentAddressids = []%>
+              <% currentAddressRunningmenu = RestaurantAddress.where(id: currentAddressids).map{|a| [a.name, a.id, 'selected']} %>
+              <% menuAddresses = RestaurantAddress.active.distinct.joins(:menus, ' INNER JOIN restaurants ON addresses.addressable_id = restaurants.id').where('menus.status = ?', Menu.statuses[:active]).where.not(id: currentAddressids).pluck("CONCAT(restaurants.name ,': ', address_line)", :id)%>
+              <% currentAddressRunningmenu.each do |a| %>
+              <%  menuAddresses.push(a) %>
+              <% end %>
+              <% allAddresses = menuAddresses%>
+              <span class="runningmenuAddresses">
+                <%= RestaurantAddress.active.distinct.joins(:menus).where('menus.status = ?', Menu.statuses[:active]).find_by_id(runningmenu.suggested_restaurant)&.name%>
+              </span>
+              <select multiple="multiple" id="my-select" name="my-select[]">
+                <% allAddresses.each do |a| %>
+                  <% if (a[2].present? && a[2] == "selected") || a[1] == runningmenu.suggested_restaurant%>
+                    <option value='<%= a[1]%>' selected><%= a[0]%></option>
+                  <% else %>
+                    <option value='<%= a[1]%>'><%= a[0]%></option>
+                  <% end %>
+                <% end %>
+              </select>
+            </td>
+            <td class="col col-driver editable_dt">
+              <select name="runningmenu_driver" id="runningmenu_driver_selection" class="runningmenu_runningmenu_type select2-hidden-accessible" data-selected-driver-id= "<%= runningmenu.driver_id %>" aria-hidden="true">
+              </select>
+              <span class="runningmenuDriver">
+                <% if runningmenu.driver_id.present? %>
+                  <%= Driver.available_on(runningmenu.delivery_at, runningmenu.pickup_at, 'pickup', runningmenu.address_id, nil)&.pluck(:id).include?(runningmenu.driver_id)?  (Driver.find_by_id(runningmenu.driver_id)&.name) : ''%>
+                <% end %>
+              </span>
+            </td>
+            <td>
+              <span class="runningmenuRunningmenuTypeToggle" data-customToggle="<%= runningmenu.notify_admin ? 'on' : 'off'%>">
+                <span class="<%= runningmenu.notify_admin ? 'active' : ''%>"">&nbsp</span>
+              </span>
+              <span class="notifyAdminYes"><%= runningmenu.notify_admin ? "Yes" : "No"%></span>
+              <input type="hidden" name="notify_admin" class="runningmenuRunningmenuTypeToggleHiddenInput" value="<%= runningmenu.notify_admin ? 'on' : 'off'%>">
+            </td>
+            <td class="col col-actions" align="center">
+              <div class="table_actions">
+                <a class="member_link edit editable_dt_btn" data-menuID="failed_<%= index + 1 %>" data-title="Edit" href="javascript://" data-editable="off" data-tooltip="true" data-remote="true"><em class="fa fa-pencil"></em></a>
+                <button type="submit" name="button" data-menu-id="failed_<%= index + 1 %>" class="saveData">
+                  <em class="fa fa-save"></em>
+                </button>
+                <button type="button" data-menu-id="failed_<%= index + 1 %>" class="close">
+                  <em class="fa fa-times"></em>
+                </button>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

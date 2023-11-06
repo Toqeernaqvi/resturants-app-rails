@@ -1,0 +1,13 @@
+<%= render 'layouts/header' %>
+<% if @error.present? %>
+  <p>Report for orders not in any incoice failed due to <%= @error %></p>
+<% else %>
+  <div class="average_take_rate_chart">
+    <%if @orders.any? %>
+      <% data = @orders.map { |c| [c[0], c[1].sum{|o| o["payout"].present? ? o["payout"].to_d : 0.0}]} %>
+      <% x_values = data.map(&:last) %>
+      <%= column_chart data %>
+    <% end %>
+  </div>
+<% end %>
+<%= render 'layouts/footer' %>

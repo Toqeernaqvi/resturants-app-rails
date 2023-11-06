@@ -1,0 +1,58 @@
+Restaurant.destroy_all
+Contact.destroy_all
+
+
+Gfooditem.all.each do |f|
+  f.goptionsets.destroy_all
+end
+Gsection.all.each do |gsection|
+  gsection.gfooditems.destroy_all
+end
+
+Gfooditem.destroy_all
+Gsection.destroy_all
+Goptionset.destroy_all
+Goption.destroy_all
+
+
+
+
+Fooditem.all.each do |f|
+  f.optionsets.destroy_all
+end
+Section.all.each do |section|
+  section.fooditems.destroy_all
+end
+
+Fooditem.destroy_all
+Section.destroy_all
+Optionset.destroy_all
+Option.destroy_all
+
+GmenuLunch.destroy_all
+MenuLunch.destroy_all
+
+For import:
+ImportVendors.new.call
+ImportOptionsets.new.call
+ImportOptions.new.call
+ImportFooditems.new.call
+
+
+
+
+Gfooditem.where('image is null and old_image is not null').each do |f|
+  f.remote_image_url = "http://v1.chowmill.com/" + f.old_image
+  f.save
+end
+
+
+Restaurant.all.each do |r|
+  Gmenu.import(r.id, 'lunch')
+end
+
+Restaurant.all.each do |r|
+  r.addresses.each do |a|
+    Menu.import(r.id, a.id, 'lunch')
+  end
+end

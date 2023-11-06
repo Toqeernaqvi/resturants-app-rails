@@ -1,0 +1,118 @@
+<!DOCTYPE>
+<html lang="us" xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+  @page{
+    margin: 1cm 0.2cm 0.2cm 0.2cm;
+  }
+  table.fixed {table-layout:fixed;}
+  table.fixed td {overflow: hidden;}
+</style>
+</head>
+
+<body>
+  <table width="100%" cellspacing="0" cellpadding="5" >
+    <tr>
+      <td width="33.333%" height="100px" align="center">
+        <font face="Futura PT Medium" size="2">
+          <%= orders.last.restaurant_name.upcase %>
+          <br><br>
+          <%= delivery_at.strftime("%m/%d/%y") if delivery_at.present? %>
+          <br>
+          <%= orders.last.restaurant_location.upcase %>
+        </font>
+      </td>
+      <td width="33.333%" height="100px" align="center">
+        <font face="Futura PT Demi" size="5">
+          <span style="color: #ed7d31; background-color: #00FFFF; ">
+            <strong>DRIVER</strong>
+          </span>
+        </font>
+      </td>
+      <td width="33.333%" height="100px" align="center">
+        <font face="Futura PT Medium" size="2">
+          PICKUP AT <%= delivery_time %>
+          <br>
+          TOTAL ITEMS: <%= orders.sum { |o| o.quantity } %>
+        </font>
+      </td>
+    </tr>
+
+    <tr>
+      <% countTr = 0 %>
+      <% orders.each do |order| %>
+        <% (1..order.quantity).each do %>
+          <% if countTr % 3 == 0 %>
+            </tr>
+            <tr>
+          <% end %>
+          <td width="33.333%" height="100px" valign="top">
+            <font face="Futura PT" size="3" color="000">
+              <strong><%= order.fooditem_name %></strong><br>
+            </font>
+            <% if order.options.present? %>
+              <font face="Arial" size="1" style="color: #d00;">
+                <%= order.options&.split(', ')&.map{|o| o.split('$')[0]}&.join(', ').scan(/.{1,55}/).join("\n") %><br>
+              </font>
+            <% end %>
+
+            <% if order.remarks.present? %>
+              <font face="Arial" size="0.5" style="color: #d00;">
+                <%= order.remarks.truncate_words(18, omission: '...') %><br>
+              </font>
+            <% end %>
+
+            <% if order.fooditem_description.present? %>
+              <font face="Futura PT Book" size="0.5" color="#000">
+                <%= order.fooditem_description.truncate_words(18, omission: '...') %><br>
+              </font>
+            <% end %>
+
+            <% if order.dietary_name.present? %>
+              <font face="Arial" size="1" style="color: #d00;">
+                <%= order.dietary_name.scan(/.{1,55}/).join("\n") %><br>
+              </font>
+            <% end %>
+
+            <% if order.ingredient_name.present? %>
+              <font face="Arial" size="1" style="color: #d00;">
+                <%= order.ingredient_name.scan(/.{1,55}/).join("\n") %><br>
+              </font>
+            <% end %>
+
+						<% if order.user_name.present? %>
+							<font face="Arial" size="3" style="color: #d00;">
+								<%= order.user_name %><br>
+							</font>
+						<% end %>
+
+            <table cellpadding="2" cellspacing="0" width="100%" border="0">
+              <tr>
+                <td style="border:1px solid #fff !important;">
+                  <span style="font-size: 8pt; color: #d00; font-weight: bold; font-family: arial;">
+                    <% if order.short_code.present? %>
+                      <strong><%= order.short_code %></strong>
+                    <% end %>
+                  <span>
+
+                  <span style="font-size: 8pt; color: #d00;  margin-right: 10px; font-weight: bold; font-family: arial;">
+                    <% if order.delivery_instructions.present? %>
+                      <strong><%= order.delivery_instructions %></strong>
+                    <% end %>
+                  <span>
+                </td>
+                <td style="border:1px solid #fff !important;">
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA9CAYAAADxoArXAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NjUxOENBMjE3MkVBMTFFOTk3Q0JBQUY1RUYzNERDMEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NjUxOENBMjI3MkVBMTFFOTk3Q0JBQUY1RUYzNERDMEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2NTE4Q0ExRjcyRUExMUU5OTdDQkFBRjVFRjM0REMwQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2NTE4Q0EyMDcyRUExMUU5OTdDQkFBRjVFRjM0REMwQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpDL7s8AAA/WSURBVHja7FsLdFTV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" height="42" width="42" />
+                </td>
+              </tr>
+            </table>
+          </td>
+          <% countTr = countTr + 1 %>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</body>
+</html>

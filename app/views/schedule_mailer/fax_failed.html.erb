@@ -1,0 +1,40 @@
+<%= render 'layouts/header' %>
+  <h2>Fax Delivery Failed</h2>
+  <table style="box-sizing:border-box;border-collapse:collapse;width:825px;margin-bottom:1rem;background-color:transparent">
+    <tbody style="box-sizing:border-box">
+      <tr style="box-sizing:border-box">
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+          <strong>Twilio Fax Status</strong>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= @status %>
+        </td>
+      </tr>
+      <tr style="box-sizing:border-box">
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+          <strong>Twilio Fax Error</strong>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= @error %>
+        </td>
+      </tr>
+      <tr style="box-sizing:border-box">
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+          <strong>Fax Details</strong>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= link_to @faxlog.file_name, ENV["CLOUDFRONT_URL"]+"/"+@faxlog.media_url %>
+        </td>
+      </tr>
+      <tr style="box-sizing:border-box">
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+          <strong>Failed Attempts</strong>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= @faxlog.tries %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <a href="<%#=ENV['BACKEND_HOST']%>/admin/schedulers/<%#=@runningmenu.id%>">Scheduler Details</a> -->
+<%= render 'layouts/footer' %>

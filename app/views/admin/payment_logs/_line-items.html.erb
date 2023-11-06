@@ -1,0 +1,24 @@
+<table class="index_table index" >
+  <thead>
+    <tr>
+      <th class="sortable col col-name">Item</th>
+      <th class="sortable sorted-desc col col-id">Quantity</th>
+      <th class="col col-actions">User Paid</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orders = resource.orders.active %>
+    <% orders.group_by{|o| o.runningmenu.address.name }.each do |key, value| %>
+      <tr><td><%= key %></td></tr>
+      <% value.each do |order| %>
+        <tr>
+          <td><%= order.fooditem.name %></td>
+          <td><%= order.quantity %></td>
+          <td><%= number_with_precision(order.user_paid, precision: 2) %></td>
+          <td><%= button_to 'View', admin_order_path(order.id), method: :get %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

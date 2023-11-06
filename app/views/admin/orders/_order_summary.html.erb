@@ -1,0 +1,64 @@
+<%= form_tag('/admin/order_report', method: :get, id: "order_report_form") do %>
+  <div class="row">
+    <div class="col">
+      Scheduler ID: <%= text_field_tag "s", params['s'] %>
+    </div>
+    <div class="col">
+      <%= submit_tag 'Submit' %>
+    </div>
+  </div>
+<% end %>
+<% if orders.present? %>
+  <table border="0" cellspacing="0" cellpadding="0" id="index_table_cuisines" class="index_table index" paginator="true">
+    <thead>
+      <tr>
+        <th class="admin-devcol col-name">User Name</th>
+        <th class="admin-devcol col-name">Email</th>
+        <th class="admin-devcol col-name">Company Name</th>
+        <th class="admin-devcol col-name">Company location</th>
+        <th class="admin-devcol col-name">Restaurant Name</th>
+        <th class="admin-devcol col-name">Item Name</th>
+        <th class="admin-devcol col-name">Options</th>
+        <th class="admin-devcol col-name">Extra Instructions</th>
+        <th class="admin-devcol col-description">Quantity</th>
+        <th class="admin-devcol col-name">Delivery Date & Time</th>
+        <% if grouping %>
+          <th class="admin-devcol col-name">Group</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.each do |order| %>
+        <tr class="odd">
+          <%
+            usernames = order.user_name.split(",")
+            emails = order.email.split(",")
+          %>
+          <td class="col col-name"><%= usernames.count < 2 ? usernames.join() : "" %></td>
+          <td class="col col-name"><%= emails.count < 2 ? emails.join() : "" %></td>
+          <td class="col col-name"><%= @runningmenu.company.name %></td>
+          <td class="col col-name"><%= @runningmenu.address.address_line %></td>
+          <td class="col col-name"><%= order.restaurant_name %></td>
+          <td class="col col-name"><%= order.fooditem_name %></td>
+          <td class="col col-name"><%= order.options&.split(', ')&.map{|o| o.split('$')[0]}&.join(', ') %></td>
+          <td class="col col-name"><%= order.remarks %></td>
+          <td class="col col-name"><%= order.quantity %></td>
+          <td class="col col-name"><%= @runningmenu.delivery_at_timezone.strftime('%B %d, %Y %I:%M%p') %></td>
+          <% if grouping %>
+            <td class="col col-name"><%= order.order_group %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <div id="index_footer">
+    <div class="download_links">
+      <span>Download:</span>
+      <%= link_to "CSV", admin_order_report_csv_path( format: :csv, s: params[:s] )%> |
+      <%= link_to "Summary PDF", admin_order_report_pdf_path( format: :pdf, s: params[:s], buffet: @runningmenu.buffet?)%> |
+      <%= link_to "Labels CSV", admin_order_report_labelspdf_path( format: :pdf, s: params[:s] )%>|
+      <%= link_to "Labels Doc", admin_order_report_docx_path(format: :docx, s: params[:s]) %>
+    </div>
+  </div>
+<% end %>

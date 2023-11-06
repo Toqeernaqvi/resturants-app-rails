@@ -1,0 +1,38 @@
+<%= render 'layouts/header' %>
+<p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+  <% Time.current.in_time_zone(@user.time_zone).strftime("%d %b %Y") %>
+</p>
+</div>
+</td>
+</tr>
+<tr>
+  <td>
+    <div style="background-color: #fff;box-shadow: 0px 3px 26px #0000000A; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+      <table style="margin:0 auto; width: 100%;">
+        <tr>
+          <td>
+            <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+            Dear <%= @user.first_name%>
+            </p>
+          </td>
+        </tr>
+      </table>
+      <div style="display: flex;margin-top: 30px;">
+        <p style="margin: 0; text-align: left; font: normal normal 500 14px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+        Please find attached your requested invoice for delivery on <%= @schedular.delivery_at.strftime("%A, %B %-d, %Y at %I:%M %p ") %>.
+        <br>
+        <br>
+        Please reply to this email with any questions or concerns.
+        <br>
+        Team Chowmill
+        <br>
+        </p>
+      </div>
+    </div>
+  </td>
+</tr>
+</table>
+</td>
+</tr>
+<%= render 'layouts/footer' %>
+

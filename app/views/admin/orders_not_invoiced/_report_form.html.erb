@@ -1,0 +1,15 @@
+<% if @report.present? && @report.errors.present?%>
+  <div class="reportError">
+    <p><%= @report.errors.full_messages.first%></p>
+  </div>
+<% end %>
+<div class="reportForm">
+  <%= semantic_form_for '', url: admin_orders_not_invoiced_scheduled_report_path, builder: ActiveAdmin::FormBuilder, remote: true do |f| %>
+    <%= f.input :name, label: "Name (Optional)", input_html: { value: params[:name].present? ? params[:name] : @report&.name }, required: false %>
+    <%= f.input :scheduled_period, :as => :radio, label: false, include_blank: false, :collection =>  Report.scheduled_periods.keys.collect { |c| [c.capitalize, c,  {:checked=> c == (params[:scheduled_period].present? ? params[:scheduled_period] : @report&.scheduled_period)}] }%>
+    <%= f.input :scheduled_time, as: :number, label: '', input_html: { placeholder: '*', min: '0', step: '1', value: params[:scheduled_time].present? ? params[:scheduled_time] : @report&.scheduled_time }, required: false  %>
+    <%= f.input :user_ids, label: "Subscribers", as: :select, multiple: true, collection: User.active.where(user_type: [:developer, :admin]).map{|u| [u.name, u.id]}, selected: params[:user_ids].present? ? params[:user_ids] : @report&.user_ids, required: false%>
+    <%= f.input :enable_error_logging, as: :boolean, :checked_value => "1", :unchecked_value => "0", input_html: {checked: params[:enable_error_logging].present? ? (params[:enable_error_logging] == '1' ? 'checked' : false) : (@report&.enable_error_logging ? 'checked' : false)}%>
+    <%= f.action :submit, label: "Save", :as => :button %>
+  <% end %>
+</div>

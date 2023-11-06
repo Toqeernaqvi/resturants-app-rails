@@ -1,0 +1,40 @@
+SELECT 'VendorID', 'Name', 'AddressString', 'ContactName', 'Mobile', 'Mobile2', 'Mobile3', 'Email', 'Email2', 'Email3', 'FAX', 'LicenseNumber', 'LicenseExpiry', 'LunchOrderCapacity', 'LunchOrderCount', 'DinnerOrderCapacity', 'DinnerOrderCount', 'LunchDeliveryTime', 'DinnerDeliveryTime', 'LeadTime', 'Active', 'Rating', 'Remarks', 'VendorCustomFoodAllow', 'LinkMessage'
+UNION
+SELECT  * FROM `vendor_tbl` where VendorID > 4000194
+INTO OUTFILE '/var/lib/mysql-files/vendors.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+
+
+
+
+
+SELECT 'ID', 'VendorID', 'Type', 'ImageURL', 'Title', 'SectionName', 'Description', 'Allergens', 'Price', 'MinPriceForOrder', 'VendorPrice', 'Remarks', 'CuisineID', 'DietaryInfo', 'CustomFoodAllow', 'CaloryInfo', 'Rating', 'NumRatings', 'DishType', 'ServingSize', 'PopularItem', 'HasSecondaryItem', 'SetsOfOptions', 'OptionIDList', 'Status', 'ImageValid', 'SortOrder'
+UNION
+SELECT ItemID, VendorID, Type, ImageURL, Title, SectionName, Description, Allergens, Price, MinPriceForOrder, VendorPrice, Remarks, CuisineID, DietaryInfo, CustomFoodAllow, CaloryInfo, Rating, NumRatings, DishType, ServingSize, PopularItem, HasSecondaryItem, CONCAT(SetsOfOptions, ','), OptionIDList, Status, ImageValid, SortOrder FROM fooditem_tbl where  ItemId > 5005944
+INTO OUTFILE '/var/lib/mysql-files/fooditems.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+
+
+
+
+SELECT 'ID', 'Name', 'VendorID', 'MaxCount', 'IsMandatory', 'Status'
+UNION
+SELECT  * FROM `options_master_tbl`
+INTO OUTFILE '/var/lib/mysql-files/options_master.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+
+
+
+SELECT 'OptionID', 'VendorID', 'Type', 'Name', 'Allergens', 'IncrementalPrice', 'ChoiceType'
+UNION
+SELECT  * FROM `options_tbl`
+INTO OUTFILE '/var/lib/mysql-files/options.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'

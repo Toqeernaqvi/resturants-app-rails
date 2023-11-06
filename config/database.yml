@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  pool: <%= ENV["DB_POOL"] %>
+  database: chowmill_development
+  username: postgres
+  password: 123456
+  host: <%= ENV["DB_HOST"] %>
+
+
+local:
+  <<: *default
+
+development:
+  <<: *default
+
+develop:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

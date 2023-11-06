@@ -1,0 +1,73 @@
+<table style="box-sizing:border-box;border-collapse:collapse;width:825px;margin-bottom:1rem;background-color:transparent">
+  <thead style="box-sizing:border-box">
+    <tr style="box-sizing:border-box">
+        <th scope="col"
+            style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+            Item
+        </th>
+        <th scope="col"
+            style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+            Order Date
+        </th>
+        <th scope="col"
+            style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+            Quantity
+        </th>
+        <th scope="col"
+            style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+            User Price
+        </th>
+        <% if defined?(aborted_email) && aborted_email %>
+          <th scope="col"
+              style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+              User Name
+          </th>
+          <th scope="col"
+              style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+              Company Name
+          </th>
+        <% end %>
+        <th scope="col"
+            style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+            Order Details
+        </th>
+    </tr>
+  </thead>
+  <tbody style="box-sizing:border-box">
+    <% @orders.each do |order| %>
+      <tr style="box-sizing:border-box">
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= order.fooditem&.name %><br style="box-sizing:border-box">
+          <small style="box-sizing:border-box;font-size:12.8px;color:rgb(108,117,125)">
+              <% order.optionsets_orders.each do |optionset_order| %>
+                  <%= optionset_order.optionset&.name %>:
+                  <% optionset_order.options_orders.each do |option_order| %>
+                      <%= option_order.option&.description %>
+                  <% end %>;
+              <% end %>
+          </small>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= order.created_at_timezone.strftime('%B %d, %Y') %>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= order.quantity %>
+        </td>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          $<%= order.user_paid %>
+        </td>
+        <% if defined?(aborted_email) && aborted_email %>
+          <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+            <%= order.model_user_name %>
+          </td>
+          <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+            <%= order.company_name %>
+          </td>
+        <% end %>
+        <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+          <%= link_to "Order Details", "#{ENV['FRONTEND_HOST']}/orders/details/#{order.runningmenu.slug}", target: '_blank' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

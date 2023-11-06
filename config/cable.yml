@@ -1,0 +1,21 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+develop:
+  adapter: redis
+  # url: redis://localhost:6379
+  url: <%= "redis://"+ENV["REDIS_SERVER"]%>
+  # channel_prefix: chow_develop
+
+staging:
+  adapter: redis
+  url: <%= "redis://"+ENV["REDIS_SERVER"]%>
+  # channel_prefix: chow_staging
+
+production:
+  adapter: redis
+  url: <%= "redis://"+ENV["REDIS_SERVER"]%>
+  # channel_prefix: chow_production

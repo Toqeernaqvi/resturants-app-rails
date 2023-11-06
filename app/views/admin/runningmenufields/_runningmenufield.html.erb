@@ -1,0 +1,22 @@
+<% if id.present? %>
+  <li class='hidden input optional' id='runningmenu_runningmenufields_attributes_<%=counter%>_id_input'><input id='runningmenu_runningmenufields_attributes_<%=counter%>_id' type='hidden' value='<%=id%>' name='runningmenu[runningmenufields_attributes][<%=counter%>][id]'></li>
+<% end %>
+<% if dropdown %>
+  <li class='hidden input optional' id='runningmenu_runningmenufields_attributes_<%=counter%>_field_id_input'><input id='runningmenu_runningmenufields_attributes_<%=counter%>_field_id' type='hidden' value='<%=field.id%>' name='runningmenu[runningmenufields_attributes][<%=counter%>][field_id]'></li></li><li class='select input required' id='runningmenu_runningmenufields_attributes_<%=counter%>_fieldoption_id_input'><label for='runningmenu_runningmenufields_attributes_<%=counter%>_fieldoption_id' class='label'><%=field.name%></label><select name='runningmenu[runningmenufields_attributes][<%=counter%>][fieldoption_id]' id='runningmenu_runningmenufields_attributes_<%=counter%>_fieldoption_id'><option value=''></option>
+
+  <% if fieldoption.present? %>
+    <option selected='selected' value='<%=fieldoption.id%>'><%=fieldoption.name%></option>
+    <% field.fieldoptions.active.order(position: :asc).where.not(id: fieldoption.id).each do |r_fieldoption| %>
+      <option value='<%=r_fieldoption.id%>'><%=r_fieldoption.name%></option>
+    <% end %>
+  <% else %>
+    <% field.fieldoptions.active.each do |r_fieldoption| %>
+      <option value='<%=r_fieldoption.id%>'><%=r_fieldoption.name%></option>
+    <% end %>
+  <% end %>
+
+
+  </select>
+<% else %>
+  <li class='hidden input optional' id='runningmenu_runningmenufields_attributes_<%=counter%>_field_id_input'><input id='runningmenu_runningmenufields_attributes_<%=counter%>_field_id' type='hidden' value='<%=field.id%>' name='runningmenu[runningmenufields_attributes][<%=counter%>][field_id]'></li><li class='string input required stringish' id='runningmenu_runningmenufields_attributes_<%=counter%>_value_input'><label for='runningmenu_runningmenufields_attributes_<%=counter%>_value' class='label'><%=field.name%></label><input maxlength='255' id='runningmenu_runningmenufields_attributes_<%=counter%>_value' type='text' value='<%=value%>' name='runningmenu[runningmenufields_attributes][<%=counter%>][value]'></li>
+<% end %>

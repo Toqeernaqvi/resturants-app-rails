@@ -1,0 +1,11 @@
+<%= render 'layouts/header' %>
+  <h2> </h2>
+  <p>Dear Chowmill Staff,<br><br> <strong><%= @user.first_name.capitalize + " " + @user.last_name.capitalize + " (" + @user.email + ")"  %></strong> has requested a Chowmill account<br><br>
+  <span>But failed with errors: 
+    <% @errors.each do |error| %>
+      <strong><li><%= error %></li></strong>
+    <% end %>
+  </span><br><br>
+  <span>Please invite the user to the correct company.</span>
+  </p>
+<%= render 'layouts/footer' %>

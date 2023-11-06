@@ -1,0 +1,1 @@
+Rails.application.config.secret_key_base = '97b22b4f7b7fc0bff8d9a6b52322ad58ce60558d932fce2ddfda94aea868b8d850be3432dd00d7c6a4851ee75346947b37c2962bbe80def89c5c1be6e6f4435b'

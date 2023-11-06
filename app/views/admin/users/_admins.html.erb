@@ -1,0 +1,31 @@
+<div class="customModalUsersOverlay">
+  <div class="customModalUsers">
+    <div class="header">
+      Select Admin
+      <span class="closeModal"><em class="fa fa-times"></em></span>
+    </div>
+    <div class="body">
+      <% if params[:data].present? %>
+        <% company = User.find(params[:data]).company %>
+        <select class="popupAdminDropdown">
+          <% if company.staffs.present? %>
+            <% company.staffs.active.each do |staff| %>
+              <option value="<%= staff.id %>"><%= staff.name %></option>
+            <% end %>
+          <% else %>
+            <% company.company_admins_active.each do |admin| %>
+              <option value="<%= admin.id %>"><%= admin.name %></option>
+            <% end %>
+          <% end %>
+        </select>
+        <input type="hidden" id="popupGotID" value="<%= params[:data] %>">
+      <% else %>
+        <<h3>Something Wrong</h3>>
+      <% end %>
+
+    </div>
+    <div class="footer">
+      <button class="saveDropdownData">Save</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<%= render 'layouts/header' %>
+<% if @runningmenu.buffet? %>
+  <%= render 'layouts/buffet_orders_common' %>
+<% else %>
+  <%= render 'layouts/orders_show_common' %>
+<% end %>
+<%= render 'layouts/footer' %>

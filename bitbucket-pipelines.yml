@@ -1,0 +1,146 @@
+image: atlassian/default-image:2
+
+options:
+  size: 2x
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          services:
+            - docker
+          script:
+            - pipe: aquasecurity/trivy-pipe:1.0.0
+              variables:
+                  scanType: "fs"
+                  hideProgress: "false"
+                  exitCode: '1'
+                  ignoreUnfixed: "true"
+                  format: 'table'
+                  severity: "CRITICAL"
+  branches:
+    develop:
+    - step:
+        name: Building Docker App Image
+        services:
+          - docker
+        deployment: develop
+        caches:
+          - bundler #cache is defined below in the definitions section
+          - docker
+        script:
+          - export APP_IMAGE_NAME=chowmill-develop
+          
+          - export AWS_ECR_REPOSITORY=660055918055.dkr.ecr.us-west-1.amazonaws.com/chowmill-develop
+
+          - docker build --file Dockerfile --tag $APP_IMAGE_NAME --compress=true --force-rm=true --build-arg rails_env=develop .
+          - docker tag $APP_IMAGE_NAME:latest $AWS_ECR_REPOSITORY:latest
+
+          - docker image prune -f
+
+          - pipe: "atlassian/aws-ecr-push-image:1.2.2"
+            variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                IMAGE_NAME: '${APP_IMAGE_NAME}'
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $DEV_WEB_IP
+                SSH_KEY: $SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/update_container.sh
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $DEV_CRON_IP
+                SSH_KEY: $SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/update_container.sh
+
+    staging:
+    - step:
+        name: Building Docker App Image
+        services:
+          - docker
+        deployment: staging
+        caches:
+          - bundler #cache is defined below in the definitions section
+          - docker
+        script:
+          - export APP_IMAGE_NAME=chowmill-staging
+          
+          - export AWS_ECR_REPOSITORY=660055918055.dkr.ecr.us-west-1.amazonaws.com/chowmill-staging
+
+          - docker build --file Dockerfile --tag $APP_IMAGE_NAME --compress=true --force-rm=true --build-arg rails_env=staging .
+          - docker tag $APP_IMAGE_NAME:latest $AWS_ECR_REPOSITORY:latest
+
+          - docker image prune -f
+
+          - pipe: "atlassian/aws-ecr-push-image:1.2.2"
+            variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                IMAGE_NAME: '${APP_IMAGE_NAME}'
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $STAGE_WEB_IP
+                SSH_KEY: $SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/update_container.sh
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $STAGE_CRON_IP
+                SSH_KEY: $SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/update_container.sh
+
+    master:
+    - step:
+        name: Building Docker App Image
+        services:
+          - docker
+        deployment: production
+        caches:
+          - bundler #cache is defined below in the definitions section
+          - docker
+        script:
+          - export APP_IMAGE_NAME=chowmill-production
+          
+          - export AWS_ECR_REPOSITORY=660055918055.dkr.ecr.us-west-1.amazonaws.com/chowmill-production
+
+          - docker build --file Dockerfile --tag $APP_IMAGE_NAME --compress=true --force-rm=true --build-arg rails_env=production .
+          - docker tag $APP_IMAGE_NAME:latest $AWS_ECR_REPOSITORY:latest
+
+          - docker image prune -f
+
+          - pipe: "atlassian/aws-ecr-push-image:1.2.2"
+            variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                IMAGE_NAME: '${APP_IMAGE_NAME}'
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $PROD_WEB_IP
+                SSH_KEY: $SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/update_container.sh
+          - pipe: "atlassian/ssh-run:0.2.5"
+            variables:
+                SSH_USER: ubuntu
+                SERVER: $PROD_CRON_IP
+                SSH_KEY: $SSH_KEY
+                MODE: command
+                COMMAND: /home/ubuntu/update_container.sh
+definitions:
+  caches:
+    bundler: vendor/bundle
+  services:
+    docker:
+      memory: 7128

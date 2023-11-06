@@ -1,0 +1,16 @@
+<div class="sections">
+  Sections
+</div>
+<ol class="sections">
+  <% gsections.each do |gsection| %>
+    <li>
+        <span><%= gsection.name %></span>
+        <span><%= gsection.description %></span>
+        <% if gsection.active? %>
+          <span> Active </span>
+        <% else %>
+          <span> Deleted </span>
+        <% end %>
+    </li>
+  <% end %>
+</ol>

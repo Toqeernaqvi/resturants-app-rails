@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+</head>
+<style type="text/css">
+  body {
+    width: 100% !important;
+  }
+  .ReadMsgBody {
+    width: 100%;
+  }
+  .ExternalClass {
+    width: 100%;
+  }
+  body {
+    -webkit-text-size-adjust: none;
+  }
+  body {
+    margin: 0; padding: 0;
+  }
+  img {
+    border: 0; outline: none; text-decoration: none;
+  }
+  #backgroundTable {
+    height: 100% !important; margin: 0; padding: 0; width: 100% !important;
+  }
+  #backgroundTable {
+    color: #4c4c4c; background-color: #ffffff; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; font-size: 15px; line-height: 150%;
+  }
+  @media (max-width: 540px) {
+    #templateContainer {
+      width: 100% !important;
+    }
+    #templateContainer .templateContainerPadding {
+      padding: 0 5% !important;
+    }
+  }
+  /* Food Item Options */
+  .foodItemsOptions {
+    border: 1px solid transparent;
+    margin-left: -7px;
+  }
+  .foodItemsOptions .optionDes {
+    font-weight: normal;
+    word-wrap: break-word;
+    display: inline-block;
+    font-size: 15px;
+    width: 50%;
+    <%= defined?(fax) && fax ? 'color: #000;' : 'color: red;'%>
+  }
+  .foodItemsOptions .optionPrice {
+    border-right: 1px solid transparent !important;
+    display: inline-block;
+    vertical-valign: top;
+    font-size: 15px;
+    width: calc(20% - 10px);
+    font-weight: normal;
+    <%= defined?(fax) && fax ? 'color: #000;' : 'color: red;'%>
+  }
+  .colLeft {
+    border: 1px solid transparent !important;
+  }
+  .colRight {
+    border: 1px solid transparent !important;
+  }
+</style>
+
+<body style="width: 100% !important; -webkit-text-size-adjust: none; margin: 0; padding: 0; background-color: #EFF3FE">
+<center>
+  <table id="backgroundTable" style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; width: 100% !important; height: 100% !important; color: #4c4c4c; font-size: 15px; line-height: 150%; background: #EFF3FE; margin: 0; padding: 0; border: 0;">
+    <tr style="vertical-align: top; padding: 0;">
+      <td align="center" valign="top" style="vertical-align: top; padding: 20px;">
+        <table align="center">
+          <tr>
+            <td align='center'><%= image_tag("#{ENV['CLOUDFRONT_URL']}/logos/chowmill-logo-full-email.png", alt: "Chowmill", style: "border: 0;") %></td>
+          </tr>
+        </table>        

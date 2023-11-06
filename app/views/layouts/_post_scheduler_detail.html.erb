@@ -1,0 +1,104 @@
+<tr style="box-sizing:border-box;">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <% if @header.include? "New Marketplace Delivery Scheduled" %>
+      <strong>Selected Restaurant</strong>
+    <% else %>
+      <strong>Recommended Restaurant</strong>
+    <% end %>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);">
+    <% if @runningmenu.addresses.blank? %>
+      <b style="color: red">No restaurant recommended.</strong>
+    <% else %>
+      <b style="color: green"><%=@runningmenu.addresses.last.name&.capitalize %></strong>
+    <% end %>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Delivery Date</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <strong><%=@runningmenu.runningmenu_type&.capitalize%> <%=@runningmenu.menu_type&.capitalize%></strong> on <%= @runningmenu.delivery_at_timezone.to_time.strftime('%A, %B %d, %Y') %> at <%=@runningmenu.delivery_at_timezone.to_time.strftime('%I:%M%p')%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Approximate Count</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@runningmenu.orders_count%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Budget</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    $<%=@runningmenu.per_meal_budget%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Delivery Address</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@runningmenu.address.location_with_name%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Cuisine Preference</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@runningmenu.cuisines.pluck(:name).join(',')%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Special Request</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);">
+    <%=@runningmenu.special_request%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>Delivery Instructions</strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);">
+    <%= @runningmenu.delivery_instructions %>
+  </td>
+</tr>
+<% if @runningmenu.company.fields.active.present? %>
+  <tr style="box-sizing:border-box">
+    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+      <h3>Meeting Specifics</h3>
+    </td>
+  </tr>
+<% end %>
+<% @runningmenu.company.fields.active.order(position: :asc).each do |c_field| %>
+  <tr style="box-sizing:border-box">
+    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+      <strong><%=c_field.name %></strong>
+    </td>
+    <% runningmenu_field = Runningmenufield.find_by(runningmenu_id: @runningmenu.id, field_id: c_field.id)%>
+    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+      <% if c_field.dropdown?  %>
+        <%= runningmenu_field.present? && runningmenu_field.fieldoption.present? ? runningmenu_field.fieldoption.name : '' %>
+      <% else %>
+        <%=  runningmenu_field.present? && runningmenu_field.value.present? ? runningmenu_field.value : '' %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+
+<a href="<%=ENV['BACKEND_HOST']%>/admin/schedulers/<%=@runningmenu.id%>">Scheduler Details</a>

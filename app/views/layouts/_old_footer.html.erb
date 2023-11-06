@@ -1,0 +1,27 @@
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <table id="footerContent" style="text-align:center;border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; width: 70%; border-top-style: solid; border-top-color: #ebeaef; color: #4e4e4e; font-size: 12px; margin: 0; padding: 0; border-width: 1px 0 0;">
+                <tr style="vertical-align: top; padding: 0;">
+                  <td valign="top" style="vertical-align: top; text-align: center; padding: 0;" align="left">
+                    <p style="margin: 20px 0;">
+                      Chowmill: All-Inclusive Meal Programs for Your Diverse Workforce.<br>
+                      <a href="https://chowmill.com" style="color:#980000" >www.chowmill.com</a> | <a href="mailto:support@chowmill.com" style="color:#980000" >support@chowmill.com</a> | (408) 883-9415
+                    </p>
+                    <p style="margin: 20px; padding-bottom: 20px;">
+                      <% if defined?(@unsubscribe).present? %>
+                        <a href="https://<%= Rails.env.production? ? 'app' : (Rails.env.staging? ? 'app-stage' : 'app-dev') %>.chowmill.com/profile/notification" style="color:#980000" >Manage Notifications / Unsubscribe</a>
+                      <% end %>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
+</html>

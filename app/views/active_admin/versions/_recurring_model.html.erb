@@ -1,0 +1,65 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>Field changed</strong></th>
+      <th><strong>Before</strong></th>
+      <th><strong>After</strong></th>
+      <th><strong>Timestamp</strong></th>
+      <th><strong>User</strong></th>
+    </thead>
+    <tbody>
+      <% versions.each do |version|%>
+        <% attributes = (version.changeset.slice(:user_id, :company_id, :address_id, :driver_id, :runningmenu_type, :menu_type, :status, :parent_status, :hide_meeting, :per_meal_budget, :orders_count, :per_user_copay, :per_user_copay_amount, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :recurrence_days, :startdate, :delivery_instructions).keys) %>
+        <% unless attributes.blank? %>
+          <tr>
+            <td>
+              <% attributes.each do |attribute| %>
+                <% if attribute == "runningmenu_type" %>
+                  Meal Type
+                <% elsif attribute == "address_id" %>
+                  Company Location
+                <% elsif attribute == "per_user_copay" %>
+                  User Copay <br>
+                <% elsif attribute == "per_user_copay_amount" %>
+                  Copay Amount($) <br>
+                <% else %>
+                  <%= attribute.titleize %><br>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <% if attribute == "address_id" %>
+                  <% address = Address.find version.changeset[attribute][0] rescue nil %><br>
+                  <%= address.addressable.name + ": " + address.address_line if address.present? %><br>
+                <% elsif attribute == "per_user_copay" %>
+                  <%= version.changeset[attribute][0] == 1? true : false %><br>
+                <% elsif ["startdate"].include? attribute %>
+                  <%= version.changeset[attribute][0].in_time_zone(version.item.company.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil %><br>
+                <% else %>
+                  <%= version.changeset[attribute][0] %><br>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <% if attribute == "address_id" %>
+                  <% address = Address.find version.changeset[attribute][1] rescue nil %><br>
+                  <%= address.addressable.name + ": " + address.address_line if address.present? %><br>
+                <% elsif attribute == "per_user_copay" %>
+                  <%= version.changeset[attribute][1] == 1 ? true : false %><br>
+                <% elsif ["startdate"].include? attribute %>
+                  <%= version.changeset[attribute][1].in_time_zone(version.item.company.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil %><br>
+                <% else %>
+                  <%= version.changeset[attribute][1] %><br>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+            <td><%= version.whodunnit%></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

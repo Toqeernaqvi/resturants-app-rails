@@ -1,0 +1,8 @@
+<select class="runningmenu_driver" data-row-ID="<%= runningmenu.id %>" name="acknowledge" required >
+    <option value="<%= driver.id %>" selected="selected"><%= driver.name%></option>
+    <% address_ids = runningmenu.address_ids.join(", ") %>
+  <% Driver.available_on(runningmenu.delivery_at, runningmenu.pickup_at, runningmenu.delivery_type, runningmenu.address_id, address_ids).each do |d| %>
+    <% next if d.id == driver.id %>
+    <option value="<%= d.id %>"><%= d.name%></option>
+  <% end %>
+</select>

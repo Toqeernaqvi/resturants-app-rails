@@ -1,0 +1,17 @@
+<%= render 'layouts/header' %>
+  <h2>Your Receipt: <%= @order.fooditem.name %></h2><p>
+      <% @order.optionsets_orders.each do |optionset_order| %>
+          <%= optionset_order.optionset.name %>:
+          <% optionset_order.options_orders.each do |option_order| %>
+              <%= option_order.option.description %>
+          <% end %>;
+      <% end %>
+      <br>
+  </p> <hr>
+  <p style=""><strong>
+    <%= @order.runningmenu.runningmenu_type %> on <%= @order.runningmenu.delivery_at_timezone.strftime('%B %d, %Y') %> · <%= @order.quantity %> Count</strong><br>
+    User Paid: $<%= @order.user_paid %><br>
+    Restaurant: <%= @order.restaurant.name %><br>Delivery Address:  <%= @order.runningmenu.address.name %><br>
+  </p>
+<% @unsubscribe = true %>  
+<%= render 'layouts/footer' %>

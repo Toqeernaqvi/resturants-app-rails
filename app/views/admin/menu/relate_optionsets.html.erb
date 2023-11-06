@@ -1,0 +1,16 @@
+<div class="relate_menu__">
+  <span class="section_label__">Fooditems:</span>
+  <span>Option Sets</span>
+</div>
+<%= simple_form_for(resource, method: :post, url: related_optionsets_admin_restaurant_address_menu_path) do |f| %>
+  <%= f.simple_fields_for :fooditems do |fooditem| %>
+    <% if fooditem.object.active? %>
+      <span class="fooditem_label__"><%= fooditem.object.name %>:</span>
+      <%= fooditem.simple_fields_for :optionsets do |os| %>
+        <%= os.select :optionset_id, options_from_collection_for_select(resource.optionsets.active, "id", "name", fooditem.object.optionsets.active.pluck('id')), {:include_blank => true}, {:multiple => true} %>
+      <% end %><br>
+    <% end %>
+  <% end %>
+  <%= f.submit 'Save', name: nil , :style => "width:100px; margin-top: 20px;" %>
+  <%= link_to "Cancel", :back %>
+<% end %>

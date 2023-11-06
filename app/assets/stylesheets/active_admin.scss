@@ -1,0 +1,4307 @@
+@import 'activeadmin_addons/all';
+// SASS variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+@import "active_admin/mixins";
+@import "arctic_admin/base";
+
+@import 'activeadmin/trumbowyg/ui/sass/trumbowyg';
+@import 'activeadmin/trumbowyg_input';
+// Overriding any non-variable SASS must be done after the fact.
+// For example, to change the default status-tag color:
+//
+// .status_tag { background: #6090DB; }
+
+//#new_restaurant.formtastic .inputs .columns input, #edit_restaurant.formtastic .inputs .columns input {width: 50%}
+:root {
+	--Gray10: #b7b7b7;
+	--Gray20: #a6a6a6;
+}
+abbr[title]{
+	color: #d00;
+	font-weight: bold;
+	margin-left: 2px;
+	font-size: calc(100% + 5px);
+	vertical-align: top;
+}
+body.index .table_actions .member_link {
+	margin-bottom: 5px;
+}
+
+.header .site_title{
+  z-index: 1;
+}
+
+$active-color: green;
+$deleted-color: red;
+$cancelled-color: red;
+$approved-color: green;
+$failed-color: red;
+$sent-color: orange;
+$success_color: green;
+$generated-color: #cacaca;
+$final-color: orange;
+$paid-color: green;
+$due-color: red;
+$deposited-color: green;
+$pending-color: #FF9900;;
+.status_tag {
+  &.active { background: $active-color; }
+  &.deleted { background: $deleted-color; }
+	&.approved { background: $approved-color; }
+	&.sent { background: $sent-color; }
+  &.pending { background: $pending-color; }
+	&.cancelled { background: $cancelled-color; }
+	&.failed { background: $failed-color; }
+	&.success { background: $success_color; }
+	&.generated { background: $generated-color; }
+	&.paid { background: $paid-color; }
+	&.final { background: $final-color; }
+	&.due { background: $due-color; }
+	&.deposited { background: $deposited-color; }
+	&.individual {background: #888}
+	&.buffet {background: #888}
+	&.processed { background: $active-color; }
+	&.not_processed { background: $failed-color; }
+}
+
+.header #tabs li.has_nested ul {
+	display: none !important;
+}
+
+.header #tabs li.has_nested ul.menu.dBlock {
+	display: block !important;
+}
+
+#index_table_email_logs .status_tag {
+	&.sent { background: green; }
+}
+
+#main_content fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(2) > fieldset:nth-last-child(3){
+	margin-bottom:7px !important;
+}
+
+#active_admin_content .formtastic li {
+	list-style: none;
+	margin-bottom: 2px;
+}
+
+#addresses fieldset.inputs > ol > li:nth-last-child(1) > label{
+	color:#d00;
+}
+
+#addresses fieldset.inputs > ol > li:nth-last-child(1) > a{
+	background:#d00;
+}
+
+#new_address.formtastic .inputs .has_many_container.contacts .inputs.has_many_fields,
+#edit_address.formtastic .inputs .has_many_container.contacts .inputs.has_many_fields {
+	border: 1px solid #b7b7b7;
+	position: relative;
+	background: #D6D6D6;
+	padding: 15px;
+}
+
+#edit_company > div.tabs{
+	margin-bottom: 7px;
+}
+
+#new_address.formtastic .inputs .has_many_container.contacts .inputs.has_many_fields ol>li:nth-last-child(1),
+#edit_address.formtastic .inputs .has_many_container.contacts .inputs.has_many_fields ol>li:nth-last-child(1) {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+}
+
+#new_address.formtastic .inputs .has_many_container.contacts .inputs.has_many_fields,
+#edit_address.formtastic .inputs .has_many_container.contacts .inputs.has_many_fields {
+	border: 1px solid #CCC;
+	background:#ededed;
+}
+
+#new_restaurant.formtastic .inputs .columns input,
+#edit_restaurant.formtastic .inputs .columns input {
+	width: 90%;
+}
+
+#new_restaurant.formtastic .inputs .has_many_container.addresses .inputs.has_many_fields,
+#edit_restaurant.formtastic .inputs .has_many_container.addresses .inputs.has_many_fields {
+	border: 1px solid #b7b7b7;
+	position: relative;
+	background: #D6D6D6;
+}
+
+#edit_company .tabs .tab-content #office-admins .has_many_container fieldset ol li,
+#new_company .tabs .tab-content #office-admins .has_many_container fieldset ol li{
+	margin-bottom:15px;
+	display:inline-block;
+	width:32.5%;
+}
+
+#edit_company .tabs .tab-content #office-admins .has_many_container fieldset,
+#new_company .tabs .tab-content #office-admins .has_many_container fieldset{
+	border:1px solid #cdcdcd;
+	position:relative;
+	padding-top:15px;
+	border-radius:5px;
+}
+
+#edit_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > label,
+#edit_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > a,
+
+#new_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > label,
+#new_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > a,
+#new_company #addresses .has_many_container fieldset ol li:nth-last-child(1){
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+
+#edit_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > label,
+
+#new_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > label{
+	color:#d00;
+}
+
+#edit_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > a,
+
+#new_company .tabs .tab-content #office-admins .has_many_container fieldset ol li:nth-last-child(1) > a{
+	background:#d00;
+}
+
+#new_company_admin > fieldset.inputs > ol > li,
+
+#edit_company_admin > fieldset.inputs > ol > li {
+	width: 32.5%;
+	display: inline-block;
+}
+
+#addresses div.addresses > fieldset{
+	background:#f2f2f299;
+	padding:15px;
+	margin:20px;
+}
+
+#addresses fieldset.inputs > ol > li:nth-last-child(1){
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+#main_content_wrapper #main_content .formtastic .inputs .has_many_container fieldset ol,
+
+#addresses fieldset.inputs > ol, #new_company #addresses .has_many_container fieldset ol,
+
+#new_gmenu > fieldset > ol > li > fieldset > ol,
+
+#new_menu > fieldset > ol > li > fieldset > ol,
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol,
+
+#edit_menu > fieldset > ol > li > fieldset > ol,
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol{
+	position:relative;
+}
+
+#new_company #addresses .has_many_container fieldset{
+	background:#f1f1f1;
+	padding-top:15px;
+	border:1px solid #ccc;
+}
+
+#new_company .tabs{
+	margin-bottom:10px;
+}
+
+/* NEW / EDIT Menu */
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li,
+
+#new_menu > fieldset > ol > li > fieldset > ol > li,
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li,
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li{
+	display:inline-block;
+	width:32.5%;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.sections,
+#new_menu > fieldset.inputs > ol > li.sections,
+#edit_gmenu > fieldset.inputs > ol > li.sections,
+#edit_menu > fieldset.inputs > ol > li.sections,
+
+#new_gmenu > fieldset.inputs > ol > li.gsections,
+#new_menu > fieldset.inputs > ol > li.gsections,
+#edit_gmenu > fieldset.inputs > ol > li.gsections,
+#edit_menu > fieldset.inputs > ol > li.gsections,
+
+#new_gmenu > fieldset.inputs > ol > li.fooditems,
+#new_menu > fieldset.inputs > ol > li.fooditems,
+#edit_gmenu > fieldset.inputs > ol > li.fooditems,
+#edit_menu > fieldset.inputs > ol > li.fooditems,
+
+#new_gmenu > fieldset.inputs > ol > li.gfooditems,
+#new_menu > fieldset.inputs > ol > li.gfooditems,
+#edit_gmenu > fieldset.inputs > ol > li.gfooditems,
+#edit_menu > fieldset.inputs > ol > li.gfooditems,
+
+#new_gmenu > fieldset.inputs > ol > li.optionsets,
+#new_menu > fieldset.inputs > ol > li.optionsets,
+#edit_gmenu > fieldset.inputs > ol > li.optionsets,
+#edit_menu > fieldset.inputs > ol > li.optionsets,
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets,
+#new_menu > fieldset.inputs > ol > li.goptionsets,
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets,
+#edit_menu > fieldset.inputs > ol > li.goptionsets{
+	border: 1px solid #ccc;
+	padding: 5px 5px 0 5px;
+	border-radius: 5px;
+	margin-bottom: 7px;
+}
+
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1),
+
+#new_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1),
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1),
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1){
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:auto;
+}
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > label,
+
+#new_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > label,
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > label,
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > label{
+	color:#d00;
+}
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > a,
+
+#new_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > a,
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > a,
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1) > a{
+	background:#d00;
+}
+
+#new_gmenu > fieldset.inputs > ol > li > fieldset,
+
+#new_menu > fieldset.inputs > ol > li > fieldset,
+
+#edit_gmenu > fieldset.inputs > ol > li > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li > fieldset{
+	background:#f2f2f299;
+	padding:5px 15px;
+	margin-bottom: 10px;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li,
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li,
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li,
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li,
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li{
+	vertical-align:top;
+}
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li > label,
+
+#new_menu > fieldset > ol > li > fieldset > ol > li > label,
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li > label,
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li > label,
+
+#new_menu > fieldset > ol > li > fieldset > ol > li > fieldset > ol > li > label,
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li > fieldset > ol > li > label,
+
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li > fieldset > ol > li > label,
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li > fieldset > ol > li > label{
+	text-align: left;
+	white-space: nowrap;
+	width: 100%;
+}
+
+#new_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(1),
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(1),
+#new_gmenu fieldset.inputs li.goptionsets > fieldset > ol > li:nth-child(1),
+
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(1),
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(1),
+#new_menu fieldset.inputs li.optionsets > fieldset > ol > li:nth-child(1),
+
+#edit_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(1),
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(1),
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset > ol > li:nth-child(1),
+
+#edit_menu fieldset.inputs li.gsections fieldset > ol > li:nth-child(1),
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(1),
+#edit_menu fieldset.inputs li.goptionsets > fieldset > ol > li:nth-child(1),
+
+#edit_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(1),
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(1),
+#edit_menu fieldset.inputs li.optionsets > fieldset > ol > li:nth-child(1){
+	width:20%;
+	vertical-align: top;
+}
+
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(4),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(4),
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(4),
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(4){
+	width: 20% !important;
+	margin-left: 0;
+	vertical-align: top;
+	margin-top: 10px;
+}
+
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(6),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(6),
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(6),
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(6){
+	width: 20% !important;
+	margin-left: -20%;
+	vertical-align: top;
+	margin-top: 40px;
+}
+
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(7),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(8),
+
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(7),
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(8),
+
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(7),
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(8),
+
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(7),
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(8){
+	width: 25% !important;
+	vertical-align: top;
+}
+
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(8),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(8),
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(8),
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(8) {
+	width: 20% !important;
+	margin-left: -20%;
+	margin-top: 93px;
+}
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9),
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9),
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9) {
+	width: calc(25% - 10px);
+  margin-left: 10px;
+}
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(10) > span.select2.select2-container.select2-container--default,
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(10) > span.select2.select2-container.select2-container--default,
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(10) > span.select2.select2-container.select2-container--default,
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(10) > span.select2.select2-container.select2-container--default{
+	width: 100% !important;
+}
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4),
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4),
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4),
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4){
+	width: 35% !important;
+	display: inline-block;
+}
+// Readjust css
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1),
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1),
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1),
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1) {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: ns-resize;
+}
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1),
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(1),
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(1) {
+	cursor: ns-resize;
+}
+
+#new_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2),
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2),
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2),
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2) {
+	position: absolute;
+	top: 25px;
+	right: 0;
+	text-align: right;
+	width: 70px;
+}
+#new_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2) > a,
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2) > a,
+
+#new_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2) > a,
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(2) > a {
+	background: #d00;
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(3),
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(3),
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(3),
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(3) {
+	position: absolute;
+	top: 35px;
+	right: -5px;
+	color: #d00;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset.has_many_fields > ol > li.goptions,
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset.has_many_fields > ol > li.options,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset.has_many_fields > ol > li.goptions {
+	width: 100%;
+	background: #f2f2f299;
+	padding: 5px 15px;
+}
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2),
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2),
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(3),
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(2),
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2),
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2),
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(3),
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(2) {
+	position: absolute;
+	top: 25px;
+	right: 0;
+	text-align: right;
+	width: 70px;
+}
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(3) > label {
+	color: #d00;
+}
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(2) > a,
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2) > a,
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2) > a,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(2) > a,
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2) > a,
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(2) > a {
+	background: #d00;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.gfooditems > fieldset.has_many_fields > ol > li.file.input.optional,
+#new_menu > fieldset.inputs > ol > li.fooditems > fieldset.has_many_fields > ol > li.file.input.optional,
+
+#edit_gmenu > fieldset.inputs > ol > li.gfooditems > fieldset.has_many_fields > ol > li.file.input.optional,
+#edit_menu > fieldset.inputs > ol > li.fooditems > fieldset.has_many_fields > ol > li.file.input.optional {
+	position: relative;
+	overflow: visible;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.gfooditems > fieldset.has_many_fields > ol > li.file.input.optional > p.inline-hints,
+#new_menu > fieldset.inputs > ol > li.fooditems > fieldset.has_many_fields > ol > li.file.input.optional > p.inline-hints,
+
+#edit_gmenu > fieldset.inputs > ol > li.gfooditems > fieldset.has_many_fields > ol > li.file.input.optional > p.inline-hints,
+#edit_menu > fieldset.inputs > ol > li.fooditems > fieldset.has_many_fields > ol > li.file.input.optional > p.inline-hints {
+	position: relative;
+	top: 0;
+	right: 0;
+	text-align: right;
+}
+#new_gmenu > fieldset.inputs > ol > li > fieldset > ol > li.has_many_delete,
+#new_menu > fieldset.inputs > ol > li > fieldset > ol > li.has_many_delete,
+
+#edit_gmenu > fieldset.inputs > ol > li > fieldset > ol > li.has_many_delete,
+#edit_menu > fieldset.inputs > ol > li > fieldset > ol > li.has_many_delete {
+	position: absolute;
+	top: 25px;
+	right: 0;
+	text-align: right;
+	width: 70px;
+}
+
+#edit_gmenu > fieldset.inputs > ol > li > fieldset > ol > li.has_many_delete > label,
+#edit_menu > fieldset.inputs > ol > li > fieldset > ol > li.has_many_delete > label{
+	color: #d00;
+}
+
+#new_menu > fieldset.inputs > ol > li > fieldset.has_many_fields > ol > li > textarea,
+#edit_menu > fieldset.inputs > ol > li > fieldset.has_many_fields > ol > li > textarea,
+#edit_gmenu > fieldset.inputs > ol > li > fieldset.has_many_fields > ol > li > textarea,
+#new_gmenu > fieldset.inputs > ol > li > fieldset.has_many_fields > ol > li > textarea {
+    height: 80px;
+    width: 100%;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(2) {
+	position: absolute;
+	top: 25px;
+	right: 0;
+	text-align: right;
+	width: 70px;
+}
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(2) > a {
+	background: #d00;
+}
+// Sortable Handling Start
+.handle {
+	border-radius: 999px;
+	background: #000;
+	color: #fff;
+	font-size: 11px;
+	padding: 5px;
+	text-align: center;
+}
+
+
+#new_menu > fieldset.inputs > ol > li > fieldset.ui-sortable-helper,
+#new_menu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.has_many_fields.ui-sortable-helper,
+
+#new_gmenu > fieldset.inputs > ol > li > fieldset.ui-sortable-helper,
+#new_gmenu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.has_many_fields.ui-sortable-helper,
+
+#edit_menu > fieldset.inputs > ol > li > fieldset.ui-sortable-helper,
+#edit_menu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.has_many_fields.ui-sortable-helper,
+
+#edit_gmenu > fieldset.inputs > ol > li > fieldset.ui-sortable-helper,
+#edit_gmenu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.has_many_fields.ui-sortable-helper {
+	background: #b3e3fe !important;
+	opacity: 0.5;
+}
+
+#new_menu > fieldset.inputs > ol > li > fieldset.ui-sortable-placeholder,
+#new_menu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.ui-sortable-placeholder,
+
+#new_gmenu > fieldset.inputs > ol > li > fieldset.ui-sortable-placeholder,
+#new_gmenu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.ui-sortable-placeholder,
+
+#edit_menu > fieldset.inputs > ol > li > fieldset.ui-sortable-placeholder,
+#edit_menu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.ui-sortable-placeholder,
+
+#edit_gmenu > fieldset.inputs > ol > li > fieldset.ui-sortable-placeholder,
+#edit_gmenu > fieldset.inputs > ol > li > fieldset > ol > li > fieldset.ui-sortable-placeholder {
+	background: #ccc !important;
+	height: 50px;
+	display: block;
+	content: " ";
+	visibility: visible !important;
+	border: 2px dashed #5e6469;
+}
+// Sortable Handling End
+
+
+// End readjust
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > span,
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4) > span,
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > span,
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4) > span,
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > span,
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4) > span,
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > span,
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(4) > span{
+	width: 96% !important;
+}
+
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(7) > span,
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(8) > span,
+
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(7) > span,
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(8) > span,
+
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(7) > span,
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(8) > span,
+
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(7) > span,
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(8) > span{
+	width: 95% !important;
+}
+
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9),
+
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9),
+
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9),
+
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9){
+	width: 25% !important;
+}
+
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9) > input,
+
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9) > input,
+
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9) > input,
+
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9) > input{
+	width: 100% !important;
+	margin-top: 10px;
+}
+
+#new_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(1) > input,
+#new_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(2) > input,
+#new_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(3) > input,
+#new_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(4) > input,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(1) > input,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2) > input,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(3) > input,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(4) > input,
+#new_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(1) input,
+#new_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(3) input,
+#new_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(4) input,
+
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(1) > input,
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(2) > input,
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(3) > input,
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(4) > input,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(1) > input,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(2) > input,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(3) > input,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(4) > input,
+#new_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(1) input,
+#new_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(3) input,
+#new_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(4) input,
+
+#edit_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(1) > input,
+#edit_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(2) > input,
+#edit_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(3) > input,
+#edit_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(4) > input,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(1) > input,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2) > input,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(3) > input,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(4) > input,
+#edit_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(1) input,
+#edit_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(3) input,
+#edit_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(4) input,
+
+#edit_menu fieldset.inputs li.gsections fieldset > ol > li:nth-child(1) > input,
+#edit_menu fieldset.inputs li.gsections fieldset > ol > li:nth-child(2) > input,
+#edit_menu fieldset.inputs li.gsections fieldset > ol > li:nth-child(3) > input,
+#edit_menu fieldset.inputs li.gsections fieldset > ol > li:nth-child(4) > input,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(1) > input,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2) > input,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(3) > input,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(4) > input,
+#edit_menu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(1) input,
+#edit_menu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(3) input,
+#edit_menu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(4) input,
+
+#edit_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(1) > input,
+#edit_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(2) > input,
+#edit_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(3) > input,
+#edit_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(4) > input,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(1) > input,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(2) > textarea,
+#edit_menu fieldset.inputs li.foodi#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2) > textarea,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(2) > textarea,
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(3) > input,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(4) > input,
+#edit_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(1) input,
+#edit_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(3) input,
+#edit_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(4) input{
+	width:calc(100% - 15px);
+}
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2) > textarea,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(2) > textarea {
+	height: 80px;
+}
+#new_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(2),
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2),
+#new_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(2),
+
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(2),
+#edit_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(2),
+#new_menu fieldset.inputs li.sections fieldset > ol > li:nth-child(2),
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(2),
+#new_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(2),
+
+#edit_gmenu fieldset.inputs li.gsections fieldset > ol > li:nth-child(2),
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2),
+#edit_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(2),
+
+#edit_menu fieldset.inputs li.gsections fieldset > ol > li:nth-child(2),
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(2),
+#edit_menu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(2),
+
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(2),
+#edit_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(2){
+	width:50%;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(3),
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(4),
+#new_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(3),
+#new_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(4),
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(3),
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(4),
+#new_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(3),
+#new_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(4),
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(3),
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(4),
+#edit_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(3),
+#edit_gmenu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(4),
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(3),
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(4),
+#edit_menu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(3),
+#edit_menu fieldset.inputs li.goptionsets fieldset > ol > li:nth-child(4),
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(3),
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(4),
+#edit_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(3),
+#edit_menu fieldset.inputs li.optionsets fieldset > ol > li:nth-child(4){
+	width:12.5%;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5),
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5),
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5),
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5),
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5){
+	width:50%;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5) > span,
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5) > span,
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5) > span,
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5) > span,
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5) > span{
+	width:calc(100% - 15px) !important;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5),
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6),
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(7),
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(8),
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5),
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6),
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(7),
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(8),
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5),
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6),
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(7),
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(8),
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5),
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6),
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(7),
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(8),
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5),
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6),
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(7),
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(8){
+	margin-bottom:0px;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5) > label,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) > label,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(7) > label,
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(8) > label,
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5) > label,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6) > label,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(7) > label,
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(8) > label,
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5) > label,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) > label,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(7) > label,
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(8) > label,
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(5) > label,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) > label,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(7) > label,
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(8) > label,
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(5) > label,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6) > label,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(7) > label,
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(8) > label{
+	color:#323537;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) input[type="file"],
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6) input[type="file"],
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) input[type="file"],
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) input[type="file"],
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6) input[type="file"]{
+	vertical-align:top;
+	margin-top:7px;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) p.inline-hints,
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6) p.inline-hints,
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) p.inline-hints,
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li:nth-child(6) p.inline-hints,
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li:nth-child(6) p.inline-hints{
+	margin:0;
+	display:inline-block;
+}
+
+#new_gmenu fieldset.inputs li.gfooditems fieldset > ol > li > input.description,
+
+#new_menu fieldset.inputs li.fooditems fieldset > ol > li > input.description,
+
+#edit_gmenu fieldset.inputs li.gfooditems fieldset > ol > li > input.description,
+
+#edit_menu fieldset.inputs li.gfooditems fieldset > ol > li > input.description,
+
+#edit_menu fieldset.inputs li.fooditems fieldset > ol > li > input.description{
+	width:calc(100% - 15px);
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li,
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li,
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li,
+
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li,
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li{
+	vertical-align:top;
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li:nth-child(2),
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li:nth-child(2),
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li:nth-child(2),
+
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li:nth-child(2),
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li:nth-child(2){
+	margin:0;
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(1),
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(1),
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(1),
+
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(1),
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(1){
+	width:70% !important;
+	display: inline-block;
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2),
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2),
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2),
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2),
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3),
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2){
+	width:12.5% !important;
+	display: inline-block;
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2) > input,
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > input,
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2) > input,
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > input,
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2) > input,
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > input,
+
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2) > input,
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(3) > input,
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-child(2) > input{
+	width:calc(100% - 15px);
+}
+
+#new_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1) > label > input[type="checkbox"],
+
+#new_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1) > label > input[type="checkbox"],
+
+#edit_gmenu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1) > label > input[type="checkbox"],
+
+#edit_menu fieldset.inputs li.goptionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1) > label > input[type="checkbox"],
+
+#edit_menu fieldset.inputs li.optionsets > fieldset.has_many_fields > ol > li > fieldset > ol > li:nth-last-child(1) > label > input[type="checkbox"]{
+	width: 15px !important;
+}
+
+#new_gmenu > fieldset.inputs > ol > li > a.button,
+
+#new_menu > fieldset.inputs > ol > li > a.button,
+
+#edit_gmenu > fieldset.inputs > ol > li > a.button,
+
+#edit_menu > fieldset.inputs > ol > li > a.button{
+	margin-bottom:5px;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.optionsets > fieldset,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset{
+	background:#f2f2f299;
+	padding:15px;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(1),
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(1),
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(1),
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(1),
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(1){
+	width:auto;
+	position:absolute;
+	right:0;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(1) > label,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(1) > label,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(1) > label,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li:nth-last-child(1) > label,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li:nth-last-child(1) > label{
+	color:#d00;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset{
+	background:#f2f2f299;
+	padding: 5px 15px;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2),
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2),
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2),
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2),
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2){
+	left: 0;
+	bottom: -15px;
+	width:100%;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset
+{
+	background:#f2f2f2;
+	padding:15px 15px 0 15px;
+	margin:0px;
+}
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(4) {
+	width: 100%;
+	background:#f2f2f2;
+	padding:15px 15px 0 15px;
+	margin:0px;
+}
+
+// #edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options {
+// 	border: 1px solid red;
+// }
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset:nth-last-child(1),
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset:nth-last-child(2),
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset:nth-last-child(1),
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset:nth-last-child(2),
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset:nth-last-child(1),
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset:nth-last-child(2),
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset:nth-last-child(1),
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset:nth-last-child(2),
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset:nth-last-child(1),
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset:nth-last-child(2){
+	margin-bottom:15px !important;
+	padding-bottom:5px;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li{
+	margin-bottom:0px;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li{
+	width:32.5%;
+	display:inline-block;
+	vertical-align:top;
+	margin-bottom: 2px;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li:nth-last-child(1),
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li:nth-last-child(1),
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li:nth-last-child(1),
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li:nth-last-child(1),
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li:nth-last-child(1){
+	position:absolute;
+	top:0;
+	right:-7px;
+	width:auto;
+	color:#d00;
+}
+
+#new_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li:nth-last-child(1) > a,
+
+#new_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li:nth-last-child(1) > a,
+
+#edit_gmenu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li:nth-last-child(1) > a,
+
+#edit_menu > fieldset.inputs > ol > li.goptionsets > fieldset > ol > li.goptions:nth-last-child(2) > fieldset > ol > li:nth-last-child(1) > a,
+
+#edit_menu > fieldset.inputs > ol > li.optionsets > fieldset > ol > li.options:nth-last-child(2) > fieldset > ol > li:nth-last-child(1) > a{
+	background:#d00;
+}
+
+#active_admin_content .formtastic li{
+	overflow: hidden;
+}
+
+#active_admin_content .formtastic li .select2-selection__choice__remove{
+	margin-right: 5px;
+	background: #c9c9c9;
+	margin-left: -6px;
+	padding: 0 5px;
+}
+
+#main_content > form > input[type="submit"]{
+	padding: 10px;
+	max-width: 125px;
+	margin-top: 10px;
+}
+
+span.select2.select2-container {
+	margin-bottom: 10px;
+	display:inline-block;
+	vertical-align: top;
+}
+td.col.col-driver span.select2.select2-container {
+	width: 100% !important;
+	white-space: nowrap;
+}
+.section_label__, .fooditem_label__{
+	width:125px;
+	display:inline-block;
+	word-wrap: break-word;
+}
+.relate_menu__{
+	margin-bottom: 15px;
+	font-weight: bold;
+	font-size: 15px;
+	border-bottom: 3px solid #d00;
+	padding-bottom: 10px;
+}
+
+.checks{
+	min-height: 20px;
+	padding: 5px;
+	margin-bottom: 10px;
+	background-color: #000;
+	color: #fff;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+	display: inline-block;
+	margin-top: 5px;
+}
+
+.contacts{margin-bottom: 7px;}
+.capacity, .operations, .comments{margin-bottom: 10px;}
+
+// Menu View Pages
+div.sections, div.Fooditems, , div.optionset {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 0 0 20px 0;
+	border-bottom: 2px solid #d00;
+	padding-bottom: 10px;
+}
+
+#main_content > .panel > .panel_contents > div > div > ol.sections{
+	margin-bottom: 10px;
+}
+#main_content > .panel > .panel_contents > div > div > ol.sections > li{
+	margin-bottom: 20px;
+	list-style: decimal;
+	margin-left: 25px;
+}
+#main_content > .panel > .panel_contents > div > div > ol.sections > li > span:nth-child(1){
+	display: inline-block;
+	width: 200px;
+	// vertical-align: top;
+}
+#main_content > .panel > .panel_contents > div > div > ol.sections > li > span:nth-child(2){
+	display: inline-block;
+	width: calc(100% - 210px - 200px);
+	vertical-align: top;
+}
+// #main_content > .panel > .panel_contents > div > div > ol.sections > li:nth-child(1){
+// 	display: inline-block;
+// 	width: 200px;
+// 	vertical-align: top;
+// }
+// #main_content > .panel > .panel_contents > div > div > ol.sections > li:nth-child(2){
+// 	display: inline-block;
+// 	width: calc(100% - 210px - 200px);
+// 	vertical-align: top;
+// }
+
+div.fooditem > span.fooditem_description{
+	width: calc(100% - 50%);
+	display: inline-block;
+	vertical-align: top;
+}
+div.fooditem > span.fooditem_space{
+	width: calc(100% - 90%);
+	display: inline-block;
+	vertical-align: top
+}
+div.fooditem{
+	position: relative;
+	min-height: 115px;
+}
+
+div.wrapper_fooditems ol:nth-last-child(1){
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+hr {
+	color: #ccc;
+}
+div.fooditem > span.img{
+	width: 100px;
+	text-align: right;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	overflow:hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+div.fooditem > span.checks_available{
+	display: block;
+}
+
+span.ingredient_label, span.dietary_label{
+	font-weight: bold;
+	margin-right: 10px;
+	display: inline-block;
+}
+//div.wrapper_fooditems > ol{list-style: decimal;}
+div.fooditem > span.label{
+	display: block;
+	font-weight: bold;
+}
+div.wrapper_optionset > ol.optionset > li.limits > span:nth-child(1){
+	margin-right: 10px;
+}
+div.wrapper_optionset > ol.optionset > li.limits > span:nth-child(2){
+	margin-right: 5px;
+}
+div.wrapper_optionset > ol.optionset > li.limits > span:nth-child(3){
+	margin-left: 5px;
+}
+div.wrapper_optionset > ol.options{
+	margin-top: 15px;
+}
+div.wrapper_optionset > ol{
+	list-style: decimal;
+	padding-left: 25px;
+}
+div.wrapper_optionset > ol > li > ol.optionset > li > ol.options  > li > ol > li,
+div.wrapper_optionset > ol > li > ol.optionset > li{
+	display: inline-block;
+	width: 250px;
+	margin-right: 10px;
+}
+div.wrapper_optionset > ol > li > ol.optionset > li:nth-child(4){
+	width: 100%;
+}
+div.wrapper_optionset > ol > li > ol.optionset > li > span.checks{
+	width: auto;
+}
+div.wrapper_optionset > ol > li > ol.optionset > li > ol.options {
+	list-style: decimal;
+	margin-left: 100px;
+}
+div.wrapper_sections, div.wrapper_fooditems, div.wrapper_optionset{
+	margin-bottom: 20px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+//----------------
+.break, .ingredient_label, .check_list{
+	list-style: none;
+}
+.f_items{
+	list-style: decimal;
+	margin-left: 25px;
+	border-bottom: 1px solid #fff !important;
+}
+.f_items li:nth-last-child(1){
+	border-bottom: 1px solid #fff !important;
+}
+div.wrapper_optionset .optionset .options .break{
+	display: block;
+}
+div.wrapper_optionset .optionset .options .dietary_label,
+div.wrapper_optionset .optionset .options .ingredient_label{
+	width: 150px;
+	margin-right: 10px;
+}
+div.wrapper_optionset > ol >li > ol.optionset >li >ol.options >li{
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+div.wrapper_optionset > ol >li > ol.optionset >li >ol.options >li:nth-last-child(1){
+	border-bottom: 1px solid #fff;
+}
+div.wrapper_optionset > ol >li{
+	border-bottom: 1px solid #ccc;
+}
+div.wrapper_optionset > ol >li:nth-last-child(1){
+	border-bottom: 1px solid #fff;
+}
+#active_admin_content .formtastic .inline-errors, #active_admin_content .formtastic label.error {
+	color: #dc4747;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	padding-left: 0;
+}
+
+
+// Add Company Page
+#new_company div.has_many_container,
+#edit_company div.has_many_container{
+    display: inline-block;
+    margin-right: 10px;
+}
+#new_company fieldset.inputs,
+#edit_company fieldset.inputs{
+	padding:10px;
+	//border:1px solid #ccc;
+	border-radius:3px;
+}
+#new_company fieldset.inputs > ol > li:nth-child(1),
+#edit_company fieldset.inputs > ol > li:nth-child(1){
+    width: 30%;
+    display:inline-block;
+		vertical-align: top;
+}
+#new_company fieldset.inputs > ol > li:nth-child(2) > div.field_with_errors,
+#new_company fieldset.inputs > ol > li:nth-child(3) > div.field_with_errors,
+
+#new_company fieldset.inputs > ol > li:nth-child(2),
+#new_company fieldset.inputs > ol > li:nth-child(3),
+
+#edit_company fieldset.inputs > ol > li:nth-child(2),
+#edit_company fieldset.inputs > ol > li:nth-child(3){
+    width: 20%;
+    display:inline-block;
+    vertical-align:top;
+}
+#new_company fieldset.inputs > ol > li:nth-child(4) > div.field_with_errors,
+#new_company fieldset.inputs > ol > li:nth-child(5) > div.field_with_errors{
+	width:100%;
+}
+
+#new_company fieldset.inputs > ol > li:nth-child(4),
+#new_company fieldset.inputs > ol > li:nth-child(5),
+
+#edit_company fieldset.inputs > ol > li:nth-child(4),
+#edit_company fieldset.inputs > ol > li:nth-child(5) {
+    width: 50%;
+    display:inline-block;
+}
+#new_company fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors,
+#new_company fieldset.inputs > ol > li:nth-child(2) > div.field_with_errors,
+#new_company fieldset.inputs > ol > li:nth-child(3) > div.field_with_errors{
+	width:100%;
+}
+
+
+#new_company fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors > label,
+#new_company fieldset.inputs > ol > li:nth-child(2) > div.field_with_errors > label,
+#new_company fieldset.inputs > ol > li:nth-child(3) > div.field_with_errors > label,
+
+#new_company fieldset.inputs > ol > li:nth-child(1) > label,
+#new_company fieldset.inputs > ol > li:nth-child(2) > label,
+#new_company fieldset.inputs > ol > li:nth-child(3) > label,
+
+#edit_company fieldset.inputs > ol > li:nth-child(1) > label,
+#edit_company fieldset.inputs > ol > li:nth-child(2) > label,
+#edit_company fieldset.inputs > ol > li:nth-child(3) > label {
+	width:100%;
+	display:inline-block;
+    white-space: nowrap;
+    text-align:left;
+}
+#new_company fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors > input,
+#new_company fieldset.inputs > ol > li:nth-child(2) > div.field_with_errors > input,
+#new_company fieldset.inputs > ol > li:nth-child(3) > div.field_with_errors > input,
+
+#edit_company fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors > input,
+#edit_company fieldset.inputs > ol > li:nth-child(2) > div.field_with_errors > input,
+#edit_company fieldset.inputs > ol > li:nth-child(3) > div.field_with_errors > input,
+
+#new_company fieldset.inputs > ol > li:nth-child(1) > input,
+#new_company fieldset.inputs > ol > li:nth-child(2) > input,
+#new_company fieldset.inputs > ol > li:nth-child(3) > input,
+
+#edit_company fieldset.inputs > ol > li:nth-child(1) > input,
+#edit_company fieldset.inputs > ol > li:nth-child(2) > input,
+#edit_company fieldset.inputs > ol > li:nth-child(3) > input {
+    width:95%;
+}
+#new_company fieldset.inputs > ol > li.company_admins_active,
+#new_company fieldset.inputs > ol > li.fields_active,
+#new_company fieldset.inputs > ol > li.addresses_active,
+
+#edit_company fieldset.inputs > ol > li.company_admins_active,
+#edit_company fieldset.inputs > ol > li.fields_active,
+#edit_company fieldset.inputs > ol > li.addresses_active{
+	border:1px solid #ccc;
+	padding:5px;
+	border-radius:3px;
+	margin-bottom:10px;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields:nth-child(1),
+#new_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields:nth-child(1),
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields:nth-child(1),
+
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields:nth-child(1),
+#edit_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields:nth-child(1),
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields:nth-child(1){
+	border-top:1px solid #fff;
+	border-radius:0px;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields,
+#new_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields,
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields,
+
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields,
+#edit_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields,
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields{
+	border-top:1px solid #ccc;
+	border-radius:0px;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol,
+#new_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol,
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol,
+
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol,
+#edit_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol,
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol{
+	position:relative;
+}
+
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(1),
+#new_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol > li:nth-last-child(1),
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li:nth-last-child(1),
+
+#edit_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol > li:nth-last-child(1),
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li:nth-last-child(1){
+  position:absolute;
+  top: -6px;
+  right: -6px;
+  width: auto;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(3),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(3){
+  position:absolute;
+  top: 18px;
+  right: -38px;
+  width: auto;
+  color: #d00;
+}
+
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(5),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(5){
+  margin-top: 25px;
+}
+
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > a,
+#new_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > a,
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > a,
+
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(3) > a,
+#edit_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > a,
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > a{
+	background:#d00;
+}
+
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > label,
+#edit_company fieldset.inputs > ol > li.addresses_active > fieldset.has_many_fields > ol > li:nth-last-child(1) > label,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(3){
+  color:#d00;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(1),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(1){
+  position: absolute;
+  top: 7px;
+  right: 150px;
+  width: 38px;
+  cursor: ns-resize;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields.ui-sortable-helper,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields.ui-sortable-helper,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset.has_many_fields.ui-sortable-helper,
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset.has_many_fields.ui-sortable-helper {
+  background: #b3e3fe !important;
+  opacity: 0.5;
+}
+
+#new_company fieldset.inputs > ol > li > fieldset.ui-sortable-placeholder,
+#edit_company fieldset.inputs > ol > li > fieldset.ui-sortable-placeholder,
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset.ui-sortable-placeholder,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset.ui-sortable-placeholder {
+  background: #ccc !important;
+  height: 50px;
+  display: block;
+  content: " ";
+  visibility: visible !important;
+  border: 2px dashed #5e6469;
+}
+
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(1),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(1){
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 38px;
+  cursor: ns-resize;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(2),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(2){
+  position: absolute;
+  top: 27px;
+  right: -6px;
+  width: auto;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(2) > a,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li:nth-last-child(2) > a{
+  background: #d00;
+}
+
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.boolean,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.boolean{
+  margin-left:0px;
+  text-align:center;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.boolean > label,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.boolean > label{
+	width:50%;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions{
+	width:100% !important;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset:nth-child(1),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset:nth-child(1){
+	border-top:1px solid #fff;
+	margin-bottom:0px;
+	border-radius:0;
+	padding-bottom: 0;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset{
+	border-top:1px solid #ccc;
+	width:90%;
+	margin-left:10%;
+	margin-bottom:0;
+	border-radius:0;
+	padding-bottom: 0;
+    padding-top: 3px;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > a,
+
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > a{
+	margin-left: calc(10% + 10px);
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset:nth-last-child(1),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset:nth-last-child(1){
+	border-top:1px solid #fff;
+	margin-bottom:10px;
+	border-radius:0;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(3),
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(3){
+	position: absolute;
+  top: 27px;
+  right: 0;
+  text-align: right;
+}
+#new_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(2) > a,
+#edit_company fieldset.inputs > ol > li.fields_active > fieldset.has_many_fields > ol > li.fieldoptions > fieldset > ol > li:nth-last-child(2) > a{
+  background:#d00;
+  margin-top: 27px;
+  margin-left: 70px;
+}
+#new_company fieldset.inputs > ol > li:nth-child(4).boolean,
+#edit_company fieldset.inputs > ol > li:nth-child(4).boolean{
+	margin-left: 0;
+    width: 25%;
+    text-align: right;
+    padding: 10px 2.5%;
+    vertical-align:inherit;
+    display: inline-block;
+}
+#new_company fieldset.inputs > ol > li:nth-child(5).boolean,
+#edit_company fieldset.inputs > ol > li:nth-child(5).boolean{
+	width: 25%;
+    display: inline-block;
+    margin-left: 0;
+    vertical-align: inherit;
+    padding: 10px 2.5%;
+}
+#new_company fieldset.inputs > ol > li:nth-child(6).number,
+#edit_company fieldset.inputs > ol > li:nth-child(6).number{
+	display: inline-block;
+    width: 50%;
+}
+
+#new_company fieldset.inputs > ol > li:nth-child(5).number,
+#edit_company fieldset.inputs > ol > li:nth-child(5).number{
+	width: 25%;
+}
+#new_company fieldset.inputs > ol > li:nth-child(5).number > input,
+#edit_company fieldset.inputs > ol > li:nth-child(5).number > input{
+	width: 125px;
+}
+
+#new_company fieldset.inputs > ol > li:nth-child(6).boolean,
+#edit_company fieldset.inputs > ol > li:nth-child(6).boolean{
+	width: 19%;
+	display: inline-block;
+	margin-left: 0;
+	vertical-align: top;
+	padding-top: 7px;
+	text-align: right;
+}
+#new_company fieldset.inputs > ol > li:nth-child(7).number,
+#edit_company fieldset.inputs > ol > li:nth-child(7).number{
+	width: 30%;
+	display: inline-block;
+	margin-left: 0;
+	vertical-align: top;
+	padding-left: 16px;
+}
+#new_company fieldset.inputs > ol > li:nth-child(7).number > label,
+#edit_company fieldset.inputs > ol > li:nth-child(7).number > label{
+	margin-right: 0px;
+	margin-top: -5px;
+}
+
+#new_company fieldset.inputs > ol > li:nth-child(5).number > label,
+#edit_company fieldset.inputs > ol > li:nth-child(5).number > label{
+	white-space: nowrap;
+ 	width: auto;
+ 	margin-top: 3px;
+}
+
+#marketplace > fieldset > ol > li {
+	display: block !important;
+}
+
+#main_content #index_table_orders td div.table_actions{
+	width: 110px;
+}
+
+#main_content #index_table_orders td div.table_actions a{
+	display: inline-block;
+}
+
+tr.row-fooditem > td > fieldset {
+	margin-top: 10;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+tr.row-fooditem > td > fieldset > legend {
+	margin-left: 15px;
+	border: 1px solid #ddd;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+tr.row-fooditem > td > fieldset > fieldset {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 5px;
+	margin-bottom: 5px;
+}
+
+tr.row-fooditem > td > fieldset > fieldset > legend {
+	margin-left: 30px;
+	font-weight: bold;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 5px 10px;
+}
+
+tr.row-fooditem > td > fieldset > fieldset > span {
+	padding: 5px 10px;
+	border: 1px solid #ddd;
+	margin: 5px 15px 5px 0;
+	display: inline-block;
+	border-radius: 5px;
+}
+
+fieldset.actions > ol > li.cancel {
+	position: relative;
+  top: -12px;
+}
+
+fieldset.actions > ol > li.cancel > a {
+	color: #d00;
+}
+
+#active_admin_content .formtastic .inline-errors {margin-left: 25%;}
+
+@media only screen and (max-width: 1350px) {
+  #edit_company fieldset.inputs > ol > li:nth-child(7).number > label {
+    display: block;
+		white-space: nowrap;
+  }
+	#company_copay_amount {
+		margin-top: 20px;
+	}
+}
+#edit_gmenu textarea{
+	width: 100%;
+	max-height: 80px;
+}
+
+#index_table_orders tbody td.col-user a,
+#index_table_orders tbody td.col-company a,
+#index_table_orders tbody td.col-restaurant a,
+#index_table_orders tbody td.col-schedule a,
+#index_table_orders tbody td.col-invoice_id a,
+#index_table_addresses tbody td.col-contact_name a,
+
+td.col-company_name > a,
+td.col-office_admin > a,
+#index_table_schedulers tbody td.col-comm_detail a,
+#index_table_schedulers tbody td.col-meeting a,
+#index_table_schedulers tbody td.col-driver a,
+#index_table_schedulers tbody td.col-company a{
+	color: steelblue;
+	text-decoration: underline;
+}
+// ORDER SUMMERY
+.row{
+	display: flex;
+}
+.row .col{
+	flex: 1;
+}
+.row .col input[type="submit"]{
+	width: auto;
+	margin: 10px 30px;
+	padding: 10px 20px;
+}
+.row .col input[type="date"]{
+	height: auto;
+	padding: 1px 12px;
+	border: 1px solid #aaa;
+}
+
+div.col.user__ {
+	padding-top: 20px;
+	padding-left: 10px;
+}
+div.col.manual_invoice {
+	padding-left: 10px;
+}
+div.col.user__ > span {
+	top: -3px;
+  position: relative;
+}
+
+input[disabled="disabled"],
+input[disabled] {
+  background-color: #F4F4F4;
+  border: 0px solid #F4F4F4 !important;
+}
+
+
+.special_request_text_area{
+	height: 50px;
+}
+
+// Few More Fields added into Restaurant
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(6),
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(6),
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(6),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(6){
+	width: 20% !important;
+	margin-left: -20%;
+	vertical-align: top;
+	margin-top: 67px;
+	margin-bottom: 10px !important;
+}
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9) > span,
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9) > span,
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(9) > span,
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(9) > span{
+	width: 100% !important;
+}
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li.file, #edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li.file{
+  width: 30%;
+  margin-top: 25px;
+  padding-left: 10px;
+}
+#new_company > div > fieldset.inputs > ol > li:nth-child(5),
+#edit_company > div > fieldset.inputs > ol > li:nth-child(5){
+	width: 30%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#new_company > div > fieldset.inputs > ol > li:nth-child(6),
+#edit_company > div > fieldset.inputs > ol > li:nth-child(6) {
+  width: 70%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#new_company > div > fieldset.inputs > ol > li:nth-child(6) label,
+#edit_company > div > fieldset.inputs > ol > li:nth-child(6) label {
+  text-align: left;
+	width: 100%;
+}
+#new_company > div > fieldset.inputs > ol > li:nth-child(6) span.select2.select2-container.select2-container--default,
+#edit_company > div > fieldset.inputs > ol > li:nth-child(6) span.select2.select2-container.select2-container--default{
+	width: 100% !important;
+}
+
+#new_company > div > fieldset.inputs > ol > li:nth-child(6) span.select2.select2-container.select2-container--default ul li,
+#edit_company > div > fieldset.inputs > ol > li:nth-child(6) span.select2.select2-container.select2-container--default ul li{
+	width: 100%;
+}
+.wrapper_markup_ol > li {
+  width: auto;
+  display: inline-block;
+  text-align: left;
+  margin-left: unset !important;
+  min-height: 30px;
+  margin-right: 15px;
+}
+.wrapper_markup_ol > li label{
+  width: auto !important;
+}
+
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(12),
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(12),
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-last-child(2),
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-last-child(2){
+	position: unset;
+	top: unset;
+	left: unset;
+	width: 100%;
+}
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(12) input[type="text"],
+#new_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(12) input[type="text"],
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-last-child(2) input[type="text"],
+#new_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-last-child(2) input[type="text"]{
+	width: 100%;
+}
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(11) > input, #edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(11) > input{
+	width: 100%;
+}
+
+// Edit and New Company Styling
+form.formtastic.company > div > fieldset > ol > li > fieldset {
+	border: 1px solid var(--Gray10);
+}
+form.formtastic.company > div > fieldset > ol > li > fieldset > legend {
+	width: auto !important;
+	padding: 10px;
+	border: 1px solid var(--Gray10) !important;
+	border-radius: 5px;
+	margin-bottom: 0 !important;
+}
+form.formtastic.company > div > fieldset > ol > li > fieldset > ol > li > fieldset > ol > li {
+	display: inline-block;
+	width: calc(25% - 5px);
+	margin-left: 5px !important;
+}
+form.formtastic.company > div > fieldset > ol > li.input > fieldset:nth-child(1) > ol > li:nth-child(2) {
+	width: 25% !important;
+}
+form.formtastic.company > div > fieldset > ol > li.input > fieldset:nth-child(1) > ol > li:nth-child(3) {
+	width: 100% !important;
+}
+form.formtastic.company > div > fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.approvers {
+  width: 100% !important;
+}
+form.formtastic.company > div > fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.approvers > fieldset > ol > li:nth-child(3) {
+	width: 100% !important;
+}
+
+// Edit Company
+.formtastic.company > div > fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(3){
+	width: 18% !important;
+}
+.formtastic.company > div fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.approvers > fieldset.inputs.has_many_fields > ol >
+li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(4),
+.formtastic.company > div > fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(4){
+	width: 10% !important;
+	top: 0 !important;
+	right: 0 !important;
+}
+.formtastic.company > div fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.approvers > fieldset.inputs.has_many_fields > ol >
+li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(4) > label,
+.formtastic.company > div > fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(4) > label{
+	width: 100%;
+	text-align: left;
+	color: #323537 !important;
+}
+.formtastic.company > div fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.approvers > fieldset.inputs.has_many_fields > ol >
+li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(4) > input,
+.formtastic.company > div > fieldset.inputs > ol > li.input > fieldset.inputs > ol > li.has_many_container.addresses > fieldset.inputs.has_many_fields > ol > li:nth-child(4) > input{
+	width: 95%;
+}
+
+#company_admin_phone_number_input > label {
+	white-space: nowrap;
+}
+
+// #main_content fieldset > ol > li:nth-last-child(1) {
+//     margin-left: 0;
+// }
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li,
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li {
+    width: 25% !important;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    margin-top: 0;
+    top: 0 !important;
+}
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li > label,
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li > label {
+	width: 100%;
+	text-align: left;
+}
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li > input,
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li > input {
+	width: calc( 100% - 10px );
+}
+#company_admin_allow_admin_to_manage_users_input,
+#company_admin_sms_notification_input,
+#company_admin_survey_mail_input,
+#company_admin_cutoff_hour_reminder_mail_input,
+#company_user_cutoff_day_reminder_mail_input,
+#company_admin_cutoff_day_reminder_mail_input,
+#company_admin_menu_ready_email_input {
+	margin-left: 25% !important;
+	width: 100% !important;
+}
+// Menu Options Styling After Delete
+#edit_menu > fieldset > ol > li > fieldset > ol > li.has_many_container.options.ui-sortable,
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li.has_many_container.options.ui-sortable {
+    width: 100%;
+}
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li:nth-last-child(1),
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li:nth-last-child(1) {
+	text-align: right;
+	height: auto;
+	width: auto !important;
+}
+#edit_menu > fieldset > ol > li.fooditems > fieldset > ol > li:nth-child(10),
+#edit_gmenu > fieldset > ol > li.gfooditems > fieldset > ol > li:nth-child(10) {
+	margin-top: 0;
+}
+
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(3),
+#edit_gmenu > fieldset > ol > li > fieldset > ol > li:nth-last-child(3){
+	width: auto;
+	margin-left: auto;
+	position: absolute;
+	top: 27px;
+	right: 0;
+	color: #d00;
+}
+
+#company_admin_desk_phone_input > label{
+	white-space: nowrap;
+}
+
+
+#edit_company > div > fieldset > ol > li > fieldset > ol > li.phone.input.optional.stringish {
+    position: relative;
+}
+
+// EMAIL LOGS
+.show.admin_email_logs.active_admin.logged_in.admin_namespace > div#wrapper > div#active_admin_content.without_sidebar > div#main_content_wrapper > div#main_content{
+    margin-left: calc(50% - 470px);
+}
+@media only screen and (max-width: 1400px) {
+	.show.admin_email_logs.active_admin.logged_in.admin_namespace > div#wrapper > div#active_admin_content.without_sidebar > div#main_content_wrapper > div#main_content{
+	    width: calc(100% - 225px);
+			margin-left: 200px;
+	}
+}
+
+#active_admin_content .formtastic .inline-errors {
+    margin-left: 0%;
+}
+// companies
+#edit_company div fieldset ol #company_user_meal_budget_input > div > label.label {
+    width: unset;
+}
+.field_with_errors > label.label {
+    width: 100% !important;
+    text-align: left !important;
+}
+// scheduler validation fields alignment
+#edit_runningmenu #schedular li > .field_with_errors:nth-child(1),
+#new_runningmenu #schedular li > .field_with_errors:nth-child(1) {
+    width: 25%;
+}
+#new_runningmenu #schedular .schedulerFirstTab li > .field_with_errors:nth-child(1),
+#edit_runningmenu #schedular .schedulerFirstTab li > .field_with_errors:nth-child(1) {
+	width: 100%;
+}
+#edit_runningmenu #schedular li > .field_with_errors:nth-child(1) > label,
+#new_runningmenu #schedular li > .field_with_errors:nth-child(1) > label {
+	text-align: right !important;
+}
+#active_admin_content .formtastic .inline-errors{
+	margin-left: 25% !important;
+}
+
+// #index_table_schedulers .col-company{
+// 	font-weight: bold;
+// }
+
+.wrapper_link {
+  float: right;
+}
+.ui-dialog{
+  border: 1px solid darkgrey !important;
+  padding: .2em;
+}
+.ui-widget-header {
+  border: 1px solid #dddddd;
+  background: #e9e9e9;
+  color: #333333;
+  font-weight: bold;
+}
+.ui-dialog .ui-dialog-titlebar {
+    padding: .4em 1em;
+    position: relative;
+}
+
+.ui-dialog-content.ui-widget-content {
+	padding: 1em;
+}
+
+.ui-widget-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.ui-widget-overlay {
+	background: #aaaaaa;
+	opacity: .3;
+	filter: Alpha(Opacity=30); /* support: IE8 */
+}
+
+.addresses-ul {
+	padding: 1em;
+  list-style: disc;
+}
+// Companies Billing Details
+#billing-detail li.choice {
+  width: auto;
+  display: inline;
+  margin-right: 30px;
+	margin-left: unset !important;
+}
+#billing-detail li.choice input {
+	float: unset !important;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li:nth-child(1){
+	width: 100%;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li:nth-child(6).boolean {
+	text-align: left;
+}
+#edit_company #billing-detail li#company_billing_attributes_name_input {
+	margin-top: 10px;
+}
+#edit_company #billing-detail li#company_billing_attributes_name_input label {
+	width: auto;
+}
+#edit_company #billing-detail li#company_billing_attributes_weekly_invoice_input {
+	margin-left: unset;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#edit_company #billing-detail fieldset.inputs>ol>li:nth-child(1) {
+	width: 50%;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li.addresses > fieldset.has_many_fields > ol > li:nth-last-child(1) {
+	position: unset;
+	top: unset;
+	right: unset;
+	width: 10%;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li.addresses > fieldset.has_many_fields > ol > li:nth-last-child(1) > label {
+	width: 100%;
+	color: #363640;
+	text-align: left;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li:nth-child(3) {
+	width: 18%;
+}
+#edit_company #billing-detail fieldset.approver_ > ol > li:nth-child(3) {
+	width: 100%;
+}
+#edit_company #billing-detail fieldset.approver_ > ol > li:nth-last-child(1) {
+	position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  width: auto;
+	height: 27px;
+	vertical-align: top;
+}
+#edit_company #billing-detail fieldset.approver_ > ol > li:nth-last-child(1) > label {
+	color: #d00;
+	width: auto;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li:nth-child(4) {
+	// width: 10%;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li:nth-child(4) > label {
+	width: 100%;
+	text-align: left;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li.addresses > fieldset.has_many_fields > ol > li:nth-last-child(1) > a, fieldset.approver_ > ol > li:nth-last-child(1) > a.button.has_many_remove {
+	background: #d00;
+	width: auto;
+	color: #fff;
+	// position: absolute;
+	// top: 0;
+	// right: 0;
+}
+#edit_company #billing-detail > fieldset.inputs > ol > li:nth-child(1) {
+	width: 100%;
+}
+#edit_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li {
+	width: 20% !important;
+}
+
+#edit_company #billing-detail > fieldset.inputs > ol > li.string.input.optional.stringish:nth-child(4) {
+	width: 125px;
+}
+#edit_company #billing-detail > fieldset.inputs > ol > li.string.input.optional.stringish:nth-child(4) > label {
+	width: auto;
+	text-align: left;
+}
+#edit_company #billing-detail > fieldset.inputs > ol > li.string.input.optional.stringish:nth-child(4) > input {
+    width: 90%;
+}
+#edit_company #billing-detail fieldset.inputs > ol > li:nth-child(5) > label {
+    width: 100%;
+    text-align: left;
+}
+
+#new_company #billing-detail fieldset.inputs > ol > li:nth-child(1){
+	width: 100%;
+}
+#new_company #billing-detail fieldset.inputs > ol > li:nth-child(6).boolean {
+	text-align: left;
+}
+#new_company #billing-detail li#company_billing_attributes_name_input {
+	margin-top: 10px;
+}
+#new_company #billing-detail li#company_billing_attributes_name_input label {
+	width: auto;
+}
+#new_company #billing-detail li#company_billing_attributes_weekly_invoice_input {
+	margin-left: unset;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#new_company #billing-detail fieldset.inputs>ol>li:nth-child(1) {
+	width: 50%;
+}
+#new_company #billing-detail fieldset.inputs > ol > li.addresses > fieldset.has_many_fields > ol > li:nth-last-child(1) {
+	position: unset;
+	top: unset;
+	right: unset;
+	width: 10%;
+}
+#new_company #billing-detail fieldset.inputs > ol > li.addresses > fieldset.has_many_fields > ol > li:nth-last-child(1) > label {
+	width: 100%;
+	color: #363640;
+	text-align: left;
+}
+#new_company #billing-detail fieldset.inputs > ol > li:nth-child(3) {
+	width: 18%;
+}
+#new_company #billing-detail fieldset.approver_ > ol > li:nth-child(3) {
+	width: 100%;
+}
+#new_company #billing-detail fieldset.approver_ > ol > li:nth-last-child(1) {
+	position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  width: auto;
+	height: 27px;
+	vertical-align: top;
+}
+#new_company #billing-detail fieldset.approver_ > ol > li:nth-last-child(1) > label {
+	color: #d00;
+	width: auto;
+}
+#new_company #billing-detail fieldset.inputs > ol > li:nth-child(4) {
+	// width: 10%;
+}
+#new_company #billing-detail fieldset.inputs > ol > li:nth-child(4) > label {
+	width: 100%;
+	text-align: left;
+}
+#new_company #billing-detail fieldset.inputs > ol > li.addresses > fieldset.has_many_fields > ol > li:nth-last-child(1) > a, fieldset.approver_ > ol > li:nth-last-child(1) > a.button.has_many_remove {
+	background: #d00;
+	width: auto;
+	color: #fff;
+	// position: absolute;
+	// top: 0;
+	// right: 0;
+}
+#new_company #billing-detail > fieldset.inputs > ol > li:nth-child(1) {
+	width: 100%;
+}
+#new_company fieldset.inputs > ol > li.company_admins_active > fieldset.has_many_fields > ol > li {
+	width: 20% !important;
+}
+
+#new_company #billing-detail > fieldset.inputs > ol > li.string.input.optional.stringish:nth-child(4) {
+	width: 125px;
+}
+#new_company #billing-detail > fieldset.inputs > ol > li.string.input.optional.stringish:nth-child(4) > label {
+	width: auto;
+	text-align: left;
+}
+#new_company #billing-detail > fieldset.inputs > ol > li.string.input.optional.stringish:nth-child(4) > input {
+    width: 90%;
+}
+#new_company #billing-detail fieldset.inputs > ol > li:nth-child(5) > label {
+    width: 100%;
+    text-align: left;
+}
+
+#new_restaurant fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors:nth-child(1) {
+	display: inline-block;
+	text-align: right;
+	width: 25%;
+}
+#new_restaurant fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors > label.label{
+	text-align: right !important;
+}
+#new_restaurant fieldset.inputs > ol > li:nth-child(1) > div.field_with_errors:nth-child(2) {
+	display: inline-block;
+	width: 75%;
+}
+#main_content form[novalidate="novalidate"]#new_address fieldset.inputs > ol > li.error > div.field_with_errors:nth-child(1){
+	width: 25%;
+}
+#main_content form[novalidate="novalidate"]#new_address fieldset.inputs > ol > li.error > div.field_with_errors:nth-child(1) > label.label {
+	text-align: right !important;
+}
+li#setting_dinner_input {
+    margin-left: 25% !important;
+}
+li#setting_display_nutritionix_input {
+    margin-left: 25% !important;
+}
+#edit_address input[as="boolean"][label="Delete"][checked_value="deleted"][unchecked_value="active"] {
+  display: none;
+}
+.has_one ~ .has_many_add {
+  display: none !important;
+}
+#main_content:empty {
+	display: none;
+}
+a.member_link.delete_btn {
+  background-color: red !important;
+}
+a.member_link.active_btn {
+  background-color: green !important;
+}
+a.member_link.paid_btn {
+  background-color: $paid-color !important;
+}
+a.member_link.generated_btn {
+  background-color: $generated-color !important;
+}
+div.field_with_errors > label.label {
+  width: 25% !important;
+  text-align: right !important;
+}
+#active_admin_content .formtastic div.column p.inline-errors {
+    margin-left: 0 !important;
+}
+#edit_address fieldset > ol > li.has_many_delete.boolean.input.optional {
+	margin-left: 25%;
+}
+div.selected-list-container {
+  width: 75%;
+}
+.selected-list-container span.select2.select2-container.select2-container--default {
+	width: calc(67% - 4px) !important;
+}
+
+#edit_restaurant_billing > div > fieldset > ol > li:nth-child(2) textarea{
+  height: 80px;
+}
+#edit_restaurant_billing > div > fieldset > ol > li:nth-child(4){
+  position: absolute;
+  right: 228px;
+  margin-top: -28px;
+  color: red;
+}
+#edit_restaurant_billing > div > fieldset.has_many_fields > ol > li > a{
+  background-color: red;
+}
+#index_table_invoices tbody td.col-status .select2.select2-container.select2-container--default,
+#index_table_restaurant_billings  tbody td.col-payment_status .select2.select2-container.select2-container--default {
+  width: 100% !important;
+}
+#index_table_invoices td.col>div{
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#index_table_invoices .col.col-status {
+  width: 100px;
+}
+#index_table_invoices tbody td.col-status .select2-dropdown.select2-dropdown--above,
+#index_table_restaurant_billings  tbody td.col-payment_status .select2-dropdown.select2-dropdown--above{
+  width: auto !important;
+}
+#select2-runningmenu_user_id-container .select2-selection__clear,
+#index_table_invoices tbody td.col-status .select2-selection__clear,
+#index_table_schedulers tbody td.col-rest_rest_response .select2-selection__clear,
+#index_table_schedulers tbody td.col-driver .select2-selection__clear,
+#index_table_restaurant_billings  tbody td.col-payment_status .select2-selection__clear,
+#index_table_users  tbody td.col.col-user_type .select2-selection__clear{
+  display: none;
+}
+.hoverToolTip {
+  position: relative;
+  cursor: pointer;
+	width: auto;
+	height: auto;
+}
+.hoverToolTip:hover > .hoverData {
+  display: block;
+}
+.hoverToolTip .hoverData {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  border: 1px solid #999;
+  cursor: default;
+  padding: 10px;
+  border-radius: 0 3px 3px 3px;
+  // white-space: nowrap;
+  z-index: 1;
+  background: #fff;
+	max-width: 400px;
+
+}
+.line-break{
+  display: block;
+	font-weight: normal;
+}
+.rest_orders_count{
+	padding: 5px;
+}
+th.col.col-approximate_ct {
+  white-space: nowrap;
+  padding-right: 5px;
+}
+// LEFT SIDE BAR TOGGOLE
+.actToggle {
+  margin-top: 34px;
+  display: inline-block;
+  margin-left: -14px;
+  position: fixed;
+  z-index: 3;
+  padding: 5px 0 0 9px;
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  background: #5E6469;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.3s all ease-in-out;
+}
+.actToggle:hover {
+  background: #5E6469;
+}
+span.goLeft {
+  margin-left: -262px;
+  transform: rotate(180deg);
+  transition: 0.2s all ease-in-out;
+}
+// RIGHT SIDE BAR
+.mainContent {
+  width: 70% !important;
+  display: inline-block;
+  transition: 0.3s all ease-in-out;
+}
+.rightSideBar {
+  width: calc(34% - 70px);
+  border: 1px solid #dadada;
+  height: calc(100vh - 70px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  top: 65px;
+  right: 0px;
+  background: #fff;
+  z-index: 6;
+  transition: 0.3s all ease-in-out;
+  padding: 15px;
+}
+.rightSideBar .closeBtn {
+  position: sticky;
+  top: 10px;
+  right: 10px;
+  background: #5E6469;
+  color: #fff;
+  padding: 7px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  left: 100%;
+  z-index: 2;
+}
+.rightSideBar .closeBtn:hover {
+  background: #767e84;
+}
+.rightSideBar .headPart, .rightSideBar .companyAdmins, .rightSideBar .restaurantDetail, .rightSideBar .driverPart {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dadada;
+  margin-bottom: 7px;
+}
+.rightSideBar .restaurantDetail, .rightSideBar .driverPart {
+  margin-top: 30px;
+}
+.rightSideBar .headPart .companyName {
+  font-size: 13px;
+}
+.rightSideBar .headPart .menuType {
+  color: #d00;
+  font-size: 13px;
+  margin-top: 7px;
+  text-transform: capitalize;
+}
+.rightSideBar .companyAdmins .adminList {
+  display: inline-block;
+  width: calc(50% - 15px);
+  // padding: 5px;
+  line-height: 20px;
+  // margin: 5px;
+  word-break: break-all;
+  vertical-align: top;
+  font-size: 13px;
+  margin-top: 10px;
+}
+.rightSideBar .companyAdmins .adminList a {
+  color: steelblue;
+  text-decoration: underline;
+}
+.rightSideBar .restaurantDetail h3 .ack{
+  padding: 5px 10px;
+  background: #666;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+}
+.rightSideBar .restaurantDetail h3 .accepted{
+  padding: 5px 10px;
+  background: #0b6b17;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+}
+.rightSideBar .restaurantDetail h3 .confirmed{
+  padding: 5px 10px;
+  background: #0b6b17;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+}
+.rightSideBar .restaurantDetail h3 .no_response {
+    padding: 5px 10px;
+    background: #ff5630;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    position: relative;
+    top: -3px;
+}
+.rightSideBar .restaurantDetail .simpleText{
+  font-size: 13px;
+  margin-top: 7px;
+}
+.rightSideBar .restaurantDetail .contactList {
+  display: inline-block;
+  width: calc(50% - 15px);
+  // padding: 5px;
+  line-height: 20px;
+  // margin: 5px;
+  word-break: break-all;
+  vertical-align: top;
+  font-size: 13px;
+}
+.rightSideBar .restaurantDetail .contactList a {
+  color: steelblue;
+  text-decoration: underline;
+}
+.rightSideBar .restaurantDetail .row {
+  display: flex;
+}
+.rightSideBar .restaurantDetail .row .col {
+  display: inline-block;
+  width: calc(33.333% - 13px);
+  margin: 5px;
+  padding: 5px;
+  background: lightgray;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 15px;
+  text-decoration: none;
+  color: #666;
+  cursor: pointer;
+  height: auto;
+  vertical-align: middle;
+  max-width: 33.33%;
+	div.vCenterWrapper {
+		display: table;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+		div.vCenterCenter {
+			display: table-cell;
+    	vertical-align: middle;
+		}
+	}
+}
+.rightSideBar .driverPart h3 .confirmed{
+  padding: 5px 10px;
+  background: #0b6b17;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+}
+.rightSideBar .driverPart h3 .unconfirmed{
+  padding: 5px 10px;
+  background: #bf5902;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  position: relative;
+  top: -3px;
+}
+.rightSideBar .driverPart .simpleText{
+  font-size: 13px;
+  margin-top: 7px;
+}
+.rightSideBar .driverPart .contactList {
+  display: inline-block;
+  width: calc(50% - 15px);
+  // padding: 5px;
+  line-height: 20px;
+  // margin: 5px;
+  word-break: break-all;
+  vertical-align: top;
+  font-size: 13px;
+}
+.rightSideBar .driverPart .contactList a {
+  color: steelblue;
+  text-decoration: underline;
+}
+.rightSideBar .driverPart .btnSect {
+  margin-top: 7px;
+}
+.rightSideBar .driverPart .sendBtn {
+  padding: 7px 15px;
+  margin: 5px;
+  background: #dadada;
+  border-radius: 4px;
+}
+.rightSideBar .driverPart .sendBtn:hover {
+  background: #999;
+  color: #fff;
+}
+// #active_admin_content span.select2-selection__clear{
+//   display: none !important;
+// }
+.rightSideBar div:nth-last-child(1) {
+  border-bottom: unset;
+}
+.disabled {
+  cursor: not-allowed !important;
+  // background: #f1f1f1 !important;
+}
+
+.hrScheduler {
+	height:1px;border:none;color: rgba(51, 51, 51, 0.3);background-color: rgba(51, 51, 51, 0.18);
+}
+#index_table_schedulers .col.col-rest hr:nth-last-child(1) {
+  display: none;
+}
+#index_table_schedulers .col.col-rest_rest_response div.rest_orders_count:nth-last-child(1) hr{
+  display: none;
+}
+#index_table_schedulers td.col.col-dd_t {
+  white-space: nowrap;
+}
+// .admin_schedulers .col-rest_response.select2-results__options li:nth-child(1) {
+//   color: rgb(255, 86, 48);
+// }
+// .admin_schedulers .select2-results__options li:nth-child(2) {
+//   color: rgb(255, 153, 31);
+// }
+// .admin_schedulers .col-rest_response .select2-results__options li:nth-child(3) {
+//   color: rgb(54, 179, 126);
+// }
+// .admin_schedulers .col-rest_response .select2-results__options li:nth-child(4) {
+//   color: rgb(54, 179, 126);
+// }
+.admin_schedulers .select2-selection__rendered[title="No Response"] {
+  color: rgb(255, 86, 48);
+}
+.admin_schedulers .select2-selection__rendered[title="Accepted Modified Orders"], .admin_schedulers .select2-selection__rendered[title="Accepted Orders"] {
+  color: rgb(54, 179, 126);
+}
+.admin_schedulers .select2-selection__rendered[title="Acknowledged Schedule"] {
+  color: rgb(255, 153, 31);
+}
+
+.admin_schedulers .select2-selection__rendered[title="Rejected by Vendor"] {
+  color: red;
+}
+.orderCount {
+	position: relative;
+	top: 6px;
+	padding: 7px 4px;
+  font-size: 14px;
+}
+th.col.col-dd_t, th.col.col-rest_rest_response {
+	padding-left: 5px;
+}
+.importedScheduleBody td.col.col-rest_rest_response{
+  display: block;
+  width: 200px;
+  padding-top: calc(50% - 65px);
+}
+.importedScheduleBody td.col.col-company{
+	width: 200px;
+}
+#index_table_schedulers .address_wrap{
+  white-space: nowrap;
+  width: 100%;
+}
+
+#index_table_schedulers .col.col-count{
+  padding-right: 15px;
+}
+a.sidebarSeeorderBtn {
+    background: #5E6469;
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 3px;
+    margin-left: 20px;
+}
+td.col.col-rest_rest_response {
+    width: 270px;
+}
+.linksForScope{
+	color: #5E6469 !important;
+	text-decoration: none;
+	background-color: white !important;
+}
+
+#index_table_schedulers th.sortable.col.col-dd_t:after {
+	right: 0px;
+  left: 65px;
+}
+#index_table_schedulers th.sortable.col.col-company:after {
+	right: 0px;
+  left: 65px;
+}
+#index_table_schedulers th.sortable.col.col-driver:after {
+	right: 0;
+	left: 45px;
+}
+#index_table_invoices span.status_tag.no,
+#index_table_restaurant_billings span.status_tag.no {
+  display: none;
+}
+
+#company_site_survey_input {
+  // width: calc(100% + 20%) !important;
+	width: 100% !important;
+}
+
+// Action Button Classes
+.table_actions > a.member_link.edit {
+  background: #0fe0e1;
+  display: inline-block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+	position: relative;
+	&:hover {
+		background: #0bd7d8;
+	}
+}
+.table_actions > a.member_link.delete_btn.dBtn {
+  background: #d00;
+	display: inline-block;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: relative;
+	&:hover {
+		background: #c80000;
+	}
+}
+.table_actions > a.member_link.commDash.detailVU, .table_actions > a.view_link.member_link.detailVU, .table_actions > a.member_link.detailVU {
+  background: #7acc4b;
+	display: inline-block;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: relative;
+	&:hover {
+		background: #5ba331;
+	}
+}
+
+.table_actions > a.member_link.forwardVU {
+  background: steelblue;
+  display: inline-block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+	position: relative;
+	&:hover {
+		background: skyblue;
+	}
+}
+
+span.activeToolTip {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 5px;
+  background: #fff;
+  z-index: 2;
+	color: #666;
+	> span.arrow {
+		content: " ";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid lightgray;
+    background: #fff;
+    border-left: 1px solid lightgray;
+    transform: rotate(45deg) translate(-50%, 60%);
+	}
+}
+.index_as_table {
+  padding-bottom: 25px;
+}
+
+canvas.chartjs-render-monitor{
+  margin-top: 50px;
+}
+
+
+#index_table_users td.col.col-user_type{
+	width: 170px;
+}
+
+
+
+.bulk_schedule, .upload_json {
+  background-color: #5E6469;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  display: inline-block;
+  transition: border 0.2s linear, color 0.2s linear, width 0.2s linear, background-color 0.2s linear;
+  cursor: pointer;
+  padding: 5px 8px;
+}
+.sampleFile {
+  color: #5E6469 !important;
+  border: none !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  position: relative;
+  margin-left: 5px;
+  top: 4px;
+  background-color: unset !important;
+  right: 7px;
+  font-size: 20px;
+}
+// Imported Schedule
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.importedScheduleBody {
+  tr {
+    transition: 0.4s all ease-in-out;
+  }
+  tr.scheduleUpdateFailed {
+    background: #f1c7c7;
+  }
+  tr.scheduleUpdateSuccess {
+    background: #a2e09d73;
+  }
+  td.col.col-meal.editable_dt span.select2.select2-container {
+    width: calc(100% + 10px) !important;
+  }
+  td.col.col-driver.editable_dt span.select2.select2-container {
+    width: 100px !important;
+  }
+  .hiddenTr {
+    display: none;
+      > td {
+        text-align: right;
+        > button {
+          padding: 7px 10px;
+          background: lightgray;
+          border-radius: 4px;
+          border: 1px solid lightgray;
+          cursor: pointer;
+          &:hover {
+            background: #adadad;
+          }
+        }
+      }
+  }
+	td {
+    .runningmenuRunningmenuTypeToggle, .buffetContent, span.select2.select2-container.select2-container--default, .mettingName, .ordersCount, .perMealBudget, .saveData, .saveDataToTemp, .close {
+      display: none;
+    }
+    .saveData {
+      margin-bottom: 7px;
+      background: #528c09;
+      display: none;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      position: relative;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .saveDataToTemp {
+      margin-bottom: 7px;
+      background: #528c09;
+      display: none;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      position: relative;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .close {
+      background: #d00;
+      display: none;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      position: relative;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: #fff;
+    }
+	  input.date-time-picker-input {
+	    width: 140px;
+	    display: none;
+	  }
+    input.companyAddress {
+      display: none;
+    }
+	  span.deliverAt, span.cutoffAt, span.adminCutoffAt {
+	    position: relative;
+	    display: inline-block;
+	    border-radius: 3px;
+	    border: 1px solid lightgray;
+	    padding-right: 5px;
+	    margin-bottom: 5px;
+	    background: #fff;
+	    &:before {
+	      display: inline-block;
+	      top: 0;
+	      left: 0;
+	      background: lightgray;
+	      padding: 5px;
+	    }
+	  }
+	  span.deliverAt {
+	    &:before {
+	      content: "Del.";
+	    }
+	  }
+	  span.cutoffAt {
+	    &:before {
+	      content: "Cuto.";
+	    }
+	  }
+	  span.adminCutoffAt {
+	    &:before {
+	      content: "Adm Cuto.";
+	    }
+	  }
+	}
+	td.col.col-meal {
+	  width: 150px;
+	}
+	td.col.col-meeting {
+	  input {
+	    width: 140px;
+	  }
+	}
+	td.col.col-count, td.col-budget {
+	  input {
+	    width: 100px;
+	  }
+	}
+	td.col-company {
+	  input {
+	    width: 100px;
+	  }
+	}
+}
+.runningmenuRunningmenuTypeToggle {
+  border-radius: 999px;
+  width: 50px;
+  display: inline-block;
+  border: 1px solid lightgray;
+  position: relative;
+  height: 22px;
+  cursor: pointer;
+  background: #fff;
+	> span {
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: 0.5s all ease-in-out;
+    background: #dadada;
+    border-radius: 999px;
+	}
+	> span.active {
+    left: unset;
+    right: 2px;
+    background: #528c09;
+	}
+}
+
+// Custom Modal
+.customModalUsersOverlay {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, .5);
+	z-index: 15;
+	.customModalUsers	{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #fff;
+		border: 1px solid lightgray;
+		box-shadow: 0 0 5px #666;
+		border-radius: 5px;
+		overflow: hidden;
+		width: 100%;
+		max-width: 350px;
+		.header {
+			padding: 15px;
+			font-size: 18px;
+			font-weight: bold;
+			border-bottom: 1px solid lightgray;
+			width: 100%;
+			position: relative;
+			.closeModal {
+				cursor: pointer;
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				color: #d00;
+				transition: 0.5s all ease-in-out;
+				&:hover {
+					color: #820303;
+				}
+			}
+		}
+		.body {
+			padding: 15px;
+			width: 100%;
+			.popupAdminDropdown {
+				padding: 10px 15px;
+				width: 100%;
+				border: 1px solid lightgray;
+			}
+		}
+		.footer {
+			padding: 15px;
+			border-top: 1px solid lightgray;
+			text-align: right;
+			width: 100%;
+			button {
+				border-radius: 4px;
+				border: 1px solid lightgray;
+				background: #dadada;
+				padding: 7px 12px;
+				margin-left: 5px;
+				&:hover {
+					background: #999;
+				}
+			}
+		}
+	}
+}
+
+// BS MODAL
+div#chat_modal {
+	position: fixed;
+	width: 100%;
+	max-width: 500px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+}
+
+// BS chat_modal_css
+
+
+body {
+  position: relative;
+
+  .chatTile {
+	  font-family: 'Arial', Helvetica, sans-serif;
+	  max-width: 300px;
+	  border-radius: 5px 5px 0 0;
+	  overflow: hidden;
+	  border: 1px solid #c2c8ce;
+	  width: 100%;
+	  display: inline-block;
+	  margin-left: 10px;
+	  position: fixed;
+	  top: calc(100vh - 400px);
+	  right: 390px;
+	  z-index: 1;
+	  background: #fff;
+	  &:nth-last-child(2) {
+	    right: 390px;
+	  }
+	  &:nth-last-child(3) {
+	    right: 698px;
+	  }
+	  &:nth-last-child(4) {
+	    right: 1007px;
+	  }
+	  .header, .body, .footer {
+	    // width: calc(100% - 20px);
+	    width: 100%;
+	  }
+	  &.active {
+	    .header {
+	      background: #6dbfdf;
+	    }
+	  }
+	  .header {
+	    padding: 0 10px;
+	    background: #dee2e6;
+	    border-bottom: 1px solid #c2c8ce;
+
+	    .headText {
+	      text-align: left;
+	      display: inline-block;
+	      width: calc(100% - 25px);
+	      font-weight: bold;
+	      padding: 10px 0;
+	      user-select: none;
+	    }
+	    .closeTile {
+	      display: inline-block;
+	      width: 20px;
+	      text-align: center;
+	      color: #d00;
+	      &:hover {
+	        color: #860808;
+	      }
+	    }
+	  }
+	  .body {
+	    text-align: left;
+	    padding: 10px;
+	    height: 300px;
+	    overflow-y: auto;
+	    overflow-x: hidden;
+	  }
+	  .body.messages {
+	    word-wrap: break-word;
+	    .driver {
+	      background: #dfe1e396;
+	      border-radius: 3px;
+	      border: 1px solid #dfe1e396;
+	      padding: 3px;
+	      margin: 5px 0;
+	      word-wrap: break-word;
+	      line-height: 22px;
+	      width: 80%;
+	      span {
+	        font-weight: bold;
+	      }
+	    }
+	    .me {
+	      background: #c5d6f7;
+	      border-radius: 3px;
+	      border: 1px solid #b9cdf1;
+	      padding: 3px;
+	      margin: 5px 0 5px auto;
+	      word-wrap: break-word;
+	      line-height: 22px;
+	      width: 80%;
+	      span {
+	        font-weight: bold;
+	      }
+	    }
+	  }
+	  .footer {
+	    border-top: 1px solid #c2c8ce;
+	    padding: 10px;
+	    text-align: left;
+	    .senderPart {
+	      width: 100%;
+	      #hiddenInput {
+	        display: none;
+	      }
+	      .bsInput {
+	        border: 1px solid lightgray;
+	        padding: 10px 8px;
+	        font-size: 16px;
+	        display: inline-block;
+	        &:nth-child(1) {
+	          border-radius: 4px 0 0 4px;
+	          width: calc(100% - 55px);
+	          max-height: 36px;
+	          padding: 8px 8px;
+	        }
+	        &:nth-last-child(1) {
+	          border-radius: 0 4px 4px 0;
+	          max-height: 36px;
+	          position: relative;
+	          top: 2px;
+	          margin-left: -1px;
+	        }
+	      }
+	    }
+	  }
+	}
+
+}
+
+#edit_company_admin > fieldset.inputs > ol > li#company_admin_office_admin_id_input{
+	display: none;
+}
+#cke_1_contents {
+	min-height: 500px;
+}
+
+.company_user legend {
+	text-align: center;
+	span {
+		font-size: 14px;
+		padding-right: 25%;
+	}
+}
+// Driver Shifts
+.driverShifts {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 785px;
+	> ol {
+		> li {
+			position: relative;
+			> h3 {
+				display: inline-block;
+		    width: 20%;
+		    vertical-align: top;
+			}
+			> a {
+				position: absolute;
+		    right: 0;
+		    top: 0;
+		    font-weight: bold;
+	    	font-size: 25px;
+				padding: 0px 7px;
+			}
+			> fieldset {
+		    width: calc(100% - 20%);
+		    display: inline-block;
+		    > ol {
+		    	> li {
+				    display: inline-block;
+				    input {
+				    	border: 1px solid none !important;
+				    }
+		    	}
+		    	> li:nth-child(1), li:nth-child(2) {
+		    		display: none;
+		    	}
+		    	> li:nth-child(3), > li:nth-child(4) {
+		    		width: 40%;
+		    		input {
+		    			width: 100% !important;
+		    		}
+		    	}
+		    	> li:nth-child(3) {
+		    		text-align: right;
+						border: 1px solid #999;
+						border-radius: 5px 0 0 5px;
+						> input:focus {
+							border: none !important;
+						}
+		    	}
+		    	> li:nth-child(4) {
+						border: 1px solid #999;
+						border-radius: 0 5px 5px 0;
+						margin-left: -1px !important;
+						> input:focus {
+							border: none !important;
+						}
+		    	}
+		    	> li:nth-child(5), li:nth-child(6){
+		    		margin-left: 5px !important;
+						vertical-align: top;
+						padding-top: 5px;
+		    	}
+		    }
+			}
+			> .inputs.has_many_fields:nth-child(1), > .inputs.has_many_fields:nth-child(2) {
+			}
+			> .inputs.has_many_fields {
+  			margin-left: 20%;
+			}
+			> .inputs.has_many_fields:nth-child(2) {
+  			margin-left: unset;
+			}
+		}
+	}
+}
+
+// Dashboard Metrics
+.metrics_ .panel_contents .tbleWrapper {
+  display: inline-block;
+  width: calc(50% - 15px);
+  vertical-align: top;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  border: 1px solid lightgray;
+}
+
+.metrics_ .panel_contents .tbleWrapper table{
+	margin-bottom: 0px;
+}
+
+.metrics_ .panel_contents .tbleWrapper table caption{
+	text-align: left;
+	font-weight: bold;
+	padding: 9px;
+	background: #5E6469;
+	color: white;
+	border: 1px solid lightgray;
+}
+
+#index_table_restaurant_billings td.col.col-sales_tax {
+    white-space: nowrap;
+}
+
+// schedulers Active
+#index_table_schedulers tr.active {
+    background: #e4eaec;
+}
+// Custom Modal
+.customModal {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  .contentWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 700px;
+    width: 98%;
+    height: auto;
+    max-height: 90vh;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    box-shadow: 0 0 5px lightgray;
+    overflow: hidden;
+    background: #fff;
+      .modalHeader, .modalBody, .modalFooter {
+        padding: 10px;
+       }
+      .modalHeader {
+       border-bottom: 1px solid lightgray;
+       position: relative;
+       font-weight: bold;
+      .modalClose {
+        position: absolute;
+        right: 10px;
+        width: 16px;
+        height: 16px;
+        color: #d00;
+        transition: 0.3s all ease-in-out;
+        &:hover {
+          color: #800;
+        }
+      }
+    }
+    .modalBody {
+      height: auto;
+      max-height: calc(90vh - 92px);
+      overflow: auto;
+    }
+    .modalFooter {
+      border-top: 1px solid lightgray;
+      text-align: right;
+    }
+  }
+}
+.animated {
+	-webkit-animation-name: zoomIn;
+  	animation-name: zoomIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  transition: 1s all ease-in-out;
+}
+@-webkit-keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+    transition: 1s all ease-in-out;
+  }
+
+  50% {
+    opacity: 1;
+    transition: 1s all ease-in-out;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+    transition: 1s all ease-in-out;
+  }
+
+  50% {
+    opacity: 1;
+    transition: 1s all ease-in-out;
+  }
+}
+.sendBtn {
+  width: auto !important;
+  padding: 10px 15px !important;
+  margin-left: calc(100% - 65px);
+  margin-top: 15px;
+}
+.hidden_input_file {
+  display: none;
+}
+
+#email_file_input_label {
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+  margin-top: 16px;
+}
+
+.unselectFile{
+	color: #d00;
+	&:hover {
+		color: #800;
+	}
+}
+
+#edit_company_user #company_user_user_type_input span.select2-selection__clear,
+#edit_company_admin #company_admin_user_type_input span.select2-selection__clear {
+  display: none;
+}
+// PAYMENT LOG
+.ui-dialog-content.ui-widget-content {
+  position: relative;
+}
+.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  text-align: right;
+}
+.payment_log {
+	li {
+		list-style: none;
+	  button {
+	 		background-color: #5E6469;
+	    color: #fff;
+	    border: none;
+	    border-radius: 3px;
+	    display: inline-block;
+	    transition: border 0.2s linear, color 0.2s linear, width 0.2s linear, background-color 0.2s linear;
+	    cursor: pointer;
+	    margin-right: 5px;
+	    padding: 5px 10px;
+	  }
+	  .inline-errors {
+	  	color: #d00;
+		}
+	}
+}
+
+.active_admin_dialog {
+	max-width: 700px;
+}
+
+.user-index-restaurant-col{
+	display: block;
+	margin-top: 5px;
+}
+
+/*body {
+  &.admin_orders, &.admin_email_logs, &.admin_fax_logs, &.admin_fresh_desk_logs, &.admin_payment_logs, &.admin_ratings {
+    #index_footer {
+      .download_links {
+        display: none;
+      }
+    }
+  }
+}*/
+
+#title_bar #titlebar_right .action_item a.hideThisElement {
+	display: none;
+}
+label[for="uploadRestaurantCSV_"] {
+	background-color:
+	#5E6469;
+	color:
+	#fff;
+	border: none;
+	border-radius: 3px;
+	display: inline-block;
+	transition: border 0.2s linear, color 0.2s linear, width 0.2s linear, background-color 0.2s linear;
+	cursor: pointer;
+	padding: 5px 8px;
+}
+
+.average_take_rate_chart {
+  margin-top: 100px;
+}
+.textAlignRight {
+    text-align: right;
+}
+#q_last_import_data_input {
+	.choices {
+		legend.label {
+		  float: left;
+		}
+		label[for="q_last_import_data_true"] {
+			input {
+				height: 15px;
+				margin-left: 5px;
+			}
+		}
+	}
+}
+// Company Billing Detail
+// #edit_company #billing-detail li#company_billing_attributes_name_input,
+// #new_company #billing-detail li#company_billing_attributes_name_input {
+//     width: 50%;
+//     display: inline-block;
+//     + li {
+//       width: 50%;
+//       margin-top: 10px;
+//       label {
+//         white-space: nowrap;
+//         width: auto;
+//         padding-top: 13px;
+//       }
+//       + li {
+//         margin-left: unset;
+//         margin-bottom: 10px;
+//       }
+//     }
+// }
+
+#edit_company #billing-detail li#company_billing_attributes_delivery_fee_input > label[for="company_billing_attributes_delivery_fee"],
+#new_company #billing-detail li#company_billing_attributes_delivery_fee_input > label[for="company_billing_attributes_delivery_fee"] {
+	white-space: nowrap;
+	width: auto;
+}
+
+#edit_company #billing-detail li#company_billing_attributes_disable_auto_invoice_input,
+#new_company #billing-detail li#company_billing_attributes_disable_auto_invoice_input {
+	display: inline-block !important;
+	margin: auto;
+	padding-bottom: 10px;
+}
+.inline-hints{
+	position: relative;
+	> i {
+		position: absolute;
+		top: 3px;
+		right: 3px;
+		color: #d00;
+		background: #fff;
+		padding: 3px;
+		border-radius: 3px;
+	}
+	> img {
+		&.selected {
+			border: 3px solid #d00;
+			border-radius: 3px;
+			box-shadow: 0 0 5px #000;
+		}
+	}
+}
+.hideListItem_ {
+	display: none;
+}
+
+.hideMenuItem_{
+  display: none !important;
+}
+
+.dishsizes fieldset.inputs > ol > li:nth-last-child(1) > a {
+	background-color: #d00;
+}
+
+.dishsizes fieldset.inputs > ol > li:nth-last-child(1) > label {
+	color: #d00;
+}
+body.__admin__restaurants .ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+  left: unset;
+  top: unset;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.schedulerFirstTab {
+  display: flex;
+}
+
+.firstPageScheduler {
+  width: 100%;
+}
+
+.secondPageScheduler {
+  width: 100%;
+}
+
+.firstPageScheduler li {
+  width: auto;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0;
+}
+
+.firstPageScheduler li > label {
+	padding-top: 0 !important;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol {
+  display: flex;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(1) {
+  margin-right: 7px;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(2) {
+  width: 10% !important;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(3) label{
+	color: red;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(3) a.button {
+  position: relative;
+  top: 28px;
+  background: #d00 !important;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(1) span.select2 {
+  width: 100% !important;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(1) span.select2 .selection span {
+  height: 36px;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 2px;
+  line-height: 36px;
+}
+li.has_many_container.dishsize_fooditems:nth-last-child(2) fieldset ol li:nth-child(1) span.select2 .selection span.select2-selection__clear {
+  display: none;
+}
+
+li.has_many_container.dishsize_fooditems:nth-last-child(2) a {
+  float: left;
+  background-color: #5E6469 !important;
+}
+li.has_many_container.optionsets.ui-sortable fieldset + input + fieldset {
+  position: relative !important;
+}
+li.has_many_container.optionsets.ui-sortable fieldset + input + fieldset ol li:nth-child(6) {
+  position: absolute !important;
+  top: 35px !important;
+}
+li.has_many_container.optionsets.ui-sortable fieldset + input + fieldset ol li:nth-child(2).optional, li.has_many_container.optionsets.ui-sortable fieldset ol li:nth-child(2).optional {
+  position: relative;
+  top: 35px;
+}
+li.has_many_container.sections.ui-sortable fieldset {
+	position: relative !important;
+}
+
+li.has_many_container.sections.ui-sortable fieldset ol li:nth-child(4).optional {
+	position: absolute !important;
+}
+li.has_many_container.sections.ui-sortable fieldset ol li:nth-child(4).optional label {
+  color: red;
+}
+#edit_menu fieldset.inputs ol li.sections fieldset > ol > li:nth-child(1) div.field_with_errors input,
+#new_menu fieldset.inputs ol li.sections fieldset > ol > li:nth-child(1) div.field_with_errors input{
+	width: 100%;
+}
+#edit_menu div.field_with_errors > label.label,
+#new_menu div.field_with_errors > label.label{
+	text-align: left !important;
+	width: 100% !important;
+}
+#active_admin_content #new_menu .inline-errors,
+#active_admin_content #edit_menu .inline-errors {
+	margin-left: 0 !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(1),
+#new_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(1) {
+    width: 25% !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(1) div.field_with_errors:nth-child(1),
+#new_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(1) div.field_with_errors:nth-child(1){
+	width: 0% !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(1) div.field_with_errors:nth-child(2) input,
+#new_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(1) div.field_with_errors:nth-child(2) input{
+	width: 96% !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(2).stringish,
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(2).stringish {
+    width: 25% !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3) {
+    width: 28% !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3) input[type="number"],
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3) input[type="number"] {
+	width: 100%;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3) {
+	width: 25%;
+	padding-left: 20px;
+	height: 70px;
+}
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(4) {
+	padding-top: 28px;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(4) input[type="file"],
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(4) input[type="file"] {
+	width: 50%;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3) p,
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(3) p {
+  top: -35px !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(4),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(4) {
+	width: 0px !important;
+}
+
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(5),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(5),
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(6),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(6),
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(7),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(7){
+	width: 25% !important;
+	margin-top: 0 !important;
+	margin-left: 0 !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(8),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(8) {
+	margin: 0px;
+	width: 25% !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(9),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(9) {
+	width: 49% !important;
+	margin-right: 10px;
+	margin-left: 0px !important;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(11),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(11),
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(12),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(12) {
+	width: 49% !important;
+}
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(10) {
+	margin-top: 0 !important;
+}
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(12), 
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(12), 
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(13), 
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(13) {
+	width: 48%;
+	margin-left: 10px;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(10),
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(10) {
+	width: 49%;
+	margin-left: 0px;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(14) input[type="text"],
+#new_menu fieldset.inputs ol li.fooditems fieldset > ol > li:nth-child(14) input[type="text"] {
+	height: 50px;
+}
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(11) span.select2,
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(11) span.select2,
+#edit_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(12) span.select2,
+#new_menu fieldset.inputs ol li.fooditems fieldset  > ol > li:nth-child(12) span.select2 {
+	width: 100% !important;
+}
+#edit_menu > fieldset > ol > li > fieldset > ol > li:nth-last-child(3) {
+  position: unset ;
+  color: #000 !important;
+}
+#company_buffet_addons_markup_input{
+  display: inline-block !important;
+  width: 20% !important;
+}
+.w-50{
+	width: 50% !important;
+}
+#company_buffet_addons_markup_input > label{
+  width: 100% !important;
+  display: inline-block;
+  white-space: nowrap;
+  text-align: left !important;
+}
+
+#company_buffet_addons_markup_input > input {
+  width: 95%;
+}
+
+#reportContainer {
+	padding: 20px;
+}
+
+#reportContainer .reportList {
+	list-style-type: circle;
+}
+.reportForm li {
+	list-style: none;
+}
+
+.reportError {
+  background: #fd6060;
+  border-radius: 4px;
+}
+.reportError p {
+	text-align: center;
+	color: #fff;
+	padding: 10px;
+}
+.reportForm .formtastic li#scheduled_period_input .choices ol li{
+  display: inline-block;
+}
+.reportForm .formtastic li#scheduled_period_input .choices ol li label {
+  color: #323537;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: 1px solid #e3e3e3;
+  cursor: pointer;
+}
+.reportForm .formtastic li#scheduled_period_input .choices ol li label input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  width: 0;
+  height: 0;border-radius: unset;
+  margin: 0;
+  position: relative;
+}
+.selectedRadio {
+  background: #3e79bb;
+  padding: 10px 15px;
+  color: white !important;
+  border-radius: 4px;
+  border: 1px solid #3e79bb !important;
+}
+.reportForm li label.label {
+  font-weight: bold;
+}
+.reportForm .formtastic li#user_ids_input span.select2.select2-container {
+  width: 100% !important;
+  display: block;
+}
+.reportForm .formtastic li#user_ids_input span.select2.select2-container .selection .select2-selection {
+  border: 1px solid #e4eaec !important;
+}
+.reportForm .formtastic li#_submit_action {
+  display: flex;
+  justify-content: flex-end;
+}
+.reportForm .formtastic li#enable_error_logging_input label {
+  font-weight: bold;
+}
+.reportForm .formtastic li#enable_error_logging_input label input[type="checkbox"] {
+  position: relative;
+  top: 5px;
+}
+.reportForm .formtastic li#_submit_action button{
+  width: auto !important;
+  padding: 10px 15px !important;
+  margin-left: calc(100% - 65px);
+  margin-top: 15px;
+  background-color: #464a4e;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+}
+.reportForm .formtastic li#_submit_action button:hover {
+  background-color: #767e84;
+}
+#reportContainer .reportList li {
+  margin-top: 15px;
+}
+#reportContainer .reportList li a {
+  color: steelblue;
+  text-decoration: underline;
+}
+
+.reportForm #scheduled_time_input .label {
+	text-transform: capitalize;
+}
+
+.reprtInputRow {
+	border: none !important;
+}
+.reprtInputRow .reprtInputLabel{
+	font-size: 18px;
+	font-weight: bold;
+}
+.ui-autocomplete {
+	background: #fff;
+	border: 1px solid #e2e2e2;
+	width: 500px !important;
+	height: 300px;
+	overflow-y: scroll;
+}
+.ui-autocomplete .ui-menu-item {
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.ui-autocomplete .ui-menu-item:hover {
+	background: #e2e2e2;
+}
+
+.highlight_auto {
+	background: #e2e2e2;
+}
+.map-autocomplete-input {
+	width: 500px !important;
+	height: 36px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.57142857;
+	color:
+	#323537;
+	background-color:
+	#fff;
+	background-image: none;
+	border: 1px solid
+	#e4eaec;
+	outline: 0;
+	border-radius: 3px;
+	transition: border-color ease-in-out 0.15s;
+	margin-bottom: 10px;
+}
+.admin_cuisineslists form, .admin_sequences form {
+	width: 100%;
+	max-width: 1200px;
+	position: relative;
+	left: 50%;
+	transform: translate(-50%);
+}
+.admin_cuisineslists form fieldset{
+	margin-bottom: 0px !important;
+}
+.admin_cuisineslists form .addresses_cuisineslists, .admin_sequences form .cuisines_sequences {
+	border: 1px solid #e2e2e2;
+	padding: 5px 0;
+	position: relative;
+	margin-bottom: 20px !important;
+	min-height: 64px;
+}
+.admin_sequences form .labels_seqs fieldset ol li:nth-child(1) input{
+	width: 100%;
+}
+.admin_cuisineslists form .addresses_cuisineslists > a, .admin_sequences form .cuisines_sequences > a{ 
+	position: absolute;
+	bottom: 32px;
+	right: 90px;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.admin_cuisineslists form .addresses_cuisineslists > a {
+	right: 205px !important;
+}
+.admin_sequences form .cuisines_sequences > a{ 
+	bottom : 52px !important;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol, .admin_sequences form .cuisines_sequences ol{
+	display: flex;
+	justify-content: flex-start;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5), .admin_sequences form .cuisines_sequences ol li:nth-child(5) {
+	position: relative;
+	left: 182px;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5), .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5) {
+	left: 283px !important;
+}
+.new.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5), .create.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5){
+	left: 283px !important;
+}
+.admin_sequences form .cuisines_sequences ol li:nth-child(5) {
+	left: 95px !important;
+}
+.admin_sequences form .cuisines_sequences ol li:nth-child(4).boolean {
+	position: relative;
+	right: 40px;
+	top: 3px;
+}
+.new.admin_sequences form .admin_sequences ol li:nth-last-child(1), .create.admin_sequences form .admin_sequences ol li:nth-last-child(1), .edit.admin_sequences form .cuisines_sequences ol li:nth-last-child(1), .update.admin_sequences form .cuisines_sequences ol li:nth-last-child(1) {
+	position: relative;
+	left: 144px !important;
+}
+.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-last-child(1), .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-last-child(1) {
+	position: relative;
+	left: 327px;
+}
+.edit.admin_sequences form .cuisines_sequences ol li:nth-child(5).optional + li, .update.admin_sequences form .cuisines_sequences ol li:nth-child(5).optional + li {
+	left: 0px !important;
+}
+.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5).optional + li, .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5).optional + li{
+	position: relative;
+	left: 34px;
+}
+.new.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5) + li.ui-sortable-handle, .create.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5) + li.ui-sortable-handle, .new.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(6).handle, , .create.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(6).handle {
+	position: relative;
+	left: 325px !important;
+}
+
+.admin_cuisineslists form .addresses_cuisineslists ol li.ui-sortable-handle,  .admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(6), .admin_sequences form .cuisines_sequences ol li.ui-sortable-handle,  .admin_sequences form .cuisines_sequences ol li:nth-child(6){
+	border-radius: 4px;
+	height: 25px;
+	cursor: grab;
+	background: #5E6469;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li.ui-sortable-handle, .admin_sequences form .cuisines_sequences ol li.ui-sortable-handle {
+	position: relative;
+}
+.new.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(6).handle, .create.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(6).handle, .new.admin_sequences form .cuisines_sequences ol li:nth-child(6).handle, .create.admin_sequences form .cuisines_sequences ol li:nth-child(6).handle{
+	position: relative;
+	
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(3), .admin_sequences form .cuisines_sequences ol li:nth-child(3){
+	width: 50%;
+	padding-left: 10px;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(4), .admin_sequences form .cuisines_sequences ol li:nth-child(4){
+	margin-right: 5px;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(3) label, .admin_sequences form .cuisines_sequences ol li:nth-child(3) label{
+	height: 40px !important;
+	width:10% !important;
+	line-height: 32px;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(3) .select2-container, .admin_sequences form .cuisines_sequences ol li:nth-child(3) .select2-container{
+	width: 75% !important;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(3) .select2-selection, .admin_sequences form .cuisines_sequences ol li:nth-child(3) .select2-selection {
+	height: 40px !important;
+	padding-top: 5px;
+}
+.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(3) .select2-selection .select2-selection__arrow, .admin_sequences form .cuisines_sequences ol li:nth-child(3) .select2-selection .select2-selection__arrow {
+	top: 7px;
+}
+#sequence_name, #cuisineslist_name, #sequence_restaurants_served{
+	width: 100%;
+}
+#sequence_menu_type_input label, #cuisineslist_menu_type_input label {
+	width: 100%;
+}
+.cuisineslist ul.errors li {
+	color: red;
+}
+#company_delivery_notes_input {
+    width: 100% !important;
+}
+div.delivery_notes_text_area {
+    height: 100px;
+    overflow: auto;
+    border: 1px solid #e4eaec;
+    border-radius: 3px;
+    vertical-align: top;
+    max-width: 50%;
+    margin-top: 8px;
+    padding-left: 15px;
+}
+.admin_sequences form .has_many_container.labels_seqs {
+    display: flex;
+    flex-wrap: wrap;
+}
+.admin_sequences form .has_many_container.labels_seqs fieldset {
+    width: 598px;
+}
+.admin_sequences form fieldset ol li label, .admin_cuisineslists form fieldset ol li label, .admin_sequences form fieldset ol li label, .admin_cuisineslists form fieldset ol li .field_with_errors label, .admin_cuisineslists form fieldset ol li .field_with_errors label {
+	text-align: left !important;
+}
+#company_site_survey_input > label {
+	padding-left: 15px;
+}
+#company_delivery_notes_input > label {
+	padding-left: 15px;
+}
+@media screen and (max-width: "1440px"){
+	.admin_sequences form .has_many_container.labels_seqs fieldset {
+		width:548px;
+	}
+	.new.admin_sequences form .admin_sequences ol li:nth-last-child(1), .create.admin_sequences form .admin_sequences ol li:nth-last-child(1), .edit.admin_sequences form .cuisines_sequences ol li:nth-last-child(1), .update.admin_sequences form .cuisines_sequences ol li:nth-last-child(1) {
+		left: 131px !important;
+	}
+	.admin_sequences form .cuisines_sequences ol li:nth-child(5) {
+    left: 84px !important;
+	}
+	.admin_cuisineslists form .addresses_cuisineslists > a, .admin_sequences form .cuisines_sequences > a {
+		right: 78px;
+	}
+	.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-last-child(1), .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-last-child(1) {
+    left: 302px;
+	}
+	.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5), .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5) {
+    left: 262px !important;
+	}
+	.new.admin_cuisineslists form .addresses_cuisineslists > a {
+    right: 155px !important;
+	}
+	.edit.admin_cuisineslists form .addresses_cuisineslists > a {
+    right: 178px !important;
+	}
+}
+@media screen and (max-width: "1280px"){
+	.admin_sequences form .has_many_container.labels_seqs fieldset {
+		width:493px;
+	}
+	.new.admin_sequences form .admin_sequences ol li:nth-last-child(1), .create.admin_sequences form .admin_sequences ol li:nth-last-child(1), .edit.admin_sequences form .cuisines_sequences ol li:nth-last-child(1), .update.admin_sequences form .cuisines_sequences ol li:nth-last-child(1) {
+		left: 117px !important;
+	}
+	.admin_sequences form .cuisines_sequences ol li:nth-child(5) {
+    left: 68px !important;
+	}
+	.admin_cuisineslists form .addresses_cuisineslists > a, .admin_sequences form .cuisines_sequences > a {
+    right: 64px;
+	}
+	.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-last-child(1), .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-last-child(1) {
+    left: 275px;
+	}
+	.edit.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5), .update.admin_cuisineslists form .addresses_cuisineslists ol li:nth-child(5) {
+    left: 225px !important;
+	}
+	.edit.admin_cuisineslists form .addresses_cuisineslists > a,.update.admin_cuisineslists form .addresses_cuisineslists > a {
+    right: 154px !important;
+	}
+	.new.admin_cuisineslists form .addresses_cuisineslists > a, .create.admin_cuisineslists form .addresses_cuisineslists > a {
+    right: 100px !important;
+	}
+}
+
+.address ul.errors li, tr.errors td{
+	color: red;
+}
+
+#company_user_notification_label_input, #company_admin_notification_label_input {
+	margin-top: 10px;
+}
+
+#company_user_notification_label, #unsubsidized_user_notification_label, #company_manager_notification_label, #company_admin_notification_label {
+	display: none;
+}
+
+.fooditems_nutritions_wrapper {
+    display: flex;
+    margin-bottom: 80px;
+    > .fooditem_label__ {
+    width: 10%;
+    font-weight: bold;
+	}
+	> .fields_wrapper {
+		width: 90%;
+		display: grid;
+		grid-template-columns: repeat(9, minmax(0, 1fr));
+		gap: 20px;
+		padding: 0 40px;
+	}
+}
+#trigger_restaurant_shifts { display: none; }
+.announcement .cke_chrome {
+	display: inline-block;
+	width: 65%;
+}
+.announcement legend {
+	border-bottom: none !important;
+	margin-bottom: 0 !important;
+	padding-bottom:0 !important;
+	width: 25% !important;
+	text-align: right;
+	padding-right: 28px;
+	float: left;
+}
+.announcement legend span {
+	font-size: 15px;
+}
+.announcement fieldset:nth-of-type(2) li {
+	display:inline-block;
+	margin-left: 0 !important;
+}
+.announcement fieldset:nth-of-type(2) ol {
+	margin-left: 25% !important;
+}
+.announcement fieldset:nth-of-type(2) li:nth-of-type(2), .announcement fieldset:nth-of-type(2) li:nth-of-type(3){
+	margin-left: 10px !important;
+}
+
+td svg {
+	height: 50px;
+	width: 50px;
+}
+div#q_guest_id_or_share_meeting_id_not_null_input .select2 {
+	width: 100% !important;
+}
+
+.link_to_class {
+	color: #3e79bb;
+}
+.size{
+	width: 22px;
+	height: 43px;
+}

@@ -1,0 +1,23 @@
+<div class="relate_menu__">
+  <span>Billing</span>
+</div>
+<%= semantic_form_for @address, url: billing_information_admin_address_path(@address.id), builder: ActiveAdmin::FormBuilder, action:"edit" do |f| %>
+  <%= f.input :items_count, label: 'Quantity', input_html: { min: '0', step: '1' }%>
+  <%= f.input :minimum_discount_price, label: 'Minimum Amount($)', input_html: { min: '0', step: '0.1' }%>
+  <%= f.input :buffet_commission, label: 'Discount(%)', input_html: { min: '0', step: '0.1' }%>
+  <%= f.input :add_contract_commission%>
+  <div class="relate_menu__">
+    <br><br><span>Dish Sizes</span>
+  </div>
+  <%- f.has_many :dishsizes, heading: false do |ds|%>
+    <%- ds.input :title%>
+    <%- ds.input :description, :input_html => { :class => 'autogrow', :rows => 3, :cols => 20 }%>
+    <%- ds.input :serve_count, input_html: { min: '0', step: '1' }%>
+    <% unless ds.object.new_record? %>
+      <%- ds.input :parent_status, as: :boolean, label: "Delete", :checked_value => "deleted", :unchecked_value => "active" %>
+    <% end %>
+  <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, :label => 'Save', :wrapper_html => { :style => "width:100px; margin-top: 20px;" }%>
+  <% end %>
+<%end%>

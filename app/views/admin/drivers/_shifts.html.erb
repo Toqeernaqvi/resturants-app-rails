@@ -1,0 +1,56 @@
+<%
+  time_zone = defined?(@restaurant_address) && @restaurant_address.present? ? @restaurant_address.addressable.time_zone : f.object.restaurant_address.present? ? f.object.restaurant_address.addressable.time_zone : 'US/Pacific'
+  if f.object.new_record? && f.object.restaurant_address.blank?
+    start_time = Time.current.in_time_zone(time_zone).beginning_of_day
+    end_time = Time.current.in_time_zone(time_zone).end_of_day
+    f.object.monday_shifts.build(start_time: start_time, end_time: end_time) if f.object.monday_shifts.blank?
+    f.object.tuesday_shifts.build(start_time: start_time, end_time: end_time) if f.object.tuesday_shifts.blank?
+    f.object.wednesday_shifts.build(start_time: start_time, end_time: end_time) if f.object.wednesday_shifts.blank?
+    f.object.thursday_shifts.build(start_time: start_time, end_time: end_time) if f.object.thursday_shifts.blank?
+    f.object.friday_shifts.build(start_time: start_time, end_time: end_time) if f.object.friday_shifts.blank?
+    f.object.saturday_shifts.build(start_time: start_time, end_time: end_time) if f.object.saturday_shifts.blank?
+    f.object.sunday_shifts.build(start_time: start_time, end_time: end_time) if f.object.sunday_shifts.blank?
+  end
+  f.has_many :monday_shifts, for: [:monday_shifts, @monday_shifts.present? ? @monday_shifts : f.object.monday_shifts], heading: "Mon", new_record: '+', remove_record: '-', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Monday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+  f.has_many :tuesday_shifts, for: [:tuesday_shifts, @tuesday_shifts.present? ? @tuesday_shifts : f.object.tuesday_shifts], heading: "Tue", new_record: '+', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Tuesday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+  f.has_many :wednesday_shifts, for: [:wednesday_shifts, @wednesday_shifts.present? ? @wednesday_shifts : f.object.wednesday_shifts], heading: "Wed", new_record: '+', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Wednesday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+  f.has_many :thursday_shifts, for: [:thursday_shifts, @thursday_shifts.present? ? @thursday_shifts : f.object.thursday_shifts], heading: "Thu", new_record: '+', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Thursday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+  f.has_many :friday_shifts, for: [:friday_shifts, @friday_shifts.present? ? @friday_shifts : f.object.friday_shifts], heading: "Fri", new_record: '+', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Friday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+  f.has_many :saturday_shifts, for: [:saturday_shifts, @saturday_shifts.present? ? @saturday_shifts : f.object.saturday_shifts], heading: "Sat", new_record: '+', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Saturday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+  f.has_many :sunday_shifts, for: [:sunday_shifts, @sunday_shifts.present? ? @sunday_shifts : f.object.sunday_shifts], heading: "Sun", new_record: '+', allow_destroy: true do |s|
+    s.input :label, as: :hidden, value: "Sunday"
+    s.input :time_zone, as: :hidden, input_html: { value: time_zone }
+    s.input :start_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.start_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+    s.input :end_time, label: false, as: :date_time_picker, picker_options: { datepicker: false, format: "H:i", step: 10, value: s.object.end_time&.in_time_zone(time_zone).try(:strftime, '%H:%M') }
+  end
+%>

@@ -1,0 +1,186 @@
+            <p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+            </p>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div style=" background-color: #fff; box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+            <% if @runningmenu.runningmenu_name.present? %>
+              <table style="margin:0 auto; width: 100%;text-align: center;">
+                <tr>
+                  <td>
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center; display: inline-block;">
+                      <%= @runningmenu.runningmenu_name.capitalize %>
+                    </p>
+                    <a href="#" style="margin:5px 0 0 5px; text-align: left;height: 15px; font: normal normal normal 11px/15px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;background-color: #6C757D;padding: 5px 10px;border-radius: 12px;text-decoration: none;">Lunch</a>
+                  </td>
+                </tr>
+              </table>
+            <% end %>
+            <table style="margin-top: 30px; table-layout: auto;width: 50%;">
+              <tr>
+                <td>
+                  <% if @runningmenu.orders_count > 0 %>
+                    <table >
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 400 13px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            Price per head
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 500 18px/25px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            $<%= number_with_precision(@runningmenu.orders.active.sum(:total_price) / @runningmenu.orders_count, precision: 2) %>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  <% end %>
+                </td>
+                <td>
+                  <table>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 400 13px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          Total
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 18px/25px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          $<%= @total_order_amount %>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <div style="display: flex;margin-top: 20px;">
+              <p style="margin:0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                Delivery on
+              </p>
+              <p style="margin: 0; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+                &nbsp;  <%= @runningmenu.delivery_at_timezone.strftime('%B %d, %Y') %> at <%=@runningmenu.delivery_at_timezone.strftime('%I:%M%p')%>
+              </p>
+            </div>
+            <div style="display: flex;align-items: center; margin-top: 10px;">
+              <p style="margin:0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/location-dot-solid.png" , :style=> "width:20px; height:20px;") %>
+              </p>
+              <p style="margin: 0 0 0 8px; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+                <%= @runningmenu.company.name %>
+              </p>
+            </div>
+            <div style="display: flex;margin-top: 5px;">
+              <p style="margin:0px; text-align: left; font: normal normal 500 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                <%= @runningmenu.address.name %>
+              </p>
+            </div>
+            <% if @runningmenu.delivery_instructions.present? %>
+              <div style="display: flex;margin-top: 5px;">
+                <p style="margin: 0; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+                  Delivery Instructions :
+                  <span>
+                <p style="margin:0px; text-align: left; font: normal normal 500 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                &nbsp;<%= @runningmenu.delivery_instructions %>.</p>
+                </span>
+                </p>
+              </div>
+            <% end %>
+            <div style="margin-top: 30px;">
+              <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+                <tr style="background-color: #FAFAFA; padding: 15px 20px;">
+                  <td>
+                    <p  style="margin: 0; padding-left:10px; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      User
+                    </p>
+                  </td>
+                  <td>
+                    <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      Item
+                    </p>
+                  </td>
+                  <td>
+                    <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      Dish Size
+                    </p>
+                  </td>
+                  <td>
+                    <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      Serves
+                    </p>
+                  </td>
+                  <td>
+                    <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      Qty
+                    </p>
+                  </td>
+                  <td>
+                    <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      Price
+                    </p>
+                  </td>
+                  <td>
+                    <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                      Total
+                    </p>
+                  </td>
+                  <% if @enable_grouping_orders_check %>
+                    <td>
+                      <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                        Group
+                      </p>
+                    </td>
+                  <% end %>
+                </tr>
+                <% @orders.each do |order| %>
+                  <tr style=" border-bottom: 1px solid #DDDFE1;">
+                    <td style="padding: 15px 0;">
+                      <p style="margin: 0; padding-left: 10px; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;"> <%= order.user.name %>
+                        <small style="box-sizing:border-box;font-size:12.8px;color:rgb(108,117,125)"><% order.optionsets_orders.each do |optionset_order| %>
+                          <%= optionset_order.optionset.name %>:
+                          <% optionset_order.options_orders.each do |option_order| %>
+                            <%= option_order.option.description %>
+                            <% end %>;
+                          <% end %>
+                        </small>
+                      </p>
+                    </td>
+                    <td>
+                      <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;"><%= order.fooditem.name %></p>
+                    </td>
+                    <td>
+                      <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;"><%= order.dishsize.title&.capitalize %></p>
+                    </td>
+                    <td>
+                      <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;"><%= order.dishsize.serve_count * order.quantity %></p>
+                    </td>
+                    <td>
+                      <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;"><%= order.quantity %></p>
+                    </td>
+                    <td>
+                      <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">$<%= number_with_precision(order.price, precision: 2) %>&nbsp;</p>
+                    </td>
+                    <td>
+                      <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">$<%= number_with_precision(order.total_price, precision: 2) %>&nbsp;</p>
+                    </td>
+                    <% if @enable_grouping_orders_check %>
+                      <td>
+                        <p style="margin: 0; font: normal normal normal 13px/21px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;"><%= order.group_view %></p>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

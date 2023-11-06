@@ -1,0 +1,61 @@
+                <%= render 'layouts/header' %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div style=" background-color: #fff;box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;min-height: 250px;">
+
+                  <table style="margin:0 auto; width: 100%; text-align: center;">
+                    <tr>
+                    <% if @item.ratingable_type == "Runningmenu" %>
+                      <td>
+                        <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                          <%= @ratingable.runningmenu_name %>
+                        </p>
+                      </td>
+                    <% elsif @item.ratingable_type == "Address" %>
+                       <td>
+                        <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                          <%= @ratingable.name %>
+                        </p>
+                      </td>
+                    <% end %>
+                    <% if @item.ratingable_type == 'Fooditem' %>
+                      <td>
+                        <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                          <%= @ratingable.name.split(" ").map(&:capitalize).join(" ") %> from <%= @ratingable.menu.address.addressable.name %>
+                        </p>
+                      </td>
+                    <% end %>
+                    </tr>
+                  </table>
+
+                  <p style="margin:20px 0; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                    Rated by <%= @item.user.name.split(" ").map(&:capitalize).join(" ") %>, <%= @item.user.company.name %>
+                  </p>
+
+                  <div style="display: flex;">
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1; ">
+                      Rating:</p>
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                      &nbsp;<%= @item.rating_value %>/5
+                    </p>
+                  </div>
+
+                  <div style="display: flex; margin-top: 20px;">
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                      Comment:
+                    </p>
+                    <p style="margin:5px 0 0 10px; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                       <%= @item.comment %>
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <%= render 'layouts/footer' %>
+      

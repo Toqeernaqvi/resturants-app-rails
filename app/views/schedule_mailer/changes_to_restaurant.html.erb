@@ -1,0 +1,468 @@
+              <%= render 'layouts/header' %>
+              <p style="margin-left: auto; text-align: right; font: normal  16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div style=" background-color: #fff;box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+              <div style="width: 100%; border-radius:10px; text-align: center; background-color: #FFF3CD;">
+                <% unless @runningmenu.cancelled? %>
+                  <div style="width: 100%; border-left: 5px solid #DDBE62;border-radius:5px; ">
+                    <% if @runningmenu.cutoff_at > Time.current %>
+                      <span style="padding:7px 0;color: #495057; display: inline-block;">
+                        <p
+                          style=" padding: 0 40px; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #495057;">
+                          Warning! This order is not final until cutoff on <span
+                            style=" text-align: left; font: normal normal 500 14px/20px helvetica; letter-spacing: 0px; color: #495057;"><%=@runningmenu.cutoff_at_timezone.strftime('%b %d at %I:%M %p') %>
+                            </span><br>
+                      Customer may choose to make edits until cutoff is reached.
+                      </span>
+                      </p>
+                    <% else %>
+                      <span style="padding:7px 0;color: #495057; display: inline-block;">
+                        <p
+                          style=" padding: 0 40px; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #495057;">
+                          <strong>Cutoff Reached.</strong> The order is now finalized.
+                      </span><br>
+                      Customer will need to contact restaurant in order to make further changes
+                      </p>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <% unless @contact %>
+                <div style="width: 100%; border-radius:10px; text-align: center; background-color: #FFF3CD;">
+                  <div style="width: 100%; border-left: 5px solid #DDBE62;border-radius:5px; ">
+                  <span style="padding:16px 0;color: #495057; display: inline-block;">
+                    <p
+                      style=" margin:0; padding: 0 40px; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #495057;">
+                      <strong>
+                      Dear Chowmill Staff,
+                      </strong>
+                      Please forward this email to <strong><%= @address.addressable.name %></strong>.
+                  </span>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+              <%
+                time = @runningmenu.delivery? ? @runningmenu.delivery_at_timezone.strftime("%I:%M %p") : @runningmenu.pickup_at_timezone.strftime("%I:%M %p")
+                %>
+              <% if @runningmenu.cancelled? %>
+                <div style="display: flex;margin-top:20px ;">
+                  <div style="margin: auto;display: flex;">
+                    <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;">
+                      Order Cancelled
+                      <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/#{@runningmenu.runningmenu_type}-btn.png") %>
+                    </p>
+                  </div>
+                </div>
+                <div style="display: flex;margin-top: 20px;">
+                  <table>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 400 13px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          Order Number
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 18px/25px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          <%= @runningmenu.id %>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <div style="display: flex; margin-left: 40px;">
+                    <table>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 400 13px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            Pickup Date Time
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 500 18px/25px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            <%= @runningmenu.delivery_at_timezone.to_time.strftime("%a. %b %d") %> at <%= time %>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              <% else %>
+                <div style="display: flex;margin-top:20px ;">
+                    <div style="margin: auto;display: flex;">
+                      <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                        Order Pickup
+                         <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/#{@runningmenu.runningmenu_type}-btn.png") %>
+                      </p>
+                    </div>
+                  </div>
+                <div style="display: flex;margin-top: 20px;">
+                  <table>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 400 13px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                          Order Number
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 18px/25px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          <%= @runningmenu.id %>
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <div style="display: flex; margin-left: 40px;">
+                    <table>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 400 13px/22px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            Pickup Date Time
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 500 18px/25px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            <%= @runningmenu.delivery_at_timezone.to_time.strftime("%a. %b %d") %> at <%= time %>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              <% end %>
+              <div style="display: flex; margin-top: 15px;">
+                <table>
+                  <tr>
+                    <td>
+                      <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/store-solid.png" , :style=>"width:20px; height:20px;")%>
+                    </td>
+                    <td>
+                      <p style="margin: 0 0 0 8px; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #646464;">
+                        <%= @address.addressable.name %>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div style="display: flex;margin-top: 5px;">
+                <p style="margin:0px; text-align: left; font: normal normal 500 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                  <%=@address.address_line%>
+                </p>
+              </div>
+              <% if @runningmenu.cancelled? %>
+              <table style="width: 100%;">
+                <tr style="display: flex;">
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/rounded-check.png") %>
+                  </td>
+                  <td style="width: 50%;margin: auto;">
+                    <hr style="width: 100%; border-color: #157FFC; border-width: 1px;">
+                  </td>
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/rounded-cross.png") %>
+                  </td>
+                  <td style="width: 50%;margin: auto;">
+                    <hr style="width: 100%; border-color: #157FFC; border-width: 1px;">
+                  </td>
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/rounded-cross.png") %>
+                  </td>
+                </tr>
+              </table>
+              <% else %>
+              <table style="width: 100%;">
+                <tr style="display: flex;">
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/rounded-check.png") %>
+                  </td>
+                  <td style="width: 50%;margin: auto;">
+                    <hr style="width: 100%; border-color: #157FFC; border-width: 1px;">
+                  </td>
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/rounded-check.png") %>
+                  </td>
+                  <td style="width: 50%;margin: auto;">
+                    <hr style="width: 100%; border-color: #157FFC; border-width: 1px;">
+                  </td>
+                  <td>
+                    <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/rounded-check.png") %>
+                  </td>
+                </tr>
+              </table>
+              <% end %>
+              <table style="table-layout: fixed;width: 100%; margin-top: 10px;">
+                <tr>
+                  <td>
+                    <table style="width: 100%;">
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal 500 13px/18px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            Order <%= @title == 'New' ? 'Created' : 'Modified' %>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            <%= Time.current.in_time_zone(@runningmenu.company.time_zone).strftime('%a %b %d %I:%M %p') %>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td>
+                    <table style="width: 100%;">
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: center; font: normal normal 500 13px/18px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            Cutoff Order Finalised
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: center; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            <%= @runningmenu.cutoff_at_timezone.strftime('%a %b %d %I:%M %p') %>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td>
+                    <table style="width: 100%;">
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: right; font: normal normal 500 13px/18px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            <%= @runningmenu.delivery_type.capitalize %>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p style="margin: 0; text-align: right; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                            <%= @runningmenu.delivery_at_timezone.strftime("%a %b %d") %> <%= time %>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 20px 0 0; text-align: left; font: normal normal 500 22px/28px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                <%= "#{@items} Items" if @items > 0 %> 
+              </p>
+              <% if @orders.present? %>
+                <table style="width: 100%;border-collapse: collapse;table-layout:fixed;">
+                  <% if @runningmenu.buffet? %>
+                    <tr style="background-color: #FAFAFA; padding: 15px 20px;">
+                      <td>
+                        <p style="margin: 0; padding-left:15px; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Qty
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; padding-left:15px; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Serves
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; padding-left:15px; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Dish size
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; padding-left:15px; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Modification
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Item
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Price
+                        </p>
+                      </td>
+                    </tr>
+                    <% @orders.each do |order|%>
+                      <tr style="border-bottom: 1px solid #DDDFE1;">
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1; padding-left: 15px;">
+                            <%= order.quantity %>
+                          </p>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1; padding-left: 15px;">
+                            <%= order.serve_count %>
+                          </p>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1; padding-left: 15px;">
+                            <%= order.dish_title %>
+                          </p>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1; padding-left: 15px;">
+                        
+                          </p>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">
+                            <%= order.fooditem_name %>
+                          </p>
+                          <div style="margin-top: -15px;">
+                            <% if order.fooditem_description.present? %>
+                            <p style="margin: 0; text-align: left;  font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                              <%= order.fooditem_description %>
+                            </p>
+                            <% end %>
+                            <% if order.options.present? %>
+                            <% opt_arr = []%>
+                            <ul class="optionsList" style="padding-left:0; margin: 0; text-align: left;  font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                              <li style="list-style:none" >Options:</li>
+                              <span style="font-weight: normal; <%= defined?(fax) && fax ? 'color: #000;' : ''%>">
+                              <% order.options.split(', ').each do |option| %>
+                              <% opt_detail_arr = option.split('$')%>
+                              <% opt_arr.push(opt_detail_arr[0]) %>
+                              <% end %>
+                              <%= opt_arr.join(', ') %>
+                              </span>
+                            </ul>
+                            <% end %>
+                            <% if order.remarks.present? %>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                              Remarks:<%= order.remarks %>
+                            </p>
+                            <% end %> 
+                            <% if order.fooditem_notes_to_restaurant.present? %>
+                            <p style="margin: 0; text-align: left; font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                              Note:<%= order.fooditem_notes_to_restaurant %>
+                            </p>
+                            <% end %>
+                          </div>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px; ">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">
+                            <%= (order.dish_price.present? ? (order.dish_price + (order.options.present? ? order.options_price : 0)) : (order.fooditem_price - (order.options.present? ? order.options_price : 0))) * order.quantity %>
+                          </p>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% else %>
+                    <tr style="background-color: #FAFAFA; padding: 15px 20px;">
+                      <td>
+                        <p style="margin: 0; padding-left:15px; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Qty
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Item
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Price
+                        </p>
+                      </td>
+                      <td>
+                        <p style="margin: 0; text-align: left; font: normal normal 500 14px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          Total
+                        </p>
+                      </td>
+                    </tr>
+                    <% @orders.each do |order| %>
+                      <tr style="border-bottom: 1px solid #DDDFE1;">
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #212529; opacity: 1; padding-left: 15px;">
+                            <%= order.quantity %>
+                          </p>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px;">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">
+                            <%=order.fooditem_name%>
+                          </p>
+                          <div style="margin-top: -15px;">
+                            <% if order.fooditem_description.present? %>
+                              <p style="margin: 0; text-align: left;  font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                <%= order.fooditem_description %>
+                              </p>
+                            <% end %>
+                            <% if order.remarks.present? %>
+                              <p style="margin: 0; text-align: left; font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                Remarks:<%= order.remarks %>
+                              </p>
+                            <% end %> 
+                            <% if order.fooditem_notes_to_restaurant.present? %>
+                              <p style="margin: 0; text-align: left; font: normal normal normal 13px/16px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                Note:<%= order.fooditem_notes_to_restaurant %>
+                              </p>
+                            <% end %>
+                          </div>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px; ">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">
+                            $<%= order.options.present? ? (order.fooditem_price - order.options_price) : order.fooditem_price %>
+                          </p>
+                        </td>
+                        <td style="vertical-align: top; padding: 5px 0px 20px 0px; ">
+                          <p style="margin: 0; text-align: left; font: normal normal normal 13px/54px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1;">
+                            $<%= order.fooditem_price * order.quantity %>
+                          </p>
+                        </td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </table>
+              <% end %>
+              <% unless @runningmenu.cancelled? %>
+                <table style="width: 100%; text-align: center;margin-top: 30px;">
+                  <tr>
+                    <td>
+                      <table cellpadding="0" cellspacing="0" style="border-collapse:separate!important;margin-left:auto; margin-right: auto; border-radius:50px;background-color:darkgreen">
+                        <tbody>
+                          <tr>
+                            <%
+                              address_runningmenu = AddressesRunningmenu.find_by(runningmenu_id: @runningmenu.id, address_id: @address.id)
+                              uniq_token = address_runningmenu.token.nil? ? rand(36**32).to_s(36) : address_runningmenu.token
+                              address_runningmenu.update(token: uniq_token)
+                              type = @title == 'New' ? 'accept_orders' : 'accept_changes'
+                            %>
+                            <td valign="middle" style="font-family:Arial;font-size:16px;padding:13px;">
+                              <a title="" style="text-decoration: none; color: #fff; font: normal normal 600 16px/22px Source Sans Pro" href="<%= "#{ENV['VENDER_FRONTEND_HOST']}/acknowledge/#{uniq_token}/#{type}" %>">Confirm
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <div style="display: flex;width: 67%;margin: auto;margin-top: 20px;">
+                  <p style="text-align: center; font: normal normal normal 16px/24px helvetica;">
+                    See up-to-date orders on <span
+                      style="text-align: center; font: normal normal 500 16px/24px helvetica; letter-spacing: 0px; color: #157FFC;"><a href="<%= ENV['VENDER_FRONTEND_HOST'] %>">Chowmill
+                    Vendor Portal</a></span> Final list of orders will be emailed to you at cutoff time.
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <%= render 'layouts/footer' %>

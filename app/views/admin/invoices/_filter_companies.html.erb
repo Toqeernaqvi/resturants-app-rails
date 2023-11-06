@@ -1,0 +1,123 @@
+<%= form_tag(url, method: :post, id: "manual_invoice_form", autocomplete: "off" ) do %>
+  <div class="row">
+    <div class="col manual_invoice">
+      Companies: <%= select_tag 'company_id', options_for_select(collection) %>
+    </div>
+    <div class="col">
+      From: <%= text_field_tag "from", params['from'] %>
+    </div>
+    <div class="col manual_invoice">
+      To: <%= text_field_tag "to", params['to'] %>
+    </div>
+    <div class="col">
+      <%= submit_tag (defined?(recurrence_tag) && recurrence_tag) ? 'Create Schedulers' : 'Create Invoices' %>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $('#from, #to').keydown(function(event) {
+    event.preventDefault();
+  });
+
+  <% if defined?(recurrence_tag) && recurrence_tag %>
+    $( "#to" ).datetimepicker({
+      format:'m/d/Y',
+      minDate: 0,
+      timepicker:false,
+    });
+    $( "#from" ).datetimepicker({
+      format:'m/d/Y',
+      minDate: 0,
+      timepicker:false,
+      onChangeDateTime:function(dp,$input){
+        $("#to").datetimepicker({ minDate: $input.val() });
+      }
+    });
+  <% else %>
+      $( "#to" ).datetimepicker({
+        format:'Y/m/d',
+        maxDate: 0,
+        timepicker:false,
+      });
+      $( "#from" ).datetimepicker({
+        format:'Y/m/d',
+        maxDate: 0,
+        timepicker:false,
+        onChangeDateTime:function(dp,$input){
+          $("#to").datetimepicker({ minDate: $input.val() });
+        }
+      });
+  <% end %>
+  
+  // $( "#to" ).datepicker({
+  //   maxDate: 0,
+  // });
+  // $( "#from" ).datepicker({
+  //   maxDate: 0,
+  //   onClose: function( selectedDate ) {
+  //     $( "#to" ).datepicker( "option", "minDate", selectedDate );
+  //   }
+  // });
+  
+  set_company_dates()
+
+  function set_company_dates() {
+    var c_id = $('#company_id').val();
+    $.ajax({
+      url:'/admin/invoices/company_current_date',
+      data: {company_id: c_id},
+      type:'get',
+      success:function(data)
+        {
+          var date = data['company_current_date']
+          set_datepickers(date)
+        }
+    });
+  }
+
+  $('#company_id').on("change", function() {
+    $( "#from" ).val("");
+    $( "#to" ).val("");
+    var c_id = $(this).val();
+    $.ajax({
+      url:'/admin/invoices/company_current_date',
+      data: {company_id: c_id},
+      type:'get',
+      success:function(data)
+        {
+          var date = data['company_current_date']
+          set_datepickers(date)
+        }
+    });
+  });
+
+  function set_datepickers(date) {
+    <% if defined?(recurrence_tag) && recurrence_tag %>
+      $( "#from" ).datetimepicker({
+        format:'m/d/Y',
+        minDate: date,
+        value: date,
+        timepicker:false
+      });
+      $( "#to" ).datetimepicker({
+        format:'m/d/Y',
+        minDate: date,
+        timepicker:false
+      });
+    <% else %>
+      $( "#from" ).datetimepicker({
+        format:'Y/m/d',
+        maxDate: date,
+        value: date,
+        timepicker:false
+      });
+      $( "#to" ).datetimepicker({
+        format:'Y/m/d',
+        minDate: date,
+        maxDate: date,
+        timepicker:false
+      });
+    <% end %>
+  }
+
+</script>

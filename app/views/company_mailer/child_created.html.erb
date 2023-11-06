@@ -1,0 +1,133 @@
+<%= render 'layouts/header' %>
+<h2><%=@header%></h2>
+<%= render 'layouts/pre_scheduler_detail' %>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Name
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@child.name%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Department Budget
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@child.user_meal_budget%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <h3>Department Admin</h3>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      First Name
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_admin.first_name%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Last Name
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_admin.last_name%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Cell Phone
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_admin.phone_number%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Desk Phone
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_admin.desk_phone%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Email
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_admin.email%>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <h3>Delivery Address</h3>
+  </td>
+</tr>
+
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Address
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_address.address_line%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Location Name
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_address.address_name%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Suite Number
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_address.suite_no%>
+  </td>
+</tr>
+<tr style="box-sizing:border-box">
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);width:33%;">
+    <strong>
+      Delivery Instructions
+    </strong>
+  </td>
+  <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+    <%=@company_address.delivery_instructions%>
+  </td>
+</tr>
+</tbody>
+</table>
+
+<a href="<%=ENV['BACKEND_HOST']%>/admin/companies/<%=@child.id%>">Child Details</a>
+
+<%= render 'layouts/footer' %>

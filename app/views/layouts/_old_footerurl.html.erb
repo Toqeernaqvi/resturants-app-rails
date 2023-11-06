@@ -1,0 +1,12 @@
+<p style="margin: 20px 0;">
+  The Chowmill Team<br/>
+  <% if @resource.present? && @resource.restaurant_admin? %>
+    <a href="<%= ENV['VENDER_FRONTEND_HOST'] %>", style="color: #dc3545;" ><%= ENV['VENDER_FRONTEND_HOST'] %></a>
+  <% elsif @resource.present? && (@resource.admin? || @resource.operations? || @resource.developer?)%>
+    <a href="<%= ENV['BACKEND_HOST'] %>", style="color: #dc3545;" ><%= ENV['BACKEND_HOST'] %></a>
+  <% elsif !@resource.present? && Rails.env.production? %>
+    <a href="<%= "https://chowmill.com" %>", style="color: #dc3545;" ><%= "https://chowmill.com" %></a>
+  <% else %>
+    <a href="<%= ENV['FRONTEND_HOST'] %>", style="color: #dc3545;" ><%= ENV['FRONTEND_HOST'] %></a>
+  <% end %>
+</p>

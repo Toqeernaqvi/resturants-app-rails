@@ -1,0 +1,63 @@
+<ul class="capacity">
+  <li>Lunch Max Capacity</li>
+  <li><%= address.lunch_order_capacity %> Meals</li>
+  <li>Dinner Max Capacity</li>
+  <li><%= address.dinner_order_capacity %> Meals</li>
+</ul>
+<!-- <ul class="operations">
+  <li>Days & Hours of Operation</li>
+  <%# if address.monday_first_start_time.present? & address.monday_second_start_time.present? %>
+    <li>Monday <%#= address.monday_first_start_time.strftime('%H:%M ') %> to <%#= address.monday_first_end_time.strftime('%H:%M')%> , <%#= address.monday_second_start_time.strftime('%H:%M') %> to <%#= address.monday_second_end_time.strftime('%H:%M') %>
+    </li>
+  <%# end %>
+
+
+
+  <%# if address.tuesday_first_start_time.present? & address.tuesday_second_start_time.present? %>
+    <li>Tuesday <%#= address.tuesday_first_start_time.strftime('%H:%M') %> to <%#= address.tuesday_first_end_time.strftime('%H:%M') %> , <%#= address.tuesday_second_start_time.strftime('%H:%M') %> to <%#= address.tuesday_second_end_time.strftime('%H:%M')%>
+    </li>
+  <%# end %>
+
+
+  <%# if address.wednesday_first_start_time.present? & address.wednesday_second_start_time.present? %>
+    <li>Wednesday <%#= address.wednesday_first_start_time.strftime('%H:%M') %> to <%#= address.wednesday_first_end_time.strftime('%H:%M') %> , <%#= address.wednesday_second_start_time.strftime('%H:%M') %> to <%#= address.wednesday_second_end_time.strftime('%H:%M') %>
+    </li>
+  <%# end %>
+
+
+  <%# if address.thursday_first_start_time.present? & address.thursday_second_start_time.present? %>
+    <li>Thursday <%#= address.thursday_first_start_time.strftime('%H:%M') %> to <%#= address.thursday_first_end_time.strftime('%H:%M') %> , <%#= address.thursday_second_start_time.strftime('%H:%M') %> to <%#= address.thursday_second_end_time.strftime('%H:%M') %>
+    </li>
+  <%# end %>
+
+
+
+  <%# if address.friday_first_start_time.present? & address.friday_second_start_time.present? %>
+    <li>Friday <%#= address.friday_first_start_time.strftime('%H:%M') %> to <%#= address.friday_first_end_time.strftime('%H:%M') %> , <%#= address.friday_second_start_time.strftime('%H:%M') %> to <%#= address.friday_second_end_time.strftime('%H:%M') %>
+    </li>
+  <%# end %>
+
+
+
+
+  <%# if address.saturday_first_start_time.present? & address.saturday_second_start_time.present? %>
+    <li>Saturday <%#= address.saturday_first_start_time.strftime('%H:%M') %> to <%#= address.saturday_first_end_time.strftime('%H:%M') %> , <%#= address.saturday_second_start_time.strftime('%H:%M') %> to <%#= address.saturday_second_end_time.strftime('%H:%M') %>
+    </li>
+  <%# end %>
+
+
+
+
+  <%# if address.sunday_first_start_time.present? & address.sunday_second_start_time.present? %>
+    <li>Sunday <%#= address.sunday_first_start_time.strftime('%H:%M') %> to <%#= address.sunday_first_end_time.strftime('%H:%M') %> , <%#= address.sunday_second_start_time.strftime('%H:%M') %> to <%#= address.sunday_second_end_time.strftime('%H:%M') %>
+    </li>
+
+  <%# end %>
+
+
+
+</ul> -->
+<ul class="comments">
+  <li>Comments</li>
+  <li><%= address.notes || 'No Comment' %></li>
+</ul>

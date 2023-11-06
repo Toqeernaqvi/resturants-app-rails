@@ -1,0 +1,25 @@
+<%= simple_form_for(@email_log, url: forwarded_email_admin_email_logs_path, method: :post) do |f| %>
+  <%= f.input :recipient, :input_html => { value: @email_log.recipient } %>
+  <%= f.input :sender, as: :hidden, :input_html => { value: @email_log.sender } %>
+  <%= f.input :cc, :input_html => { value: @email_log.cc } %>
+  <%= f.input :subject, :input_html => { value: @email_log.subject } %>
+  <%= f.input :mail_body, as: :ckeditor, :input_html => { value: Base64.decode64(@email_log.body).to_s.force_encoding("UTF-8") } %>
+  <input type="hidden" id="emailLogID" name="email_log_id" value="<%= @email_log.id%>">
+  <label for="email_files" id="email_file_input_label">Choose file</label>
+  <span class="fileCountSpan hidden_input_file"></span>
+  <input type="hidden" class="multiFileSelected" name="multiFileSelected" value="">
+  <input type="hidden" class="fileSelected" name="fileSelected" value="<%= @email_log.logs_attachments.pluck(:id).join(',') %>">
+  <div style="padding: 3px;", id="filesNameContainer">
+    <% @email_log.logs_attachments.each do |e|%>
+    <div id="fileNameDiv_<%= e.id %>">
+      <span id="file_name_span_<%= e.id %>">
+        <%= e.attachment_file_name.present? ? e.attachment_file_name : ""%>
+      </span>
+      <em id = "unselectFile_<%= e.id %>" class="fa fa-times unselectFile <%= !e.attachment_file_name.present? ? 'hidden_input_file' : ''%>" data-log-id=<%= e.id %>></em><br>
+    </div>
+    <% end %>
+  </div>
+
+  <%= f.input :attachment_file_name, as: :file, label: false, :input_html => {  accept: ".pdf", id: "email_files", class: 'hidden_input_file', multiple: true } %>
+  <%= f.button :submit, "Send", class: "sendBtn" %>
+<% end %>

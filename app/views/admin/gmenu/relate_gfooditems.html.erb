@@ -1,0 +1,16 @@
+<div class="relate_menu__">
+  <span class="section_label__">Global Sections:</span>
+  <span>Global Fooditems</span>
+</div>
+<%= simple_form_for(resource, method: :post, url: related_gfooditems_admin_restaurant_gmenu_path) do |f| %>
+  <%= f.simple_fields_for :gsections do |gsection| %>
+    <% if gsection.object.active? %>
+      <%= gsection.object.name %>:
+      <%= gsection.simple_fields_for :gfooditems do |fs| %>
+        <%= fs.select :gfooditem_id, options_from_collection_for_select(resource.gfooditems.active, "id", "name", gsection.object.gfooditems.active.pluck('id')), {:include_blank => true}, {:multiple => true} %>
+      <% end %><br>
+    <% end %>
+  <% end %>
+  <%= f.submit 'Save', name: nil, :style => "width:100px; margin-top: 20px;" %>
+  <%= link_to "Cancel", :back %>
+<% end %>

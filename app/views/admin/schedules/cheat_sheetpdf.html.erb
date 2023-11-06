@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= runningmenu.delivery_at_timezone.to_date%></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <style>
+    tr:nth-child(even){background-color: #fff}
+    </style>
+</head>
+
+<body style="margin: 0; padding:0; box-sizing: border-box;text-align: center;">
+  <center style="width: 100%;max-width: 100%; margin: auto; table-layout: fixed; padding-bottom:60px;">
+    <table style="margin: 0 auto; width: 100%;max-width: 700px;border-spacing:0;">
+      <tr style="width: 100%;">
+        <td style="padding: 20px">
+          <table style="width: 100%; padding: 10px 0;">
+            <tr>
+              <td style="text-align:center;">
+                  <div style="text-align: left; width: 84%; margin: auto 30px; padding:10px 0 ;">
+                  <%= wicked_pdf_image_tag("https://chowmill-s3-develop.s3.us-west-1.amazonaws.com/logos/chowmill-logo-black.png".gsub("https:", "")) %>
+                  </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div style="width: 80%; z-index: 1; margin: auto 30px; border-radius:20px; padding: 30px 0px;">
+                  <table style="margin:0 auto; width: 100%;">
+                      <tr>
+                        <td>
+                          <p style="margin: 0;text-align: left; font: normal normal 600 22px/32px Roboto; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                            <%= runningmenu.runningmenu_name %>  
+                            <a href="#" style="margin-left: 5px; text-align: left; font: normal normal normal 11px/15px Roboto; letter-spacing: 0px; color: #FFFFFF; opacity: 1;background-color: black;padding: 5px 10px;border-radius: 12px;text-decoration: none; font-weight: bold;"><%= runningmenu.runningmenu_type.capitalize %></a>
+                          </p>
+                        </td>
+                      </tr>
+                  </table>
+                </div>
+                <table style="width: 100%; table-layout: fixed; margin-top: 15px;background-color: #F4F8FB;border-collapse: collapse; padding: 12px 20px;">
+                  <tbody>
+                    <tr style="border-bottom: 1pt solid #DDDFE1;">
+                      <td style="padding: 12px 0px 12px 35px">
+                        <p style="margin:auto 0;font: normal normal 600 15px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          <%= runningmenu.company.name %>
+                        </p>
+                        <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px Roboto; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                          Company
+                        </p>
+                      </td>
+                      <% if orders.present? %>
+                        <%order=orders.last%>
+                        <td style="padding: 12px 0px 12px 0px">
+                          <p style="margin:auto 0;font: normal normal 600 15px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            <%= order.runningmenu.delivery_at_timezone.strftime('%a %b. %d %l:%M%P') %>
+                          </p>
+                          <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px Roboto; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                            Delievery Date
+                          </p>
+                        </td>
+                      <% end %>
+                      <td style="padding: 12px 0px 12px 0px; width: 15%;">
+                        <p style="margin:auto 0;font: normal normal 600 15px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                          <%= total_items %>
+                        </p>
+                        <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px Roboto; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                          Items(s)
+                        </p>
+                      </td>
+                      <% if orders.present? %>
+                        <%order=orders.last%>
+                        <td style="padding: 12px 0px 12px 0px">
+                          <p style="margin:auto 0;font: normal normal 600 15px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            <%= order.runningmenu.address.formatted_address %>
+                          </p>
+                          <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px Roboto; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                            Delievery Address
+                          </p>
+                        </td>
+                      <% end %>
+                    </tr>
+                  </tbody>
+                </table>
+                <% if grouped_orders.present? %>
+                  <% grouped_orders_arr = [] %>
+                  <% grouped_orders.each do |order|%>
+                    <% alphabets = Order.groups_subgroups(order.group) %>
+                    <% (1..order.quantity).each_with_index do |o, indx| %>
+                      <% grouped_orders_arr << { name: order.model_user_name, fooditem_name: order.fooditem.name, fooditem_description: order.fooditem.description, group: alphabets[indx] } %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <% if ungrouped_orders.present? %>
+                  <% ungrouped_orders_arr = [] %>
+                  <% ungrouped_orders.each do |order|%>
+                    <% (1..order.quantity).each_with_index do |o| %>
+                      <% ungrouped_orders_arr << { name: order.model_user_name, fooditem_name: order.fooditem.name, fooditem_description: order.fooditem.description } %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <% if grouped_orders.present? %>
+                  <table style="width: 100%; table-layout: fixed; background-color: #F4F8FB;border-collapse: collapse; padding: 12px 20px;">
+                    <tbody>
+                      <tr style="border-bottom: 1pt solid #DDDFE1; background-color: #fff;">
+                        <td style="padding: 30px 0px 30px 35px; width: 20%;">
+                          <p style="margin:auto 0;font: normal normal bold 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            Group
+                          </p>
+                        </td>
+                        <td style="padding: 12px 0px 12px 0px; width: 20%;">
+                          <p style="margin:auto 0;font: normal normal bold 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            Name
+                          </p>
+                        </td>
+                        <td style="padding: 12px 0px 12px 0px">
+                          <p style="margin:auto 0;font: normal normal bold 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            Item
+                          </p>
+                        </td>
+                      </tr>
+                        <% grouped_orders_arr.sort_by {|o| [o[:name].downcase] }.each do |order|%>
+                          <tr style="border-bottom: 1pt solid #DDDFE1;">
+                            <td  style="padding: 12px 0px 12px 35px; width: 20%;">
+                              <h2 style="margin:auto 0;font: normal normal bold 20px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                                <%= order[:group] %>
+                              </h2>
+                            </td>
+                            <td style="padding: 12px 0px 12px 0px; width: 20%;">
+                              <p style="margin-top: 0;font: normal normal 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                                <%= order[:name] %> 
+                              </p>
+                            </td>
+                            <td style="padding: 12px 0px 12px 0px">
+                              <p style="margin:auto 0;font: normal normal  13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                                <%= order[:fooditem_name] %><br>
+                                <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; color: #666;'><%= order[:fooditem_description] %></span>
+                              </p>
+                            </td>
+                          </tr>
+                        <% end %>
+                    </tbody>
+                  </table>
+                <% end %>
+                <% if ungrouped_orders.present? %>
+                  <table style="width: 100%; table-layout: fixed; background-color: #F4F8FB;border-collapse: collapse; padding: 12px 20px;">
+                    <tbody>
+                      <tr style="border-bottom: 1pt solid #DDDFE1; background-color: #fff">
+                        <td colspan="3" style="padding: 12px 0px 12px 35px; width: 15%;">
+                          <p style="margin: 16px 0px; text-align: left; font: normal normal 600 22px/32px Roboto ; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                            Ungrouped Orders
+                          </p>
+                        </td>
+                      </tr>
+                      <tr style="border-bottom: 1pt solid #DDDFE1; background-color: #fff;">
+                        <td style="padding: 12px 0px 12px 0px; width: 20%;">
+                          <p style="margin:auto 0;font: normal normal bold 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            Name
+                          </p>
+                        </td>
+                        <td style="padding: 12px 0px 12px 0px" colspan="2" >
+                          <p style="margin:auto 0;font: normal normal bold 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                            Item
+                          </p>
+                        </td>
+                      </tr>
+                      <% ungrouped_orders_arr.sort_by {|o| [o[:name].downcase] }.each do |order|%>
+                        <tr style="border-bottom: 1pt solid #DDDFE1;">
+                          <td style="padding: 12px 0px 12px 0px; width: 20%;">
+                            <p style="margin-top: 0;font: normal normal 13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              <%= order[:name] %> 
+                            </p>
+                          </td>
+                          <td style="padding: 12px 0px 12px 0px" colspan="2">
+                            <p style="margin:auto 0;font: normal normal  13px/18px Roboto; letter-spacing: 0px; color: #212529; opacity: 1;">
+                              <%= order[:fooditem_name] %><br>
+                              <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; color: #666;'><%= order[:fooditem_description] %></span>
+                            </p>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </center>
+</body>
+</html>

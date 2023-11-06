@@ -1,0 +1,187 @@
+              <%= render 'layouts/header' %>
+              <p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div style=" background-color: #fff; box-shadow: 0px 3px 26px #0000000A; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+            <table style="margin:0 auto; width: 100%;">
+              <tr>
+                <td>
+                  <p style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;text-align: center;">
+                    Cancelled Delivery Request
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style=" margin: 0; text-align: center; font: normal normal normal 16px/22px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                    <%=@runningmenu.runningmenu_name%>
+                     <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/#{@runningmenu.runningmenu_type}-btn.png") %>
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <table style="table-layout: fixed; width: 100%;">
+              <tr>
+                <td>
+                  <p style="margin: 20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Cancelled By :
+                  </p>
+                  <p style="margin: 0;text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;">
+                    <%=@runningmenu.cancelled_by.name%> (<%= @runningmenu.cancelled_by.company.name%>)
+                  </p>
+                </td>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Cancelled At :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;">
+                    <%=@runningmenu.cancelled_at.strftime('%a. %B %d, %Y, %I:%M%P')%>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Cancelled Reason :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%=@runningmenu.cancel_reason %>.
+                  </p>
+                </td>
+                <td>
+                  <% if @header.include? "New Marketplace Delivery Scheduled" %>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Selected Restaurant :
+                  </p>
+                  <% else %>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Recommended Restaurant :
+                  </p>
+                  <% end %>
+                  <% if @runningmenu.addresses.blank? %>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #218655; opacity: 1;">
+                    No Restaurant Recommended
+                  </p>
+                  <% else %>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #218655; opacity: 1;">
+                    <%=@runningmenu.addresses.last.name&.capitalize %>
+                  </p>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Approximate Count :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%=@runningmenu.orders_count%>
+                  </p>
+                </td>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Budget :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    $<%=@runningmenu.per_meal_budget%>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Cuisine Preference :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%=@runningmenu.cuisines.pluck(:name).join(',')%>
+                  </p>
+                </td>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Special Request :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%=@runningmenu.special_request%>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Delivery Date :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%=@runningmenu.runningmenu_type&.capitalize%> <%=@runningmenu.menu_type&.capitalize%> on <%= @runningmenu.delivery_at_timezone.to_time.strftime('%A, %B %d, %Y') %> at <%=@runningmenu.delivery_at_timezone.to_time.strftime('%I:%M%p')%>
+                  </p>
+                </td>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Delivery Address :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%=@runningmenu.address.location_with_name%>
+                  </p>
+                </td>
+              </tr>
+              <% if @runningmenu.delivery_instructions.present? %>
+              <tr>
+                <td>
+                  <p style="margin: 20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    Delivery Instructions :
+                  </p>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                    <%= @runningmenu.delivery_instructions %>
+                  </p>
+                </td>
+              </tr>
+              <% end %>
+              <tr>
+                <td>
+                  <% if @runningmenu.company.fields.active.present? %>
+                  <table style="width: 200%; table-layout: fixed;">
+                    <tr>
+                      <td>
+                        <p style="margin:20px 0 0 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                          Meeting Specifics
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <% @runningmenu.company.fields.active.order(position: :asc).each do |c_field| %>
+                <td>
+                  <p style="margin:20px 0 0 0; text-align: left; font: normal normal 500 13px/22px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    <%=c_field.name %>:
+                  </p>
+                  <% runningmenu_field = Runningmenufield.find_by(runningmenu_id: @runningmenu.id, field_id: c_field.id)%>
+                  <p style="margin: 0; text-align: left; font: normal normal normal 14px/20px helvetica; letter-spacing: 0px; color: #212529; opacity: 1;">
+                    <% if c_field.dropdown?  %>
+                    <%= runningmenu_field.present? && runningmenu_field.fieldoption.present? ? runningmenu_field.fieldoption.name : '' %>
+                    <% else %>
+                    <%=  runningmenu_field.present? && runningmenu_field.value.present? ? runningmenu_field.value : '' %>
+                    <% end %>
+                  </p>
+                </td>
+                <% end %>
+              </tr>
+              <tr>
+                <td>
+                  <a href="<%=ENV['BACKEND_HOST']%>/admin/schedulers/<%=@runningmenu.id%>" style="margin:30px 0 0 0;display: inline-block; text-decoration: none; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #157FFC; opacity: 1;">
+                  Scheduler Details <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/link.png") %>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <%= render 'layouts/footer' %>

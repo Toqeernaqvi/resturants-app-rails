@@ -1,0 +1,30 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>DD&T</strong></th>
+      <th><strong>Meal</strong></th>
+      <th><strong>Company</strong></th>
+      <th><strong>Meeting</strong></th>
+      <th><strong>Budget</strong></th>
+      <th><strong>Driver</strong></th>
+    </thead>
+    <tbody>
+      <% schedulers.each do |scheduler|%>
+        <tr>
+          <td><%= scheduler.delivery_at_timezone.strftime('%a. %b %d %l:%M%P') %></td>
+          <td><%= scheduler.runningmenu_type&.capitalize.to_s + " " + scheduler.menu_type&.capitalize.to_s %></td>
+          <td><%= link_to scheduler.company.name, admin_company_path(scheduler.company_id) %></td>
+          <td><%= link_to scheduler.runningmenu_name&.capitalize.truncate(100, omission: ' ...'), admin_scheduler_path(scheduler) if scheduler.runningmenu_name.present? %></td>
+          <td><%= scheduler.orders_count %></td>
+          <td>
+            <% if (scheduler.delivery_at > Time.current) && scheduler.driver.present? %>
+              <%= render partial: 'admin/schedules/runningmenu_driver', locals: {driver: scheduler.driver, runningmenu: scheduler} %>
+            <% else %>
+              <%= scheduler.driver %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

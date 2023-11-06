@@ -1,0 +1,568 @@
+<%= render 'layouts/header' %>
+  <% unless @runningmenu.cancelled? %>
+    <% if @runningmenu.cutoff_at > Time.current %>
+      <div role="alert" style="text-align: center; box-sizing: border-box; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgb(255, 236, 181); border-radius: 0.25rem; color: rgb(102, 77, 3);background-color: rgb(255, 243, 205); margin-top: 1rem; font-size: 16px; width: 907px;"><strong>Warning! </strong>This order is not final until cutoff on <strong><%=@runningmenu.cutoff_at_timezone.strftime('%b %d at %I:%M %p') %></strong>. <br>Customer may choose to make edits until cutoff is reached.<br></div>
+    <% else %>
+      <div role="alert" style="text-align: center; box-sizing: border-box; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgb(182, 212, 254); border-radius: 0.25rem; color: rgb(8, 66, 152); background-color: rgb(207, 226, 255); margin-top: 1rem; font-size: 16px; width: 907px;"><strong>Cutoff Reached.</strong> The order is now finalized. <br>Customer will need to contact restaurant in order to make further changes.</div>
+    <% end %>
+  <% end %>
+  <table id="templateContainer" style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; width: 907px; color: #4c4c4c; font-size: 15px; line-height: 150%; background: #ffffff; margin: 20px 0; padding: 0; border: 0;">
+          <tr style="vertical-align: top; padding: 0;">
+            <td class="templateContainerPadding" align="center" valign="top" style="vertical-align: top; padding: 0 40px;">
+              <table id="templateContent" style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; width: 100%; background: #ffffff; margin: 0; padding: 0; border: 0; ">
+                <tr style="vertical-align: top; padding: 0;">
+                  <td style="vertical-align: top; text-align: left; padding-top: 20px; padding-bottom: 20px;" align="left" valign="top">
+  <% unless @contact %>
+    <div style="box-sizing: border-box; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid rgb(245, 198, 203); border-radius: 0.25rem; color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); margin-top: 1rem; font-family: -apple-system, system-ui, &quot;Segoe UI&quot;, helvetica, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 16px;">
+      <strong>
+        Dear Chowmill Staff,
+      </strong><br><br>
+      Please forward this email to <strong><%= @address.addressable.name %></strong>.<br><br>
+    </div>
+  <% end %>
+  <div class="" style="box-sizing:border-box;color:rgb(33,37,41);font-size:16px">
+    <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem">
+      <div class="m" style="box-sizing:border-box;width:285px;min-height:1px;padding-right:15px;padding-left:15px;max-width:25%;margin:auto">
+        <div class="" style="box-sizing:border-box;margin:auto"><br></div>
+      </div>
+    </h3>
+    <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem;display:flex">
+      <%
+        time = @runningmenu.delivery? ? @runningmenu.delivery_at_timezone.strftime("%I:%M %p") : @runningmenu.pickup_at_timezone.strftime("%I:%M %p")
+      %>
+      <% if @runningmenu.cancelled? %>
+      <span style="width:20%;display:block;"><span class="il">Order</span> Cancelled</span>
+      <span style="width:60%;display:block;text-decoration: line-through;"><%= @runningmenu.runningmenu_type.capitalize %> <%= @runningmenu.delivery_type.capitalize %> on <%= @runningmenu.delivery_at_timezone.to_time.strftime("%a. %b %d") %> at <%= time %> </span>
+      <span style="width:20%;display:block;text-align:right;color:rgb(192,192,192)"><span class="il">Order</span> #<%= @runningmenu.id %></span>
+      <% else %>
+      <span style="width:80%;display:block"><%= @runningmenu.runningmenu_type.capitalize %> <%= @runningmenu.delivery_type.capitalize %> on <%= @runningmenu.delivery_at_timezone.to_time.strftime("%a. %b %d") %> at <%= time %> </span>
+      <span style="width:20%;display:block;text-align:right;color:rgb(192,192,192)"><span class="il">Order</span> #<%= @runningmenu.id %></span>
+      <% end %>
+    </h3>
+    <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem">
+      <div class="" style="box-sizing:border-box;width:100%;min-height:1px;">
+        <div class="" style="box-sizing:border-box;font-size:16px;float:right">
+        </div>
+        <div style="box-sizing:border-box;border-bottom:1px solid rgba(115,115,115,0.1);font-size:16px;margin:auto">
+          <div style="box-sizing:border-box">
+            <p style="box-sizing:border-box;margin-top:0px;margin-bottom:1rem;border-bottom: 1px solid rgb(222,226,230);padding-bottom: 19px;">
+              <span style="box-sizing:border-box;color:rgb(76,76,76);font-size:0.9rem;">
+                <%= @address.addressable.name %>: <%=@address.address_line%>
+              </span>
+              <div style="display: flex; justify-content: space-between;">
+                <div style="padding: 0px 10px 0px 0px; white-space: nowrap; font-weight:bold; font-size: 13px; color: gray">
+                  <%= Time.current.in_time_zone(@runningmenu.company.time_zone).strftime('%a %b %d %I:%M %p') %>
+                  <p style="font-size: 12px; font-weight: normal;">Order <%= @title == 'New' ? 'Created' : 'Modified' %></p>
+                </div>
+                <div style="width: 100%;"><hr style="width: 100%; border-color: gray; border-width: 1px;"></div>
+                <div style="padding: 0px 10px; white-space: nowrap; color: red; font-weight:bold; font-size: 13px;">
+                  <%= @runningmenu.cutoff_at_timezone.strftime('%a %b %d %I:%M %p') %>
+                  <p style="font-size: 12px; font-weight: normal;">Cutoff <br/>Orders Finalized</p>
+                </div>
+                <div style="width: 100%;"><hr style="width: 100%; border-color: red;"></div>
+                <div style="padding: 0px 0px 0px 10px; white-space: nowrap; color: green; font-weight: bold; font-size: 13px;">
+                  <%= @runningmenu.delivery_at_timezone.strftime("%a %b %d") %> <%= time %>
+                  <p style="font-size: 12px; font-weight: normal;"><%= @runningmenu.delivery_type.capitalize %></p>
+                </div>
+              </div>
+              <table style="margin-top:20px; width:100%; border-top:1px solid rgb(222,226,230); border-bottom:1px solid rgb(222,226,230); margin-bottom:20px;">
+                <tbody>
+                  <tr style="width:100%; border-left: none; border-right: none;">
+                    <% if @runningmenu.pickup? %>
+                      <td style="width:50%;padding-top: 15px;font-weight: normal;padding-bottom: 15px;">
+                        Customer: Chowmill<br>2345 Harris Way, San Jose
+                      </td>
+                      <td style="width:50%;font-weight: normal;">
+                        <span>Customer Contact: </span><%= mail_to "support@chowmill.com" %><br>(408) 883-9415
+                      </td>
+                    <% else %>
+                      <td style="width:50%;padding-top: 15px;font-weight: normal;padding-bottom: 15px;">
+                        Customer: <%= @runningmenu.company.name %><br><%= @runningmenu.address.street %>, <%= @runningmenu.address.city %>
+                      </td>
+                      <td style="width:50%;font-weight: normal;">
+                        <span>Customer Contact: </span><%= "#{@runningmenu.user.first_name} #{@runningmenu.user.last_name}" %><br><%= mail_to @runningmenu.user.email %><br><%= (@runningmenu.user.sms_notification? && @runningmenu.user.phone_number.present?) ? @runningmenu.user.phone_number : @runningmenu.user.desk_phone %>
+                      </td>
+                    <% end %>
+                    <td>&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </p>
+          </div>
+          <h3 style="box-sizing:border-box;margin-top:0px;margin-bottom:0.5rem;font-family:inherit;font-weight:500;line-height:1.2;color:inherit;font-size:1.75rem;display:flex">
+            <span style="width:60%;display: block;"><%= "#{@items} Items" if @items > 0 %> </span>
+          </h3>
+          <% if @runningmenu.buffet? %>
+            <table cellpadding="0" cellspacing="0" class="tbl_" style="width: 885px;">
+          <% else %>
+            <table style="box-sizing:border-box;border-collapse:collapse;width:825px;margin-bottom:1rem;background-color:transparent">
+          <% end %>
+          <% if @runningmenu.buffet? && (@orders.present? || @orders_before_cuttoff.present?) %>
+            <!-- <table cellpadding="0" cellspacing="0" width="100%" class="tbl_"> -->
+              <thead>
+                <tr style="box-sizing:border-box; background-color:#282f3a !important; color: #ffffff !important;">
+                  <th width="10%" align="left" style="white-space: nowrap; <%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+                    Dish Size
+                  </th>
+                  <th width="8%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+                    Serves
+                  </th>
+                  <th width="8%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+                    Qty
+                  </th>
+                  <th width="8%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+                    Modification
+                  </th>
+                  <th width="64%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+                    Item
+                  </th>
+                  <th width="10%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+                    Price
+                  </th>
+                </tr>
+              </thead>
+               <tbody>
+                <!-- orders between cuttoff start -->
+                 <% if @orders.present? %>
+                 <% @orders.each do |order|%>
+                   <% removed = added = 0 %>
+                   <% if order.order_status == 'cancelled' && !order.version_id.blank? %>
+                     <% removed += order.quantity %>
+                     <% elsif !order.version_id.blank? %>
+                       <% Order.where(id: order.order_ids.to_s.split(', '), status: Order.statuses[:active]).each do |version_order|%>
+                         <% if version_order.versions.present? && version_order.versions.first.changeset[:quantity].present? && version_order.versions.first.changeset[:quantity][0].nil?%>
+                           <% added += version_order.quantity %>
+                         <% else %>
+                           <% start_limit = end_limit = nil%>
+                           <% if version_order.versions.present? && version_order.versions.first.changeset[:quantity].present? && !version_order.versions.first.changeset[:quantity][0].nil? %>
+                             <% start_limit = version_order.versions.first.changeset[:quantity][0] %>
+                           <% end %>
+
+                           <% if version_order.versions.present? && version_order.versions.last.changeset[:quantity].present? %>
+                             <% end_limit = version_order.versions.last.changeset[:quantity][1] %>
+                           <% end %>
+                           <% if start_limit.present? && end_limit.present? %>
+                             <% if start_limit < end_limit  %>
+                               <% added += (end_limit - start_limit) %>
+                             <% elsif start_limit > end_limit %>
+                               <% removed += (start_limit - end_limit) %>
+                             <% end %>
+                           <% end %>
+                         <% end %>
+                       <% end %>
+                     <% end %>
+                     <% if order.order_status == "cancelled" %>
+                     <!-- buffet cancelled start -->
+                      <tr style=" border-left: none; border-right: none;">
+                        <td valign="top" style="text-decoration: line-through;">
+                           <%= order.dish_title %>
+                        </td>
+                        <td valign="top" style="text-decoration: line-through;">
+                           <%= order.serve_count %>
+                        </td>
+
+                        <td valign="top" style="text-decoration: line-through;">
+                          <%= order.quantity %>
+                        </td>
+                        <td valign="top">
+                          <% if @runningmenu.cancelled? %>
+                            <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);'%>">
+                                 <del>Cancelled</del>
+                              </span>
+                          <% else %>
+                            <% if added > removed %>
+                              <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(40, 167, 69); color: rgb(255, 255, 255);'%>">
+                                 <%= added - removed %> Items Added
+                              </span>
+                            <% elsif added < removed %>
+                              <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);'%>">
+                                 <del><%= @runningmenu.cancelled? ? 'Cancelled' : "#{(removed - added)} Items Removed" %></del>
+                              </span>
+                            <% else %>
+                              <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(255, 195, 77); color: #000000;'%>">
+                                 <%= order.quantity %> Items Modified
+                              </span>
+                            <% end %>
+                          <% end %>
+                         </td>
+                         <td valign="top" style="text-decoration: line-through;"><%= order.fooditem_name %><br>
+                         <% if order.fooditem_description.present? %>
+                           <span style='line-height: 1.5em; height: 3em;text-decoration: line-through; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+                         <% end %>
+                         <% if order.options.present? %>
+                           <% opt_arr = []%>
+                           <ul class="optionsList">
+                             <li>Options:</li>
+                             <span style="font-weight: normal;text-decoration: line-through; <%= defined?(fax) && fax ? 'color: #000;' : ''%>">
+                               <% order.options.split(', ').each do |option| %>
+                                 <% opt_detail_arr = option.split('$')%>
+                                 <% opt_arr.push(opt_detail_arr[0]) %>
+                               <% end %>
+                               <%= opt_arr.join(', ') %>
+                             </span>
+                           </ul>
+                         <% end %>
+                         <% if order.remarks.present? %>
+                           <ul class="optionsList">
+                           <li style="text-decoration: line-through;"><span class="head">Remarks: </span><%= order.remarks %> </li>
+                           </ul>
+                         <% end %>
+                         <% if order.fooditem_notes_to_restaurant.present? %>
+                           <div class="note"><span class="head">Note:</span><u style="text-decoration: line-through;"><%= order.fooditem_notes_to_restaurant %></u></div>
+                         <% end %>
+                       </td>
+                       <td valign="top" style="text-decoration: line-through;">
+                         <%= (order.dish_price.present? ? (order.dish_price + (order.options.present? ? order.options_price : 0)) : (order.fooditem_price - (order.options.present? ? order.options_price : 0))) * order.quantity %>
+                       </td>
+                     </tr>
+                     <!-- buffet cancelled end -->
+                     <% else %>
+                       <tr style=" border-left: none; border-right: none;">
+                          <td valign="top">
+                             <%= order.dish_title %>
+                          </td>
+                          <td valign="top">
+                             <%= order.serve_count %>
+                          </td>
+
+                          <td valign="top">
+                            <%= order.quantity %>
+                          </td>
+                          <td valign="top">
+                            <% if added > removed %>
+                              <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(40, 167, 69); color: rgb(255, 255, 255);'%>">
+                                 <%= added - removed %> Items Added
+                              </span>
+                            <% elsif added < removed %>
+                              <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);'%>">
+                                 <%= removed - added%> Items Removed
+                              </span>
+                            <% else %>
+                              <br><span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; <%= defined?(fax) && fax ? 'background-color: #000000; color: #fff;' : 'background-color: rgb(255, 195, 77); color: #000000;'%>">
+                                 <%= order.quantity %> Items Modified
+                              </span>
+                            <% end %>
+                           </td>
+                           <td valign="top"><%= order.fooditem_name %><br>
+                           <% if order.fooditem_description.present? %>
+                             <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+                           <% end %>
+                           <% if order.options.present? %>
+                             <% opt_arr = []%>
+                             <ul class="optionsList">
+                               <li>Options:</li>
+                               <span style="font-weight: normal; <%= defined?(fax) && fax ? 'color: #000;' : ''%>">
+                                 <% order.options.split(', ').each do |option| %>
+                                   <% opt_detail_arr = option.split('$')%>
+                                   <% opt_arr.push(opt_detail_arr[0]) %>
+                                 <% end %>
+                                 <%= opt_arr.join(', ') %>
+                               </span>
+                             </ul>
+                           <% end %>
+                           <% if order.remarks.present? %>
+                             <ul class="optionsList">
+                             <li><span class="head">Remarks: </span><%= order.remarks %> </li>
+                             </ul>
+                           <% end %>
+                           <% if order.fooditem_notes_to_restaurant.present? %>
+                             <div class="note"><span class="head">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                           <% end %>
+                         </td>
+                         <td valign="top">
+                           <%= (order.dish_price.present? ? (order.dish_price + (order.options.present? ? order.options_price : 0)) : (order.fooditem_price - (order.options.present? ? order.options_price : 0))) * order.quantity %>
+                         </td>
+                       </tr>
+                     <% end %>
+                   <% end %>
+                 <% end %>
+                 <!-- orders between cuttoff end -->
+
+                 <!-- orders before cuttoff start -->
+                 <% if @orders_before_cuttoff.present? %>
+                 <% @orders_before_cuttoff.each do |order|%>
+                  <tr style=" border-left: none; border-right: none;">
+                      <td valign="top">
+                         <%= order.dish_title %>
+                      </td>
+                      <td valign="top">
+                         <%= order.serve_count %>
+                      </td>
+
+                      <td valign="top">
+                        <%= order.quantity %>
+                      </td>
+                      <td valign="top">
+                        <span></span>
+                      </td>
+                      <td valign="top"><%= order.fooditem_name %><br>
+                       <% if order.fooditem_description.present? %>
+                         <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+                       <% end %>
+                       <% if order.options.present? %>
+                         <% opt_arr = []%>
+                         <ul class="optionsList">
+                           <li>Options:</li>
+                           <span style="font-weight: normal; <%= defined?(fax) && fax ? 'color: #000;' : ''%>">
+                             <% order.options.split(', ').each do |option| %>
+                               <% opt_detail_arr = option.split('$')%>
+                               <% opt_arr.push(opt_detail_arr[0]) %>
+                             <% end %>
+                             <%= opt_arr.join(', ') %>
+                           </span>
+                         </ul>
+                       <% end %>
+                       <% if order.remarks.present? %>
+                         <ul class="optionsList">
+                         <li><span class="head">Remarks: </span><%= order.remarks %> </li>
+                         </ul>
+                       <% end %>
+                       <% if order.fooditem_notes_to_restaurant.present? %>
+                         <div class="note"><span class="head">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                       <% end %>
+                     </td>
+                     <td valign="top">
+                       <%= (order.dish_price.present? ? (order.dish_price + (order.options.present? ? order.options_price : 0)) : (order.fooditem_price - (order.options.present? ? order.options_price : 0))) * order.quantity %>
+                     </td>
+                   </tr>
+                   <% end %>
+                 <% end %>
+                 <!-- orders before cuttoff end -->
+               </tbody>
+          <% elsif @orders.present? || @orders_before_cuttoff.present? %>
+            <!-- <table style="box-sizing:border-box;border-collapse:collapse;width:825px;margin-bottom:1rem;background-color:transparent"> -->
+              <thead style="box-sizing:border-box">
+                <tr style="box-sizing:border-box; background-color:#282f3a !important; color: #ffffff !important;">
+                  <th scope="col" style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">Quantity</th>
+                  <th scope="col" style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">Modification</th>
+                  <th scope="col" style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">
+                    Item
+                  </th>
+                  <th scope="col" style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">Price</th>
+                  <th scope="col" style="text-align:left;box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)">Total</th>
+                  <th scope="col" style="box-sizing:border-box;padding:0.75rem;vertical-align:bottom;border-top:1px solid rgb(222,226,230);border-bottom:2px solid rgb(222,226,230)"></th>
+                </tr>
+              </thead>
+              <tbody style="box-sizing:border-box">
+                <!-- orders between cuttoff start -->
+                <% @orders.each do |order|%>
+                  <% removed = added = 0 %>
+                  <% if order.order_status == 'cancelled' %>
+                    <% removed += order.quantity %>
+                  <% else %>
+                    <% Order.where(id: order.order_ids, status: Order.statuses[:active]).each do |version_order|%>
+                      <% if version_order.versions.present? && version_order.versions.first.changeset[:quantity].present? && version_order.versions.first.changeset[:quantity][0].nil?%>
+                        <% added += version_order.quantity %>
+                      <% else %>
+                        <% start_limit = end_limit = nil%>
+                        <% if version_order.versions.present? && version_order.versions.first.changeset[:quantity].present? && !version_order.versions.first.changeset[:quantity][0].nil? %>
+                          <% start_limit = version_order.versions.first.changeset[:quantity][0] %>
+                        <% end %>
+
+                        <% if version_order.versions.present? && version_order.versions.last.changeset[:quantity].present? %>
+                          <% end_limit = version_order.versions.last.changeset[:quantity][1] %>
+                        <% end %>
+                        <% if start_limit.present? && end_limit.present? %>
+                          <% if start_limit < end_limit  %>
+                            <% added += (end_limit - start_limit) %>
+                          <% elsif start_limit > end_limit %>
+                            <% removed += (start_limit - end_limit) %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                  <tr style="box-sizing:border-box border-left: none; border-right: none;">
+                    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      <% if order.order_status == "cancelled"%>
+                        <h1 style="text-decoration: line-through;"><%=order.quantity%></h1>
+                      <% else %>
+                        <h1><%=order.quantity%></h1>
+                      <% end %>
+                    </td>
+                    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      <% if @runningmenu.cancelled? %>
+                        <span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);">
+                          <del>Cancelled</del>
+                      <% else %>
+                        <% if added > removed %>
+                          <span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; background-color: rgb(40, 167, 69); color: rgb(255, 255, 255);">
+                            <%= added - removed %> Items Added
+                          </span>
+                        <% elsif added < removed %>
+                          <span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; background-color: rgb(220, 53, 69); color: rgb(255, 255, 255);">
+                            <% if order.order_status == "cancelled"%>
+                              <del><%= @runningmenu.cancelled? ? 'Cancelled' : "#{(removed - added)} Items Removed" %></del>
+                            <% else %>
+                              <%= removed - added%> Items Removed
+                            <% end %>
+                          </span>
+                        <% else %>
+                          <span style="box-sizing: border-box; display: inline-block; padding: 0.25em 0.6em; font-size: 12px; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 10rem; background-color: rgb(255, 195, 77); color: #000000;">
+                            <%=order.quantity%> Items Modified
+                          </span>
+                        <% end %>
+                      <% end %>
+                    </td>
+
+                    <% if order.order_status == "cancelled"%>
+                      <!-- individual cancelled start -->
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);text-decoration: line-through;">
+                        <%=order.fooditem_name%><br style="box-sizing:border-box">
+                        <% if order.fooditem_description.present? %>
+                          <span style='color: #666;'><%= order.fooditem_description %></span><br>
+                        <% end %>
+                        <% if order.options.present? %>
+                        <% alp_array = ("A".."Z").to_a%>
+                          <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                            <% order.options.split(', ').each_with_index do |option, index| %>
+                              <% opt_detail_arr = option.split('$')%>
+                              <tr>
+                                <td width="50%" valign="top" class="optionDes" style="text-decoration: line-through;">
+                                  <%= alp_array[index] %>. <%= opt_detail_arr[0] %>
+                                </td>
+                                <td valign="top" class="optionPrice" style="text-decoration: line-through;">
+                                  $<%= opt_detail_arr[1]%>
+                                </td>
+                              </tr>
+                            <% end %>
+                          </table>
+                        <% end %>
+                        <% if order.remarks.present? %>
+                          <br><span style="color: red; font-weight: bold;">Remarks: </span> <span style="color: red;text-decoration: line-through;"><%= order.remarks %></span>
+                        <% end %>
+                        <% if order.fooditem_notes_to_restaurant.present? %>
+                          <br><div style="margin-top: 2px; padding: 5px; border-radius: 5px; border: 1px solid #d00; font-size: 14px; position: relative; padding-left: 60px;text-decoration: line-through;"><span style="background: #d00; color: #fff; padding: 5px; display: inline-block; position: absolute; top: 0; left: 0; text-transform: uppercase;">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                        <% end %>
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);text-decoration: line-through;">
+                        <%# unit_price = order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+                        <% unit_price = order.fooditem_price %>
+                        <%= order.fooditem_price - (order.options.present? ? order.options_price : 0) %>
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230);text-decoration: line-through;">
+                        $<%= unit_price * order.quantity %>&nbsp;<br style="box-sizing:border-box">
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      </td>
+                      <!-- individual cancelled end -->
+                    <% else %>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                        <%=order.fooditem_name%><br style="box-sizing:border-box">
+                        <% if order.fooditem_description.present? %>
+                          <span style='color: #666;'><%= order.fooditem_description %></span><br>
+                        <% end %>
+                        <% if order.options.present? %>
+                        <% alp_array = ("A".."Z").to_a%>
+                          <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                            <% order.options.split(', ').each_with_index do |option, index| %>
+                              <% opt_detail_arr = option.split('$')%>
+                              <tr>
+                                <td width="50%" valign="top" class="optionDes">
+                                  <%= alp_array[index] %>. <%= opt_detail_arr[0] %>
+                                </td>
+                                <td valign="top" class="optionPrice">
+                                  $<%= opt_detail_arr[1]%>
+                                </td>
+                              </tr>
+                            <% end %>
+                          </table>
+                        <% end %>
+                        <% if order.remarks.present? %>
+                          <br><span style="color: red; font-weight: bold;">Remarks: </span> <span style="color: red;"><%= order.remarks %></span>
+                        <% end %>
+                        <% if order.fooditem_notes_to_restaurant.present? %>
+                          <br><div style="margin-top: 2px; padding: 5px; border-radius: 5px; border: 1px solid #d00; font-size: 14px; position: relative; padding-left: 60px;"><span style="background: #d00; color: #fff; padding: 5px; display: inline-block; position: absolute; top: 0; left: 0; text-transform: uppercase;">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                        <% end %>
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                        <%# unit_price = order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+                        <% unit_price = order.fooditem_price %>
+                        <%= order.fooditem_price - (order.options.present? ? order.options_price : 0) %>
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                        $<%= unit_price * order.quantity %>&nbsp;<br style="box-sizing:border-box">
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end%>
+                <!-- orders between cuttoff end -->
+
+                <!-- orders before cuttoff start -->
+                <% orders = @orders_before_cuttoff.group_by{|o| [o.fooditem_name, o.fooditem_description, o.fooditem_price, o.options, o.remarks] } %>
+                <% orders.each do |key, orders_hash| %>
+                  <% order = orders_hash.first %>
+                  <tr style="box-sizing:border-box; border-left: none; border-right: none;">
+                    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      <h1><%#=order.quantity%><%= group_quantity = orders_hash.sum{|o| o.quantity } %></h1>
+                    </td>
+                    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      <span></span>
+                    </td>
+
+                    <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                        <%=order.fooditem_name%><br style="box-sizing:border-box">
+                        <% if order.fooditem_description.present? %>
+                          <span style='color: #666;'><%= order.fooditem_description %></span><br>
+                        <% end %>
+                        <% if order.options.present? %>
+                        <% alp_array = ("A".."Z").to_a%>
+                          <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                            <% order.options.split(', ').each_with_index do |option, index| %>
+                              <% opt_detail_arr = option.split('$')%>
+                              <tr>
+                                <td width="50%" valign="top" class="optionDes">
+                                  <%= alp_array[index] %>. <%= opt_detail_arr[0] %>
+                                </td>
+                                <td valign="top" class="optionPrice">
+                                  $<%= opt_detail_arr[1]%>
+                                </td>
+                              </tr>
+                            <% end %>
+                          </table>
+                        <% end %>
+                        <% if order.remarks.present? %>
+                          <br><span style="color: red; font-weight: bold;">Remarks: </span> <span style="color: red;"><%= order.remarks %></span>
+                        <% end %>
+                        <% if order.fooditem_notes_to_restaurant.present? %>
+                          <br><div style="margin-top: 2px; padding: 5px; border-radius: 5px; border: 1px solid #d00; font-size: 14px; position: relative; padding-left: 60px;"><span style="background: #d00; color: #fff; padding: 5px; display: inline-block; position: absolute; top: 0; left: 0; text-transform: uppercase;">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+                        <% end %>
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                        <%# unit_price = order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+                        <% unit_price = order.fooditem_price %>
+                        <%= order.fooditem_price - (order.options.present? ? order.options_price : 0) %>
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                        $<%#= unit_price * order.quantity %><%= unit_price * group_quantity %>&nbsp;<br style="box-sizing:border-box">
+                      </td>
+                      <td style="box-sizing:border-box;padding:0.75rem;vertical-align:top;border-top:1px solid rgb(222,226,230)">
+                      </td>
+                  </tr>
+                <% end%>
+                <!-- orders before cuttoff end -->
+
+              </tbody>
+          <% end %>
+          </table>
+          <% unless @runningmenu.cancelled? %>
+            <p style="margin:20px 0; text-align:center;">
+              <%
+                address_runningmenu = AddressesRunningmenu.find_by(runningmenu_id: @runningmenu.id, address_id: @address.id)
+                uniq_token = address_runningmenu.token.nil? ? rand(36**32).to_s(36) : address_runningmenu.token
+                address_runningmenu.update(token: uniq_token)
+                type = @title == 'New' ? 'accept_orders' : 'accept_changes'
+              %>
+              <%= link_to "Confirm", "#{ENV['VENDER_FRONTEND_HOST']}/acknowledge/#{uniq_token}/#{type}", :style => 'box-sizing:border-box;color:rgb(255,255,255);text-decoration-line:none;background-color:rgb(189,33,48);display:inline-block;text-align:center;vertical-align:middle;border:1px solid rgb(178,31,45);padding:0.5rem 1rem;font-size:1.25rem;line-height:1.5;border-radius:0.3rem', target: '_blank' %>
+              <br><br>
+              See up-to-date orders on <a style="color: rgb(0, 0, 238)" href="<%= ENV['VENDER_FRONTEND_HOST'] %>">Chowmill Vendor Portal</a><br>Final list of orders will be emailed to you at cutoff time. 
+              <br><br>
+            </p>
+          <% end %>
+        </div>
+      </div>
+    </h3>
+  </div>
+<%= render 'layouts/footer' %>

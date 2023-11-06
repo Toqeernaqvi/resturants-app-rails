@@ -1,0 +1,9 @@
+<%= simple_form_for(@invoice, url: forwarded_invoice_admin_invoices_path, method: :post, :html => { id: 'forward_invoice_form', name: 'test'}) do |f| %>
+  <%= f.input :recipients, required: "required", :input_html => {value: @invoice.approvers.exists? ? @invoice.approvers.map{ |a| a.email }.join(", ") : @invoice.invoice_email } %>
+  <%= f.input :sender, as: :hidden, :input_html => { value: "finance@chowmill.com" } %>
+  <%= f.input :cc, :input_html => { value: " finance@chowmill.com " } %>
+  <%= f.input :subject, :input_html => { value: "Chowmill #{@invoice.charged_cc ? 'Receipt' : 'Invoice'} (#{@invoice.invoice_number}) for Delivery on #{@invoice.shipping_subject}" } %>
+  <%= f.input :mail_body, as: :ckeditor, :input_html => { value: @forward_invoice_body.to_s.force_encoding("UTF-8") } %>
+  <input type="hidden" id="invoiceID" name="invoice_id" value="<%= @invoice.id%>">
+  <%= f.button :submit, "Send", class: "sendBtn" %>
+<% end %>

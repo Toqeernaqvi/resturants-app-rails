@@ -1,0 +1,187 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>Class</strong></th>
+      <th><strong>Field changed</strong></th>
+      <th><strong>Before</strong></th>
+      <th><strong>After</strong></th>
+      <th><strong>Timestamp</strong></th>
+      <th><strong>User</strong></th>
+    </thead>
+    <tbody>
+      <% versions.each do |version|%> 
+        <% if version.item_type == "BanAddress" %>
+          <% attributes = (version.changeset.keys-["id","company_id","updated_at"]) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= attribute.titleize %><br>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "address_id" %>
+                    <% address = Address.find version.changeset[attribute][0] rescue nil %><br>
+                    <%= address.addressable.name + ": " + address.address_line if address.present? %><br>
+                  <% elsif attribute == "created_at" %>
+                    <%= version.changeset[attribute][0].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][0] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "address_id" %>
+                    <% address = Address.find version.changeset[attribute][1] rescue nil %><br>
+                    <%= address.addressable.name + ": " + address.address_line if address.present? %><br>
+                  <% elsif attribute == "created_at" %>
+                    <%= version.changeset[attribute][1].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][1] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% elsif version.item_type == "Field" %>
+          <% attributes = (version.changeset.keys-["company_id","deleted_at","updated_at"]) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= attribute.titleize %><br>
+                <% end %>            
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][0].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][0] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][1].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][1] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% elsif version.item_type == "Address" %>
+          <% attributes = (version.changeset.slice(:id, :address_line, :street_number, :city, :state, :zip, :short_code, :suite_no, :status).keys) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "status" %>
+                    <% address = version.item rescue nil %><br>
+                    <%= "Status: " + address.addressable.name + ": " + address.address_line if address.present? %><br>
+                  <% else %>
+                    <%= attribute.titleize %><br>
+                  <% end %>
+                <% end %>            
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= version.changeset[attribute][0] %><br>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= version.changeset[attribute][1] %><br>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% elsif version.item_type == "User" %>
+          <% attributes = (version.changeset.slice(:id, :first_name, :last_name, :email, :parent_status, :created_at).keys) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "parent_status" %>
+                    <% user = version.item rescue nil %><br>
+                    <%= "Status: " + user.name if user.present? %><br>
+                  <% else %>
+                    <%= attribute.titleize %><br>
+                  <% end %>
+                <% end %>            
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][0].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][0] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][1].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][1] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% elsif version.item_type == "Company"  %>
+          <% attributes = (version.changeset.keys-["updated_at"]) %>
+          <% unless attributes.blank? %>
+            <tr>
+              <td><%= version.item_type %></td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <%= attribute.titleize %><br>
+                <% end %>            
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][0].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][0] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% attributes.each do |attribute| %>
+                  <% if attribute == "created_at" %>
+                    <%= version.changeset[attribute][1].in_time_zone(current_admin_user.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil  %><br>
+                  <% else %>
+                    <%= version.changeset[attribute][1] %><br>
+                  <% end %>
+                <% end %>
+              </td>
+              <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+              <td><%= version.whodunnit%></td>
+            </tr>
+          <% end %>
+        <% else %>        
+        <% end %>        
+
+      <% end %>
+    </tbody>
+  </table>
+</div>

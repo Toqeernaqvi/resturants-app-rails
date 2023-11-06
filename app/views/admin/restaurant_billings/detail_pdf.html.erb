@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Restaurant Bill_<%=billing.id %>_<%= billing.address.addressable.name%></title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .logo {
+        width: 50px;
+      }
+
+      .red {
+        color: red
+      }
+      .caps {
+        text-transform: uppercase;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      td {
+        padding: 10px;
+        vertical-align: top;
+        width:33%;
+        position: relative;
+      }
+      h1,h2,h3,h4,h5,h6 {margin: 0}
+
+      small {
+        font-size: 60%;
+      }
+    </style>
+  </head>
+  <body>
+    <table style="width:100%">
+      <tr>
+        <td style="width: 33%"><h1>Chowmill, Inc.</h1>
+          2345 Harris Way, Ste 100, San Jose, CA 95138
+          <br>Phone: (408) 883-9415<br>
+          Email: orders@chowmill.com
+        </td>
+        <td style="width: 20%; text-align: center;">
+          <%= image_tag wicked_pdf_asset_base64("logo.png"), :style => "width: 40px;", alt:'logo' %>
+        </td>
+        <td style="width: 33%; text-align: right;">
+          <h1 style="color:silver">BILL</h1>
+          Bill Number: <%= billing.billing_number%><br>
+          Current Date: <%= Time.current.strftime("%m/%d/%Y") %><br>
+          Page: 1/1
+        </td>
+      </tr>
+    </table>
+
+    <table style="width:100%;">
+      <tr>
+        <td style="width: 45%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Restaurant</h2></div>
+
+          <div style="padding: 20px;">
+            <%= billing.address.addressable.name%><br>
+            <%= billing.address.address_line%><br>
+            <%= [billing.address.city.capitalize, billing.address.state.capitalize, billing.address.zip].join(', ')%>
+          </div>
+        </td>
+        <td style="width: 10%"></td>
+        <td style="width: 45%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Payout Summary</h2></div>
+          <div style="padding: 20px;">
+            <strong>Payment includes orders from:</strong><br> <%= billing.orders_from_timezone.strftime("%m/%d/%Y") %> - <%= billing.orders_to_timezone.strftime("%m/%d/%Y") %> <br>
+            <strong>Payment Sent On:</strong> <%= billing.due_date.present? ? billing.due_date.strftime("%m/%d/%Y") : ""%>
+            <br>
+            <strong>Payment Method:</strong> <%= billing.credit_card? ?  "Credit Card" : "Check"%>
+            <br>
+            <strong>Payment Recipient: </strong><%= billing.address.addressable.name%>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <table style="width: 100%">
+      <tr style="page-break-inside: avoid;">
+        <td style="width: 10%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4 style="font-size: 16px;">Date</h4></div>
+        </td>
+        <td style="width: 10%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4 style="font-size: 16px;">Total Items</h4></div>
+        </td>
+        <td style="width: 10%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4 style="font-size: 16px;">Food Total</h4></div>
+        </td>
+        <td style="width: 10%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4 style="font-size: 16px;">Commission</h4></div>
+        </td>
+        <td style="width: 10%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px; white-space: nowrap;"><h4 style="font-size: 16px;">Sales Tax (<%= (sprintf "%.2f", billing.sale_tax_percentage*100) %>%)</h4></div>
+        </td>
+      </tr>
+      <%# orders = billing.orders.active %>
+      <% billing_orders_quantity = billing.orders.active.sum(&:quantity) %>
+      <% billing.orders.active.group_by{|o| o.runningmenu }.sort_by{|runningmenu, _| runningmenu.delivery_at_timezone}.each do |runningmenu, orders| %>
+        <tr style="page-break-inside: avoid;">
+          <td style="width: 10%; border:1px solid silver"><%= runningmenu.delivery_at_timezone.strftime("%m/%d/%Y") %></td>
+          <td style="width: 10%;  border:1px solid silver"><%= orders.sum(&:quantity) %></td>
+          <td style="width: 10%;  border:1px solid silver">$<%= orders.sum(&:food_price_total) %></td>
+          <td style="width: 10%; border:1px solid silver">$<%= orders.sum(&:restaurant_commission)&.round(2) %></td>
+          <td style="width: 10%; border:1px solid silver">$<%= orders.sum(&:sales_tax)&.round(2) %></td>
+        </tr>
+      <% end %>
+      <tr style="page-break-inside: avoid;">
+        <td style="width: 10%; border:1px solid silver; font-weight: bold;"><%= "Total" %></td>
+        <td style="width: 10%;  border:1px solid silver; font-weight: bold;"><%= billing_orders_quantity %></td>
+        <td style="width: 10%;  border:1px solid silver; font-weight: bold;">$<%= billing.food_total %></td>
+        <td style="width: 10%; border:1px solid silver; font-weight: bold;">$<%= billing.commission %></td>
+        <td style="width: 10%; border:1px solid silver; font-weight: bold;">$<%= billing.sales_tax %></td>
+      </tr>
+    </table><br>
+
+    <% adjustments = billing.adjustments %>
+    <% if adjustments.present? %>
+      <table style="width: 100%">
+        <tr style="page-break-inside: avoid;">
+          <td style="width: 10%; border: 2px solid black;padding:0">
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4>Date</h4></div>
+          </td>
+          <td style="width: 10%; border: 2px solid black;padding:0">
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4>Description</h4></div>
+          </td>
+          <td style="width: 10%; border: 2px solid black;padding:0">
+            <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h4>Amount</h4></div>
+          </td>
+        </tr>
+        <% adjustments.each do |adjustment| %>
+          <tr style="page-break-inside: avoid;">
+            <td style="width: 10%; border:1px solid silver"><%= adjustment.adjustment_date %></td>
+            <td style="width: 10%;  border:1px solid silver"><%= adjustment.description %></td>
+            <td style="width: 10%;  border:1px solid silver; color: rgb(239, 82, 46);">-$<%= adjustment.price %></td>
+          </tr>
+        <% end %>
+        <tr style="page-break-inside: avoid;">
+          <td style="width: 10%; border:1px solid silver;"></td>
+          <td style="width: 10%;  border:1px solid silver; font-weight: bold;"><%= "Total" %></td>
+          <td style="width: 10%;  border:1px solid silver; font-weight: bold; color: rgb(239, 82, 46);">-$<%= adjustments.sum(&:price) %></td>
+        </tr>
+      </table><br>
+    <% end %>
+    <table style="width:100%">
+      <tr style="page-break-inside: avoid;">
+        <td style="width: 33%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Total Items</h2></div>
+          <div style="padding: 20px;"><%= billing_orders_quantity %></div>
+        </td>
+        <td style="width: 33%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Food Total</h2></div>
+          <div style="padding: 20px;">$<%= billing.food_total %></div>
+        </td>
+        <td style="width: 33%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Commission (<%= billing.discount_percentage %>%)</h2></div>
+          <div style="padding: 20px;">$<%= billing.commission %>
+          </div>
+        </td>
+      </tr>
+      <tr style="page-break-inside: avoid;">
+        <td style="width: 33%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Sales Tax</h2></div>
+          <div style="padding: 20px;">$<%= billing.sales_tax %></div>
+        </td>
+        <td style="width: 33%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Tips</h2></div>
+          <div style="padding: 20px;">$<%= billing.tips %></div>
+        </td>
+        <td style="width: 33%; border: 2px solid black;padding:0">
+          <div style="background-color:#eae8e8;border-bottom:2px solid black; padding:10px;"><h2>Credit Card Fees</h2></div>
+          <div style="padding: 20px;">$<%= billing.credit_card_fees %>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <center><h2 style="color:red">Total Payout: $<%= billing.payout_total %></h2></center>
+  </body>
+</html>

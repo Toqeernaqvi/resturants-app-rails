@@ -1,0 +1,23 @@
+<%= form_tag('/admin/average_take_rate', method: :get, id: "order_report_form") do %>
+  <table border-style="none">
+    <tr class='reprtInputRow'>
+      <td>
+        <span class='reprtInputLabel'>Start</span><%= date_field_tag "start_date", start_date %>
+      </td>
+      <td>
+        <span class='reprtInputLabel'>End</span><%= date_field_tag "end_date", end_date %>
+      </td>
+      <td style='display: inline-flex; margin-top: 25px;'>
+        <%= check_box_tag 'exclude_no_markup', params['exclude_no_markup'], exclude_no_markup %><span class='reprtInputLabel'>Exclude Skip Markup Items</span>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<div class="average_take_rate_chart">
+  <%if orders.any? %>
+    <% data = orders.map { |c| [c[0], c[1].sum{|o| o["payout"].present? ? o["payout"].to_d : 0.0} / c[1].sum{|o| o["quantity"].to_i}]} %>
+    <% x_values = data.map(&:last) %>
+    <%= column_chart data %>
+  <% end %>
+</div>

@@ -1,0 +1,15 @@
+<div class="selectStatusContainer">
+
+<div class="tag-select-container">
+  <div class="interactive-tag address address-parent_status-<%= addr.id%>-tag" data-model="address" data-object_id="<%= addr.id %>" data-field="parent_status" data-url="/admin/companies/<%= addr.id%>" data-value="<%= addr.parent_status %>">
+    <span class="status_tag <%= addr.parent_status %>"><%= addr.parent_status%></span>
+  </div>
+  <div class="interactive-tag-select address-parent_status-<%= addr.id%>-select default-select select-container-hidden" data-model="address" data-object_id="<%= addr.id%>" data-field="parent_status" data-url="/admin/companies/<%= addr.id%>" data-value="<%= addr.parent_status%>">
+    <select tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+      <option value="active" <%= addr.parent_status_active? ? "selected='true'" : ''%>>Active</option>
+      <option value="deleted" <%= addr.parent_status_deleted? ? "selected='true'" : ''%>>Deleted</option>
+    </select>
+  </div>
+</div>
+
+</div>

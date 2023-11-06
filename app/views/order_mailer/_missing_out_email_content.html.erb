@@ -1,0 +1,112 @@
+               <%= render "layouts/header" %>
+               <p style=" text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;"></p>
+               </div>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <table style=" background-color: #fff; width: 85%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+                  <tr>
+                     <td>
+                        <div style="display: flex; ">
+                           <p style="margin:0 auto; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                              You're missing out 
+                           </p>
+                        </div>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <div style=" margin-top: 20px;">
+                           <p style="margin: 0; text-align: center; font: normal normal normal 16px/18px helvetica; letter-spacing: 0px; color: #1F1F1F;">
+                              This is a gentle reminder that you have not yet placed your <%= @runningmenu.runningmenu_type %> order on 
+                           </p>
+                           <p style="margin:8px 0 0 0; text-align: center; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #1F1F1F;">
+                              <%= @runningmenu.delivery_at_timezone.strftime('%B %d, %Y') %>
+                           </p>
+                        </div>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <div style="display: flex; margin-top: 30px;">
+                           <p style="margin:0 auto;  text-align: center; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                              Browse <%= @menu_items[:total_fooditems] %> Dishes from <%= @menu_items[:total_resaurants] %> Different Restaurant<%= @menu_items[:total_resaurants] > 1 ? 's' : '' %>
+                           </p>
+                        </div>
+                     </td>
+                  </tr>
+                  <% if @menu_items[:most_popular][:total] > 0 %>
+                     <tr>
+                        <td>
+                           <div style="display: flex;margin: 30px auto 0 auto;width: 100%;max-width: 400px;">
+                              <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/heart.png",:style=>"width:50px;height:50px") %>
+                              <p style=" font: normal normal 500 16px/22px helvetica; color: #1F1F1F; opacity: 1; margin-left: 10px;">
+                              Most Popular
+                              </p>
+                           </div>
+                        </td>
+                     </tr>
+                     <%= render 'fooditem_section', title: 'most_popular', section: @menu_items[:most_popular] %>
+                  <% end %>
+                  <tr>
+                  <% if @menu_items[:top_picks][:total] > 0 %>
+                    <td>
+                     <div style="display: flex;    margin: 30px auto 0 auto;width: 100%;max-width: 400px;">
+                           <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/user.png",:style=>"width:50px;height:50px;" )%>
+                           <p style=" font: normal normal 500 16px/22px helvetica; color: #1F1F1F; opacity: 1; margin-left: 10px;">
+                              Top Picks for You
+                           </p>
+                     </div>
+                    </td>
+                  </tr>
+                      <%= render 'fooditem_section', title: 'top_picks', section: @menu_items[:top_picks] %>
+                  <% end %>
+                  <% if @menu_items[:order_it_again][:total] > 0 %>
+                     <tr>
+                        <td>
+                           <div style="display: flex;margin: 30px auto 0 auto;width: 100%;max-width: 400px;">
+                              <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/redo.png",:style=>"width:50px;height:50px;") %>
+                              <p style=" font: normal normal 500 16px/22px helvetica; color: #1F1F1F; opacity: 1; margin-left: 10px;">
+                                 Order it Again
+                              </p>
+                           </div>
+                        </td>
+                     </tr>
+                     <%= render 'fooditem_section', title: 'recent_orders',section: @menu_items[:order_it_again] %>
+                  <% end %>
+                  <tr>
+                    <table style="width: 100%; text-align: center;margin-top: 30px;" >
+                      <tr>
+                        <td>
+                          <table cellpadding="0" cellspacing="0" style="border-collapse:separate!important;margin-left:auto; margin-right: auto; border-radius:50px;background-color:red">
+                            <tbody>
+                              <tr>
+                                <td valign="middle" style="font-family:Arial;font-size:16px;padding:18px;">
+                                  <% target_link = @confirmed ? "#{ENV['FRONTEND_HOST']}/menu/#{@runningmenu.delivery_at.strftime('%m-%d-%Y')}/#{@runningmenu.slug}" : @link %>
+                                  <a title="" style="text-decoration: none; color: #fff; font: normal normal 600 16px/22px Source Sans Pro" href="<%= target_link %>">Browse Menu  &nbsp;<%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/white-link.png", style: 'margin-left: 10px') %>
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </tr>
+                  <tr>
+                     <td>
+                        <div style="display: flex;margin-top: 25px;">
+                           <a href="https://chowmill.com" style="text-decoration: none; margin:0 auto; text-align: center;font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #DC3545; opacity: 1;">
+                           You have cutoff until <%= @user.company_admin? ? @runningmenu.admin_cutoff_at_timezone.strftime('%B %d, %Y %I:%M%p') : @runningmenu.cutoff_at_timezone.strftime('%B %d, %Y %I:%M%p') %>
+                           </a>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </td>
+</tr>
+<%= render "layouts/footer" %>

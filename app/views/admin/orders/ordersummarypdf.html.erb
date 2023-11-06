@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>
+      <%= orders.first.short_code  + "-" if orders.first.short_code.present? %><%= orders.first.restaurant_name %>-<%= delivery_at.to_date %>
+    </title>
+
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .logo {
+        width: 40px;
+      }
+
+      .red {
+        color: red;
+      }
+      @media print {
+          td, tr {page-break-inside: avoid; }
+          table.full_report_table>tbody>tr>td {page-break-inside: avoid !important; }
+        }
+        ul.numb {margin-top: 0px; margin-bottom: 0px;}
+        ul.numb > li {list-style: decimal; font-size: 0.9em;}
+        ul.optionsList{padding: 0px; margin: 0; font-size: 14px; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;' %>}
+        ul.optionsList > li {display: inline-block; padding: 10px; margin-right: 7px; margin-bottom: 5px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #ccc;' %> border-radius: 5px; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;' %>}
+        ul.optionsList > li:nth-child(1) {font-weight: bold; padding: 0; border: none; <%= defined?(fax) && fax ? 'color: black;' : 'color: red;' %>}
+        .note{margin-top: 2px; padding: 5px; border-radius: 5px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #d00;' %> font-size: 14px; position: relative; padding-left: 60px;}
+        .note > .head{ <%= defined?(fax) && fax ? 'color: #fff; background: #000000;' : 'color: #fff; background: #d00;' %> padding: 5px; display: inline-block; position: absolute; top: 0; left: 0; text-transform: uppercase; }
+        .tbl_ {
+          font-size: 1.1em; font-weight: bold; margin-top: 25px; <%= defined?(fax) && fax ? 'border: 1px solid #000000;' : 'border: 1px solid #999;' %>;
+        }
+        .tbl_ thead {
+          background: black;
+          color: white;
+        }
+        .tbl_ thead th{
+          padding: 15px;
+        }
+        .tbl_ td, .tbl_ th{
+          padding: 5px;
+        }
+        .tbl_ > tbody tr:nth-child(odd){
+          <%= defined?(fax) && fax ? 'border: 1px solid #fff;' : 'background: whitesmoke;' %>
+        }
+        .foodItemsOptions tr:nth-child(odd){
+          background: transparent !important;
+        }
+        .tbl_ > tbody tr:nth-child(odd) td:nth-last-child(1){
+          <%= defined?(fax) && fax ? '' : 'border-right: 1px solid #999' %>
+        }
+        tr, td, th, tbody, thead, tfoot {
+          page-break-inside: avoid !important;
+        }
+        table.header-tbl, table.footer-tbl {
+          border-collapse: separate;
+          border-spacing: 0 25px;
+        }
+        h1, h2, h3, h4 { margin: 0; }
+        td.logo {
+          text-align: center;
+        }
+        td.logo h1 {
+          display: inline;
+          position: relative;
+          bottom: 19px;
+          padding-left: 13px;
+        }
+        tr.address-bar {
+          text-align: center;
+          color: #767171;
+        }
+        tr.qty-row td{
+          text-align: center;
+          border: 1px solid #767171;
+          width: 33%;
+        }
+        
+        tr.total-row td{
+          text-align: center;
+          border: 1px solid #767171;
+          width: 25%;
+        }
+        
+        tr.total-row td:nth-child(1), tr.total-row td:nth-child(2) {
+          border-right: none;
+        }
+        
+        tr.total-row td:nth-last-child(1) {
+          color: red;
+          border-left: none;
+        }
+
+        tr.qty-row td:nth-child(1) {
+          color: #767171;
+          border-right: none;
+        }
+        tr.qty-row td:nth-child(2) {
+          border-right: none;
+        }
+        tr.special-instr td {
+          text-align: right;
+          color: red;
+        }
+        tr.special-instr td h3 {
+          position: relative;
+          bottom: 6px;
+          padding-left: 9px;
+          display: inline;
+         }
+        /* Food Item Options */
+        .foodItemsOptions {
+          margin-left: -7px;
+          border: none !important;
+        }
+        .foodItemsOptions .optionDes {
+          border: none !important;
+          font-weight: normal;
+          word-wrap: break-word;
+          display: inline-block;
+          font-size: 15px;
+          width: 50%;
+          <%= defined?(fax) && fax ? 'color: #000;' : 'color: red;'%>
+        }
+        .foodItemsOptions .optionPrice {
+          border: none !important;
+          display: inline-block;
+          vertical-valign: top;
+          font-size: 15px;
+          width: calc(20% - 10px);
+          font-weight: normal;
+          <%= defined?(fax) && fax ? 'color: #000;' : 'color: red;'%>
+        }
+        .colLeft {
+          border: 1px solid transparent !important;
+        }
+        .colRight {
+          border: 1px solid transparent !important;
+        }
+    </style>
+  </head>
+  <body>
+    <table class="header-tbl" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+        <td class="logo" colspan="3" width="100%" valign="center">
+          <%= image_tag wicked_pdf_asset_base64("#{defined?(fax) && fax ? 'logo_black.png' : 'logo.png'}"), :style => "width: 40px;" %><h1>Chowmill</h1>
+        </td>
+      </tr>
+      <tr class="address-bar">
+        <td colspan="3" width="100%" valign="center">
+          <h3>
+            <%= orders.first.restaurant_name %>:
+            <%= orders.first.restaurant_location.split(':').last %>
+          </h3>        
+        </td>
+      </tr>
+      <tr class="qty-row">
+        <td><h2>#<%= runningmenu.id %></h2><h3>Order Number</h3></td>
+        <td>
+          <h2>
+            <%= orders.sum{|order| order.quantity } %>
+          </h2>
+          <h3>Quantity</h3></td>
+        <td>
+          <h2 class="red">
+            <%= delivery_at.strftime('%a. %b %d,') %>
+            <%= runningmenu.pickup? ? "#{pickup_time}" : "#{runningmenu.delivery_at_timezone.strftime('%I:%M %p')}" %>
+          </h2>
+          <h3><%= runningmenu.pickup? ? 'Pickup Time' : 'Delivery Time' %></h3>
+        </td>
+      </tr>
+      <tr class="special-instr"><td colspan="3">
+        <%= image_tag wicked_pdf_asset_base64("knif.png") %><h3>Reminder to provide utensils & napkins.</h3>
+      </td></tr>
+    </table>
+    <table cellpadding="0" cellspacing="0" width="100%" class="tbl_">
+     <thead>
+       <tr>
+         <th width="10%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+           Quantity
+         </th>
+         <th width="90%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+           Item
+         </th>
+         <th width="90%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+           Price
+         </th>
+         <th width="90%" align="left" style="<%= defined?(fax) && fax ? 'border-bottom: 1px solid #000000;' : 'border-bottom: 1px solid #999;' %> padding-bottom: 10px;">
+           Total
+         </th>
+       </tr>
+     </thead>
+      <tbody>
+        <% orders.each do |order|%>
+          <tr>
+            <td valign="top" class="colLeft">
+              <%= order.quantity %>
+            </td>
+            <td valign="top" class="colRight">
+              <%= order.fooditem_name %><br>
+              <% if order.fooditem_description.present? %>
+                <span style='line-height: 1.5em; height: 3em; display: block; overflow: hidden; font-size: 10px; <%= defined?(fax) && fax ? '' : 'color: #666;'%>'><%= order.fooditem_description %></span>
+              <% end %>
+              <% if order.remarks.present? %>
+                <ul class="optionsList">
+                <li><span class="head">Remarks: </span><%= order.remarks %> </li>
+                </ul>
+              <% end %>
+              <% if order.fooditem_notes_to_restaurant.present? %>
+                <div class="note"><span class="head">Note:</span><u><%= order.fooditem_notes_to_restaurant %></u></div>
+              <% end %>
+            </td>
+            <td valign="top">
+              $<%= order.options.present? ? (order.fooditem_price - order.options_price) : order.fooditem_price %>
+            </td>
+            <td valign="top">
+              <%# price_sum =  order.options.present? ? ( order.fooditem_price + order.options_price ) : order.fooditem_price %>
+              $<%= order.fooditem_price * order.quantity  %>
+            </td>
+          </tr>
+          <% if order.options.present? %>
+            <tr>
+              <td></td>
+              <td>
+                <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                <% order.options.split(', ').each_with_index do |option, index| %>
+                  <% opt_detail_arr = option.split('$')%>
+                  <tr>
+                    <td width="50%" valign="top" class="optionDes">
+                      <%= opt_detail_arr[0] %>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+              </td>
+              <td>
+                <table class="foodItemsOptions" cellpadding="0" cellspacing="0" width="100%">
+                <% order.options.split(', ').each_with_index do |option, index| %>
+                  <% opt_detail_arr = option.split('$')%>
+                  <tr>
+                    <td valign="top" class="optionPrice">
+                      $<%= opt_detail_arr[1]%>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+              </td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <% if address_id.present? %>
+      <% billing = OrderHelper.orders_billing(orders)%>
+      <table class="footer-tbl" style="width: 100%; margin-top: 10px;" cellpadding="10">
+        <tr class="total-row">
+          <td><h2>$<%= billing["sub_total"] %></h2><h3>Sub Total</h3></td>
+          <td><h2>$<%= billing["sale_tax"] %></h2><h3>Tax (<%= billing["sale_tax_percentage"] %>%)</h3></td>
+          <td><h2>$<%= billing["enable_self_service"] && billing["delivery_meeting"] ? billing["delivery_cost"] : billing["commission"] %></h2>
+          <h3><% if billing["enable_self_service"] && billing["delivery_meeting"] %>
+          Delivery Cost
+          <% else %>
+          Commission (<%= billing["discount_percentage"] %>%)
+          <% end %></h3>
+          </td>
+          <td><h2>$<%= billing["payout_total"] %></h2><h3>Total Payout</h3></td>
+        </tr>
+      </table>
+    <% end %>
+  </body>
+</html>

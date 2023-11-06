@@ -1,0 +1,26 @@
+wb = xlsx_package.workbook
+s = wb.styles
+header = s.add_style bg_color: 'C04F4D', sz: 12, b: true, fg_color: 'FF', alignment: { horizontal: :center }
+haligncenter = s.add_style alignment: { horizontal: :center, wrap_text: true }
+aligncells = s.add_style alignment: { horizontal: :center, vertical: :top, wrap_text: true }
+wb.add_worksheet(name: "orders") do |sheet|
+  rt = Axlsx::RichText.new
+  rt.add_run('Chowmill Orders for ')
+  rt.add_run(@p_delivery_date, b: true)
+  sheet.add_row [rt], style: haligncenter, offset: 1
+  sheet.merge_cells("A1:G1")
+  sheet.add_row ['Count','Restaurant' , 'Item', 'Options', 'Notes', 'User', 'Company', 'Order ID'], style: header
+  _index = 3
+  @orders.group_by{|o| o.fooditem_id }.each do |_order, orders|
+    orders.each do |order|
+      sheet.add_row ["#{orders.sum(&:quantity)}x", order.restaurant.name, order.fooditem.name, order.optionsets_orders&.map{|os| "#{os.optionset.name}: #{os.options.pluck(:description)&.compact&.join(', ')}" }&.compact&.join(", "), order.remarks, order.model_user_name, order.runningmenu.address.short_code, order.runningmenu_id], style: aligncells
+    end
+    if orders.count > 1
+      sheet.merge_cells("A#{_index}:A#{_index+orders.count-1}")
+      _index += orders.count
+    else
+      _index += 1
+    end
+  end
+  sheet.column_widths 10, nil, nil, nil, nil, nil, nil
+end

@@ -1,0 +1,8 @@
+<%= render 'layouts/header' %>
+<div>
+  You have been invited to Chowmill by <%= @user.name.titleize %>.<br><br>
+  Chowmill is a single platform for all your workplace meals. Create your company meal program (lunch, dinner, catering, employee ordering, meals for meetings) all through Chowmill.<br><br>
+  <strong>Both You and <%= @user.first_name.capitalize %> Receive a $100 Amazon gift card after your first order!</strong><br><br>
+  Email us at <a href="mailto:<%= ENV['HELLO_MAIL'] %>"><%= ENV['HELLO_MAIL'] %></a> to get started!
+</div>
+<%= render 'layouts/footer' %>

@@ -1,0 +1,44 @@
+<% if @success.present? && @success %>
+  $('body .customModal').remove();
+<% else %>
+  $('body .customModal').remove();
+  $('body').append(`
+    <div class="customModal">
+      <div class="contentWrapper">
+        <div class="modalHeader">
+          Schedule
+          <span class="modalClose"><em class="fa fa-times"></em></span>
+        </div>
+        <div class="modalBody">This is Body</div>
+      </div>
+    </div>
+  `);
+  $(".modalBody").html("<%= escape_javascript(render 'report_form') %>");
+<% end %>
+$("#user_ids").select2({
+   placeholder: "Please select subscribers"
+});
+
+$(document).on('click', '.modalClose', function(){
+  $('body .customModal').remove();
+});
+
+if (!$('.reportForm input[name="scheduled_time"]').val() > 0) {
+  $('.reportForm #scheduled_time_input').hide();
+}
+if ($("input[name='scheduled_period']:checked")) {
+  $("input[name='scheduled_period']:checked").parent().addClass('selectedRadio');
+  if ($("input[name='scheduled_period']:checked").val() == 'daily') {
+    $('.reportForm #scheduled_time_input .label')[0].innerText = 'Day';
+  }
+  else {
+    $('.reportForm #scheduled_time_input .label')[0].innerText = $("input[name='scheduled_period']:checked").val().replace('ly','');
+  }
+}
+
+$('.scheduleReportBtn').keydown(function(e){
+  if(e.keyCode == 13) {
+      e.preventDefault();
+      return false;
+    }
+});

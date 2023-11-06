@@ -1,0 +1,47 @@
+              <%= render 'layouts/header' %>
+              <p style="margin-left: auto; text-align: right; font: normal normal 500 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div
+              style=" background-color: #fff; box-shadow: 0px 3px 26px #0000000A; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+              <table style="margin:0 auto; width: 100%;">
+                <tr>
+                  <td>
+                    <p
+                      style="margin: 0; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;text-align: center;">
+                      Company doesn’t exist
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              <div style="margin-top: 30px;">
+                <p
+                  style="margin: 0; text-align: left; font: normal normal 500 15px/21px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                  Dear Chowmill Staff,
+                </p>
+                <p
+                  style="margin: 10px 0 0 0;text-align: left; font: normal normal 500 14px/22px helvetica; letter-spacing: 0px; color: #646464;">
+                  <%= @user.first_name.capitalize + " " + @user.last_name.capitalize + " (" + @user.email + ")"  %> <span
+                    style=" text-align: left; font: normal normal normal 14px/22px helvetica; letter-spacing: 0px; color: #646464;">has
+                  requested a Chowmill account on</span> <%= @user.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%a %b %d at %-l:%M%P") %>.
+                </p>
+                <p
+                  style="margin:30px 0 0 0; text-align: left; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                  The system was not able to automatically find a matching company for this user.
+                </p>
+                <p
+                  style="margin:30px 0 0 0; text-align: left; font: normal normal normal 15px/21px helvetica; letter-spacing: 0px; color: #646464; opacity: 1;">
+                  Please invite the user to the correct company.
+                </p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+<%= render 'layouts/footer' %>

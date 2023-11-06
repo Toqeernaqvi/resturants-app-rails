@@ -1,0 +1,115 @@
+<%= render 'layouts/header' %>                      
+                      <p style="margin-left: auto; text-align: right; font: normal normal 400 16px/22px helvetica; letter-spacing: 0px; color: #FFFFFF; opacity: 1;">
+                      </p>
+                  </div>
+                </td>
+            </tr>
+            <!--Start the white Card from Here-->
+            <tr>
+              <td>
+                <div style=" background-color: #fff; box-shadow: 0px 3px 26px #0000000A; width: 80%; z-index: 1; margin: auto; border-radius:20px; padding: 30px 20px;">
+                  <table style="margin:0 auto; width: 100%;">
+                    <tr>
+                      <td>
+                        <p style="margin: 0;text-align: center; font: normal normal 500 22px/32px helvetica; letter-spacing: 0px; color: #1F1F1F; opacity: 1;">
+                          Upcoming Orders for Next 5 Days
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <% @pickups.each do |pickup| %>
+                    <table style="width:100%; margin: 10px 0 20px 0;">
+                      <tr style="background-color: black;color:white">
+                        <td>
+                          <p style="margin:auto 0px;font-style:normal;font-variant-caps:normal;font-weight:400;font-stretch:normal;font-size:16px;line-height:18px;font-family:helvetica;letter-spacing:0px;opacity:1;padding-left: 10px;">
+                            <% orders_today = Runningmenu.connection.select_all("SELECT DISTINCT DATE(runningmenus.pickup_at AT TIME ZONE companies.time_zone) AS pickup_at, count(DISTINCT runningmenus.id) AS orders_count, SUM(orders.quantity) AS items_count from runningmenus INNER JOIN addresses_runningmenus ON addresses_runningmenus.runningmenu_id = runningmenus.id INNER JOIN companies ON companies.id = runningmenus.company_id INNER JOIN addresses ON addresses.id = addresses_runningmenus.address_id  INNER JOIN orders ON orders.runningmenu_id = runningmenus.id AND orders.restaurant_address_id = addresses.id where addresses.addressable_type = 'Restaurant' AND runningmenus.status=0 AND orders.status = 0 AND addresses_runningmenus.address_id IN (#{@admin_addresses})  AND runningmenus.pickup_at BETWEEN '#{pickup.in_time_zone(@user.time_zone).beginning_of_day.utc.to_s(:db)}' AND '#{pickup.in_time_zone(@user.time_zone).at_end_of_day.utc.to_s(:db)}' GROUP BY DATE(runningmenus.pickup_at AT TIME ZONE companies.time_zone)").to_hash %>
+                            <%= pickup.strftime("%a %b %d") %><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><%= orders_today[0]["orders_count"] rescue 0 %> Orders: <%= orders_today[0]["items_count"].to_i rescue 0 %> Items
+                          </p>
+                        </td>
+                        <td align="center" style="text-align:center;padding:10px 15px;border-radius:6px;opacity:1;font-style:normal;font-variant-caps:normal;font-weight:400;font-stretch:normal;font-size:13px;line-height:18px;font-family:helvetica;letter-spacing:0px;width:25%;">
+                          <% link = "#{ENV['VENDER_FRONTEND_HOST']}/dashboard/restaurant/#{@admin_addresses.tr('[]', '').split(',').map(&:to_i).first}/meetings?from=#{pickup.to_time.in_time_zone(@user.time_zone).beginning_of_day.utc.to_s(:db).to_date.strftime("%Y-%m-%d")}&to=#{pickup.to_time.in_time_zone(@user.time_zone).at_end_of_day.utc.to_s(:db).to_date.strftime("%Y-%m-%d")}" %>
+                          <a href="<%= link%>" style="text-decoration:none; color: white;">
+                            View Details
+                          </a>
+                        </td>
+                      <tr>
+                    </table>
+                    <% restaurants = @meetings[pickup].keys %>
+                    <% restaurants.each do |restaurant| %>
+                      <table style="margin: 15px 0 5px 0;">
+                        <tr>
+                          <td style= "max-height:16px;">
+                            <%= image_tag("#{ENV['CLOUDFRONT_URL']}/icons/blue-store-solid.png") %>
+                          </td>
+                          <td>
+                            <p style="margin:auto 0px auto 8px;font-style:normal;font-variant-caps:normal;font-weight:400;font-stretch:normal;font-size:17px;line-height:21px;font-family:helvetica;letter-spacing:0px;opacity:1;color:rgb(89,169,252)">
+                              <%= restaurant %>
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                      <% @meetings[pickup][restaurant].each do |order| %>
+                        <table style="width: 100%; table-layout: fixed; margin-top: 5px; margin-bottom: 5px;background-color: #F4F8FB;border-collapse: collapse; padding: 12px 20px;border-top: 1px solid #59A9FC;">
+                          <tr style="border-bottom: 1px solid #DDDFE1;">
+                            <td style="padding: 12px 0px 12px 20px">
+                              <p style="margin: 0; font: normal normal normal 15px/18px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1; ">
+                                <%= order["order_id"] %>
+                              </p>
+                              <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                Order ID
+                              </p>
+                            </td>
+                            <td>
+                              <p style="margin: 0; font: normal normal normal 15px/18px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1; ">
+                                <%= order["pickup"].to_time.strftime("%-l:%M%P") %>
+                              </p>
+                              <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                Pickup Time
+                              </p>
+                            </td>
+                            <td>
+                              <p style="margin: 0; font: normal normal normal 15px/18px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1; ">
+                                <%= order["items_count"] %>
+                              </p>
+                              <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                Items
+                                <% if order["items_count"] != order["new_items_in_last24_hours"] %>
+                                  <% if order["new_items_in_last24_hours"] > 0 %>
+                                    <span style="color:#218655;">
+                                      (
+                                          <img src="<%= @rise_arrow %>" alt="arrow-trend-up-image" height="8" width="16" style="max-width:16px; max-height:8px; margin-right:3px;">
+                                          <%= order["new_items_in_last24_hours"] %>
+                                      )
+                                    </span>
+                                  <% elsif order["new_items_in_last24_hours"] < 0 %>
+                                    <span style="color:#DC3545;">
+                                      (
+                                          <img src="<%= @down_arrow %>" alt="arrow-trend-down-image" height="8" width="16" style="max-width:16px; max-height:8px; margin-right:3px;">
+                                          <%= order["new_items_in_last24_hours"].abs %>
+                                      )
+                                    </span>
+                                  <% end %>
+                                <% end %>
+                              </p>
+                            </td>
+                            <td>
+                              <p style="margin: 0; font: normal normal normal 15px/18px helvetica; letter-spacing: 0px; color: #464A53; opacity: 1; ">
+                                <%= order["cutoff_at"].to_time.strftime("%a %b %d, %-l:%M%P") %>
+                              </p>
+                              <p style="margin:2px 0 0 0; text-align: left; font: normal normal normal 13px/18px helvetica; letter-spacing: 0px; color: #A8A8A8; opacity: 1;">
+                                Cutoff
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+            <!--End the white Card from Here-->
+          </table>
+        </td>
+      </tr>
+<%= render 'layouts/footer' %>

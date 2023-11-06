@@ -1,0 +1,38 @@
+$('body').append(`
+  <div class="customModal">
+    <div class="contentWrapper animated">
+      <div class="modalHeader">
+        Forward Email
+        <span class="modalClose"><em class="fa fa-times"></em></span>
+      </div>
+      <div class="modalBody">This is Body</div>
+    </div>
+  </div>
+`);
+
+$(".modalBody")
+  .html("<%= escape_javascript(render 'forward_email') %>")
+  .ready(function(){
+    let encodedpdfID = $('#emailLogID').val();
+    // alert( encodedpdfID );
+    setTimeout(function(){
+      let selectorOfPdfBtn = $('.cke_button.cke_button__save-to-pdf.cke_button_off');
+      let checkEditorExist = selectorOfPdfBtn.length;
+
+      selectorOfPdfBtn.removeAttr('href tabindex hidefocus role aria-labelledby aria-describedby onkeydown onfocus onclick aria-haspopup aria-disabled');
+      selectorOfPdfBtn.attr('href', 'javascript://');
+      selectorOfPdfBtn.attr ('onclick', 'window.open(\'/admin/email_logs/'+encodedpdfID+'/download_email_body\', \'_blank\')');
+
+    }, 1500);
+  });
+;
+$(document).on('click', '.modalClose', function(){
+  $('body .customModal').remove();
+});
+
+$('.forwardEmailBtn').keydown(function(e){
+  if(e.keyCode == 13) {
+      e.preventDefault();
+      return false;
+    }
+});

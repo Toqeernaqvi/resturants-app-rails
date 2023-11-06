@@ -1,0 +1,16 @@
+<%= render 'layouts/header' %>
+  <h2>
+    Sorry! <%=@address.addressable.name%> No Longer Scheduled
+  </h2>
+  <p>
+    <%= @address.address_line%>
+  </p>
+  <p>
+    <strike><strong style="color: #dc3545!important;"><%=@runningmenu.delivery_at_timezone.strftime('%B %d, %Y')%>: <%= @runningmenu.runningmenu_type%> (<%=@runningmenu.menu_type%>) for <%=@runningmenu.orders_count%> People!</strong></strike>
+    <br><br><strong>Sorry! </strong>The customer has cancelled this meeting or requested a different restaurant.<br><br>
+      This email is only for this particular customer & meeting. Your restaurant may still be scheduled for other meetings or other companies.
+    <br><br>
+      We sincerely apologize for any inconvenience. Please email <a href="mailto:orders@chowmill.com" style="color: #dc3545;">orders@chowmill.com</a> with any concerns.
+    <br>
+  </p>
+<%= render 'layouts/footer' %>

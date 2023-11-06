@@ -1,0 +1,65 @@
+<div>
+  <table class="table">
+    <thead>
+      <th><strong>Field changed</strong></th>
+      <th><strong>Before</strong></th>
+      <th><strong>After</strong></th>
+      <th><strong>Timestamp</strong></th>
+      <th><strong>User</strong></th>
+    </thead>
+    <tbody>
+      <% versions.each do |version|%>
+        <% attributes = (version.changeset.slice(:delivery_at, :pickup_at, :cutoff_at, :admin_cutoff_at, :address_id, :runningmenu_type, :menu_type, :status, :per_user_copay, :per_user_copay_amount, :job_id, :notify_restaurant_job_status, :notify_restaurant_job_error, :cutoff_reached_job_id, :cutoff_reached_job_status, :cutoff_reached_job_error, :admin_cutoff_reached_job_id, :admin_cutoff_reached_job_status, :admin_cutoff_reached_job_error, :buffet_delivery_reminder_job_id, :buffet_delivery_reminder_job_status, :buffet_delivery_reminder_job_error, :cutoff_day_before_job_id, :cutoff_day_before_job_status, :cutoff_day_before_job_error, :cutoff_hour_before_job_id, :cutoff_hour_before_job_status, :cutoff_hour_before_job_error, :restaurant_billing_job_id, :restaurant_billing_job_status, :restaurant_billing_job_error, :survey_job_id, :survey_job_status, :survey_job_error, :fleet_create_task_job_id, :fleet_create_task_job_status, :fleet_create_task_job_error, :fleet_update_task_job_id, :fleet_update_task_job_status, :fleet_update_task_job_error, :user_pending_amount_job_id, :user_pending_amount_job_status, :user_pending_amount_job_error).keys) %>
+        <% unless attributes.blank? %>
+          <tr>
+            <td>
+              <% attributes.each do |attribute| %>
+                <% if attribute == "runningmenu_type" %>
+                  Meal Type
+                <% elsif attribute == "address_id" %>
+                  Company Location
+                <% elsif attribute == "per_user_copay" %>
+                  User Copay <br>
+                <% elsif attribute == "per_user_copay_amount" %>
+                  Copay Amount($) <br>
+                <% else %>
+                  <%= attribute.titleize %><br>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <% if attribute == "address_id" %>
+                  <% address = Address.find version.changeset[attribute][0] rescue nil %><br>
+                  <%= address.addressable.name + ": " + address.address_line if address.present? %><br>
+                <% elsif attribute == "per_user_copay" %>
+                  <%= version.changeset[attribute][0] == 1? true : false %><br>
+                <% elsif ["delivery_at", "pickup_at", "cutoff_at", "admin_cutoff_at"].include? attribute %>
+                  <%= version.changeset[attribute][0].in_time_zone(version.item.company.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil %><br>
+                <% else %>
+                  <%= version.changeset[attribute][0] %><br>
+                <% end %>
+              <% end %>
+            </td>
+            <td>
+              <% attributes.each do |attribute| %>
+                <% if attribute == "address_id" %>
+                  <% address = Address.find version.changeset[attribute][1] rescue nil %><br>
+                  <%= address.addressable.name + ": " + address.address_line if address.present? %><br>
+                <% elsif attribute == "per_user_copay" %>
+                  <%= version.changeset[attribute][1] == 1 ? true : false %><br>
+                <% elsif ["delivery_at", "pickup_at", "cutoff_at", "admin_cutoff_at"].include? attribute %>
+                  <%= version.changeset[attribute][1].in_time_zone(version.item.company.time_zone).strftime("%Y-%m-%d %H:%M:%S") rescue nil %><br>
+                <% else %>
+                  <%= version.changeset[attribute][1] %><br>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= version.created_at.in_time_zone(current_admin_user.time_zone).strftime('%d %B%l:%M %P') %></td>
+            <td><%= version.whodunnit%></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

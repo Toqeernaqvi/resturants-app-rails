@@ -1,0 +1,35 @@
+<% counter = 1 %>
+<% addresses_runningmenus.each do |address_runningmenu|%>
+  <div class="rest_orders_count">
+    <span class="orderCount">
+      <% if  address_runningmenu.rejected_by_vendor? %>
+        <span style="color: red;">
+      <% elsif  address_runningmenu.changes_acknowledge? %>
+        <span style="color: rgb(54, 179, 126);">
+      <% elsif address_runningmenu.orders_acknowledge? %>
+        <span style="color: rgb(54, 179, 126);">
+      <% elsif address_runningmenu.receipt_acknowledge? %>
+        <span style="color: rgb(255, 153, 31);">
+      <% else %>
+        <span style="color: rgb(255, 86, 48);">
+      <% end %>
+      <%= Order.active.where(restaurant_address_id: address_runningmenu.address_id, runningmenu_id: address_runningmenu.runningmenu_id).sum(:quantity).to_i %></span>
+    </span>
+    <% if  address_runningmenu.rejected_by_vendor? %>
+      <select disabled="disabled"><option>Rejected by Vendor</option></select>
+    <% else %>
+    <select class="acknowledge_address" id="<%= counter %>" data-row-ID="<%= address_runningmenu.id %>" name="acknowledge" required>
+      <option value=""></option>
+      <option value ="no_response" <%= !address_runningmenu.receipt_acknowledge? && !address_runningmenu.orders_acknowledge? && !address_runningmenu.changes_acknowledge? ? 'selected="selected"' : "" %>>No Response</option>
+      <option value ="ack_schedule" <%= address_runningmenu.receipt_acknowledge? ? 'selected="selected"' : "" %>>Acknowledged Schedule</option>
+      <option value ="accept_orders" <%= address_runningmenu.orders_acknowledge? ? 'selected="selected"' : "" %>>Accepted Orders</option>
+      <option value ="accept_modification" <%= address_runningmenu.changes_acknowledge? ? 'selected="selected"' : "" %> >Accepted Modified Orders</option>
+    </select>
+    <% end %>
+    <span style="display: inline-block;">
+      <%= "#{address_runningmenu.address.addressable.name }: #{address_runningmenu.address.street_number} "+ "#{address_runningmenu.address.street}, "+ "#{address_runningmenu.address.city}" if address_runningmenu.address.present? %>
+    </span>
+    <hr class="hrScheduler">
+  </div>
+  <% counter = counter + 1 %>
+<% end %>
